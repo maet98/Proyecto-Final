@@ -11,9 +11,9 @@ public class Jugador {
 	private float altura;
 	
 	private Equipo equipo;
-	private Desempeno Desempenno;
+	private Desempenno Desempenno;
 	public Jugador(String cedula, String nombre, String apellido, String nacionalidad, String posicion, int edad,
-			int numero, Equipo equipo, Desempeno desempenno,float altura) {
+			int numero, Equipo equipo, Desempenno desempenno,float altura) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -80,7 +80,7 @@ public class Jugador {
 	public void setEquipo(Equipo equipo) {
 		this.equipo = equipo;
 	}
-	public Desempeno getDesempenno() {
+	public Desempenno getDesempenno() {
 		return Desempenno;
 	}
 	
