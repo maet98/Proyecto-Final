@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Estadistica {
 
 	private Partido partido;
-	private ArrayList<Desempeno> desempeno;
+	private ArrayList<Desempenno> desempeno;
 
 	public Estadistica(Partido partido) {
 		super();
@@ -21,11 +21,11 @@ public class Estadistica {
 		this.partido = partido;
 	}
 
-	public ArrayList<Desempeno> getDesempeno() {
+	public ArrayList<Desempenno> getDesempeno() {
 		return desempeno;
 	}
 
-	public void setDesempeno(ArrayList<Desempeno> desempeno) {
+	public void setDesempeno(ArrayList<Desempenno> desempeno) {
 		this.desempeno = desempeno;
 	}
 	
