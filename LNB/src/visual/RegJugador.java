@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.SpinnerNumberModel;
 
 public class RegJugador extends JDialog {
 
@@ -25,21 +26,15 @@ public class RegJugador extends JDialog {
 	private JTextField txtCedula;
 	private JTextField txtNombre;
 	private JTextField txtApellido;
+	private JSpinner spnAltura;
 	private Liga miLiga;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-	}
-
-	/**
-	 * Create the dialog.
-	 */
+	
 	public RegJugador(Liga liga) {
+		setLocationRelativeTo(null);
 		miLiga = liga;
 		setTitle("Registrar Jugador");
-		setBounds(100, 100, 350, 390);
+		setBounds(100, 100, 367, 401);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -101,15 +96,18 @@ public class RegJugador extends JDialog {
 		contentPanel.add(cmbxPosicion);
 		
 		JSpinner spnEdad = new JSpinner();
-		spnEdad.setBounds(100, 181, 33, 26);
+		spnEdad.setModel(new SpinnerNumberModel(new Integer(16), new Integer(16), null, new Integer(1)));
+		spnEdad.setBounds(100, 181, 56, 26);
 		contentPanel.add(spnEdad);
 		
 		JComboBox cmbxEquipo = new JComboBox();
 		cmbxEquipo.setBounds(100, 214, 130, 27);
 		contentPanel.add(cmbxEquipo);
 		
-		JSpinner spnAltura = new JSpinner();
-		spnAltura.setBounds(100, 148, 33, 26);
+		spnAltura = new JSpinner();
+		SpinnerNumberModel model = new SpinnerNumberModel((double)(1.75),(double)(1.70),(double)(2.21),(double)(0.01));
+		spnAltura.setModel(model);
+		spnAltura.setBounds(100, 148, 56, 26);
 		contentPanel.add(spnAltura);
 		
 		JLabel lblNmero = new JLabel("Número:");
@@ -119,32 +117,36 @@ public class RegJugador extends JDialog {
 		JSpinner spnNumero = new JSpinner();
 		spnNumero.setBounds(100, 285, 33, 26);
 		contentPanel.add(spnNumero);
+		
+		JLabel lblMt = new JLabel("mt");
+		lblMt.setBounds(157, 153, 56, 16);
+		contentPanel.add(lblMt);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.addActionListener(new ActionListener() {
+				JButton btnRegistrar = new JButton("Registrar");
+				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Equipo equipo = liga.buscarEquipo(cmbxEquipo.getSelectedItem().toString());
 						//Jugador jugador = new Jugador(txtCedula.getText(),txtNombre.getText(),txtApellido.getText(),cmbxNacionalidad.getSelectedItem().toString(),cmbxPosicion.getSelectedItem().toString(),spnEdad.getValue(),spnNumero.getValue(),equipo,()spnAltura.getValue());
 						//miLiga.addJugador(jugador);
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnRegistrar.setActionCommand("OK");
+				buttonPane.add(btnRegistrar);
+				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
+				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnCancelar.setActionCommand("Cancel");
+				buttonPane.add(btnCancelar);
 			}
 		}
 	}

@@ -41,6 +41,7 @@ public class RegEquipo extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegEquipo(Liga liga, Equipo equipo) {
+		setLocationRelativeTo(null);
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
 		this.miLiga = liga;
@@ -160,17 +161,18 @@ public class RegEquipo extends JDialog {
 			}
 		}
 		loadJugadores();
+		
 	}
 	
 	public static void loadJugadores() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (int i = 0; i < miEquipo.getJugadores().size(); i++) {
-			fila[0] = miEquipo.getJugadores().get(i).getNombre();
-			fila[1] = miEquipo.getJugadores().get(i).getApellido();
-			fila[2] = miEquipo.getJugadores().get(i).getNacionalidad();
-			fila[3] = miEquipo.getJugadores().get(i).getAltura();
-			fila[4] = miEquipo.getJugadores().get(i).getEdad();
+		for (int i = 0; i < miLiga.getJugadores().size(); i++) {
+			fila[0] = miLiga.getJugadores().get(i).getNombre();
+			fila[1] = miLiga.getJugadores().get(i).getApellido();
+			fila[2] = miLiga.getJugadores().get(i).getNacionalidad();
+			fila[3] = miLiga.getJugadores().get(i).getAltura();
+			fila[4] = miLiga.getJugadores().get(i).getEdad();
 			model.addRow(fila);
 		}
 	}
