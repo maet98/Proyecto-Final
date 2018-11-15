@@ -40,7 +40,7 @@ public class RegEquipo extends JDialog {
 	public RegEquipo(Equipo equipo) {
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
-		setBounds(100, 100, 475, 298);
+		setBounds(100, 100, 444, 298);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -52,7 +52,7 @@ public class RegEquipo extends JDialog {
 			
 			JPanel pnlEquipo = new JPanel();
 			pnlEquipo.setBorder(new TitledBorder(null, "Informaci\u00F3n del Equipo:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlEquipo.setBounds(12, 13, 423, 180);
+			pnlEquipo.setBounds(12, 13, 389, 180);
 			panel.add(pnlEquipo);
 			pnlEquipo.setLayout(null);
 			
@@ -81,27 +81,27 @@ public class RegEquipo extends JDialog {
 			}
 			
 			txtNombre = new JTextField();
-			txtNombre.setBounds(92, 31, 234, 22);
+			txtNombre.setBounds(92, 31, 167, 22);
 			pnlEquipo.add(txtNombre);
 			txtNombre.setColumns(10);
 			
 			txtCiudad = new JTextField();
-			txtCiudad.setBounds(92, 60, 234, 22);
+			txtCiudad.setBounds(92, 60, 167, 22);
 			pnlEquipo.add(txtCiudad);
 			txtCiudad.setColumns(10);
 			
 			cbxCircuito = new JComboBox();
 			cbxCircuito.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Norte", "Sureste"}));
-			cbxCircuito.setBounds(92, 89, 234, 22);
+			cbxCircuito.setBounds(92, 89, 167, 22);
 			pnlEquipo.add(cbxCircuito);
 			
 			txtEntrenador = new JTextField();
-			txtEntrenador.setBounds(92, 147, 234, 22);
+			txtEntrenador.setBounds(92, 147, 167, 22);
 			pnlEquipo.add(txtEntrenador);
 			txtEntrenador.setColumns(10);
 			
 			txtEstadio = new JTextField();
-			txtEstadio.setBounds(92, 118, 234, 22);
+			txtEstadio.setBounds(92, 118, 167, 22);
 			pnlEquipo.add(txtEstadio);
 			txtEstadio.setColumns(10);
 			
