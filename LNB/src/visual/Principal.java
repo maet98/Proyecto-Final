@@ -47,9 +47,14 @@ public class Principal {
 		JMenuItem mntmRegistrarJugador = new JMenuItem("Registrar Jugador");
 		mntmRegistrarJugador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegJugador nuevo = new RegJugador();
-				nuevo.setModal(true);
-				nuevo.setVisible(true);
+				if(Liga.getInstance().getEquipos().isEmpty()) {
+					JOptionPane.showMessageDialog(frame, "No existe ningun equipo, registre un equipo.","Error", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					RegJugador nuevo = new RegJugador();
+					nuevo.setModal(true);
+					nuevo.setVisible(true);
+					
+				}
 			}
 		});
 		mnJugadores.add(mntmRegistrarJugador);
@@ -60,14 +65,9 @@ public class Principal {
 		JMenuItem mntmRegistrarEquipo = new JMenuItem("Registrar Equipo");
 		mntmRegistrarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(Liga.getInstance().getEquipos().isEmpty()) {
-					JOptionPane.showMessageDialog(frame, "No existe ningun equipo, registre un equipo.","Error", JOptionPane.INFORMATION_MESSAGE);
-				}else {
-					RegJugador nuevo = new RegJugador();
-					nuevo.setModal(true);
-					nuevo.setVisible(true);
-					
-				}
+				RegEquipo nuevo = new RegEquipo(null);
+				nuevo.setModal(true);
+				nuevo.setVisible(true);
 			}
 		});
 		mnEquipos.add(mntmRegistrarEquipo);
