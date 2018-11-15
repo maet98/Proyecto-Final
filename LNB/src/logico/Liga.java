@@ -26,4 +26,13 @@ public class Liga {
 		this.partidos.add(partido);
 	}
 	
+	public Equipo buscarEquipo(String nombre) {
+		for(Equipo equipo: equipos) {
+			if (equipo.getNombre().equalsIgnoreCase(nombre)) {
+				return equipo;
+			}
+		}
+		return null;
+	}
+	
 }
