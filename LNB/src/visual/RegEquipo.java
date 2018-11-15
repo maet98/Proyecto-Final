@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import logico.Equipo;
 import logico.Liga;
@@ -16,7 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class RegEquipo extends JDialog {
 
@@ -27,12 +32,16 @@ public class RegEquipo extends JDialog {
 	private JTextField txtCiudad;
 	private JTextField txtEntrenador;
 	private JTextField txtEstadio;
+	private JTable table;
+	private static DefaultTableModel model;
+	private static Object[] fila;
 
 
 	/**
 	 * Create the dialog.
 	 */
 	public RegEquipo(Liga liga, Equipo equipo) {
+		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
 		this.miLiga = liga;
 		setBounds(100, 100, 621, 494);
@@ -104,6 +113,25 @@ public class RegEquipo extends JDialog {
 			pnlJugadores.setBounds(12, 206, 604, 183);
 			panel.add(pnlJugadores);
 			pnlJugadores.setLayout(null);
+			
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(12, 27, 554, 143);
+			pnlJugadores.add(scrollPane);
+			
+			table = new JTable();
+			table.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					int index = table.getSelectedRow();
+					
+				}
+			});
+			scrollPane.setColumnHeaderView(table);
+			model = new DefaultTableModel();
+			String[] columnNames = {"Nombre","Apellido","Nacionalidad","Altura","Edad"};
+			model.setColumnIdentifiers(columnNames);
+			table.setModel(model);
+			scrollPane.setViewportView(table);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -130,6 +158,20 @@ public class RegEquipo extends JDialog {
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
+		}
+		loadJugadores();
+	}
+	
+	public static void loadJugadores() {
+		model.setRowCount(0);
+		fila = new Object[model.getColumnCount()];
+		for (int i = 0; i < miEquipo.getJugadores().size(); i++) {
+			fila[0] = miEquipo.getJugadores().get(i).getNombre();
+			fila[1] = miEquipo.getJugadores().get(i).getApellido();
+			fila[2] = miEquipo.getJugadores().get(i).getNacionalidad();
+			fila[3] = miEquipo.getJugadores().get(i).getAltura();
+			fila[4] = miEquipo.getJugadores().get(i).getEdad();
+			model.addRow(fila);
 		}
 	}
 }
