@@ -21,14 +21,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+
 
 public class RegEquipo extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static Equipo miEquipo;
-	private static Liga miLiga;
 	private JTextField txtNombre;
 	private JTextField txtCiudad;
 	private JTextField txtEntrenador;
@@ -39,10 +37,9 @@ public class RegEquipo extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegEquipo(Liga liga, Equipo equipo) {
+	public RegEquipo(Equipo equipo) {
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
-		this.miLiga = liga;
 		setBounds(100, 100, 475, 298);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
