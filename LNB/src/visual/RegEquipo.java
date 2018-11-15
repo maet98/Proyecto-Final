@@ -3,6 +3,7 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -32,9 +33,7 @@ public class RegEquipo extends JDialog {
 	private JTextField txtCiudad;
 	private JTextField txtEntrenador;
 	private JTextField txtEstadio;
-	private JTable table;
-	private static DefaultTableModel model;
-	private static Object[] fila;
+	private JComboBox cbxCircuito;
 
 
 	/**
@@ -44,7 +43,7 @@ public class RegEquipo extends JDialog {
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
 		this.miLiga = liga;
-		setBounds(100, 100, 621, 494);
+		setBounds(100, 100, 475, 298);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -56,7 +55,7 @@ public class RegEquipo extends JDialog {
 			
 			JPanel pnlEquipo = new JPanel();
 			pnlEquipo.setBorder(new TitledBorder(null, "Informaci\u00F3n del Equipo:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlEquipo.setBounds(12, 13, 569, 180);
+			pnlEquipo.setBounds(12, 13, 423, 180);
 			panel.add(pnlEquipo);
 			pnlEquipo.setLayout(null);
 			
@@ -94,7 +93,8 @@ public class RegEquipo extends JDialog {
 			pnlEquipo.add(txtCiudad);
 			txtCiudad.setColumns(10);
 			
-			JComboBox cbxCircuito = new JComboBox();
+			cbxCircuito = new JComboBox();
+			cbxCircuito.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Norte", "Sureste"}));
 			cbxCircuito.setBounds(92, 89, 234, 22);
 			pnlEquipo.add(cbxCircuito);
 			
@@ -108,30 +108,6 @@ public class RegEquipo extends JDialog {
 			pnlEquipo.add(txtEstadio);
 			txtEstadio.setColumns(10);
 			
-			JPanel pnlJugadores = new JPanel();
-			pnlJugadores.setBorder(new TitledBorder(null, "Jugadores:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlJugadores.setBounds(12, 206, 604, 183);
-			panel.add(pnlJugadores);
-			pnlJugadores.setLayout(null);
-			
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setBounds(12, 27, 554, 143);
-			pnlJugadores.add(scrollPane);
-			
-			table = new JTable();
-			table.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					int index = table.getSelectedRow();
-					
-				}
-			});
-			scrollPane.setColumnHeaderView(table);
-			model = new DefaultTableModel();
-			String[] columnNames = {"Nombre","Apellido","Nacionalidad","Altura","Edad"};
-			model.setColumnIdentifiers(columnNames);
-			table.setModel(model);
-			scrollPane.setViewportView(table);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -159,19 +135,6 @@ public class RegEquipo extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		loadJugadores();
 	}
 	
-	public static void loadJugadores() {
-		model.setRowCount(0);
-		fila = new Object[model.getColumnCount()];
-		for (int i = 0; i < miEquipo.getJugadores().size(); i++) {
-			fila[0] = miEquipo.getJugadores().get(i).getNombre();
-			fila[1] = miEquipo.getJugadores().get(i).getApellido();
-			fila[2] = miEquipo.getJugadores().get(i).getNacionalidad();
-			fila[3] = miEquipo.getJugadores().get(i).getAltura();
-			fila[4] = miEquipo.getJugadores().get(i).getEdad();
-			model.addRow(fila);
-		}
-	}
 }
