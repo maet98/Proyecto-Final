@@ -11,6 +11,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Equipo;
+import logico.Jugador;
 import logico.Liga;
 
 import javax.swing.JLabel;
@@ -27,7 +28,6 @@ public class RegEquipo extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static Equipo miEquipo;
-	private static Liga miLiga;
 	private JTextField txtNombre;
 	private JTextField txtCiudad;
 	private JTextField txtEntrenador;
@@ -37,14 +37,10 @@ public class RegEquipo extends JDialog {
 	private static Object[] fila;
 
 
-	/**
-	 * Create the dialog.
-	 */
-	public RegEquipo(Liga liga, Equipo equipo) {
+	public RegEquipo(Equipo equipo) {
 		setLocationRelativeTo(null);
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
-		this.miLiga = liga;
 		setBounds(100, 100, 621, 494);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -121,7 +117,6 @@ public class RegEquipo extends JDialog {
 			
 			table = new JTable();
 			table.addMouseListener(new MouseAdapter() {
-				@Override
 				public void mouseClicked(MouseEvent e) {
 					int index = table.getSelectedRow();
 					
@@ -167,12 +162,12 @@ public class RegEquipo extends JDialog {
 	public static void loadJugadores() {
 		model.setRowCount(0);
 		fila = new Object[model.getColumnCount()];
-		for (int i = 0; i < miLiga.getJugadores().size(); i++) {
-			fila[0] = miLiga.getJugadores().get(i).getNombre();
-			fila[1] = miLiga.getJugadores().get(i).getApellido();
-			fila[2] = miLiga.getJugadores().get(i).getNacionalidad();
-			fila[3] = miLiga.getJugadores().get(i).getAltura();
-			fila[4] = miLiga.getJugadores().get(i).getEdad();
+		for (Jugador actual : Liga.getInstance().getJugadores()) {
+			fila[0] = actual.getNombre();
+			fila[1] = actual.getApellido();
+			fila[2] = actual.getNacionalidad();
+			fila[3] = actual.getAltura();
+			fila[4] = actual.getEdad();
 			model.addRow(fila);
 		}
 	}

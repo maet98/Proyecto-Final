@@ -13,13 +13,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class Principal {
-	private static Liga LNB;
 	private JFrame frame;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				LNB =new Liga();
 				try {
 					Principal window = new Principal();
 					window.frame.setVisible(true);
@@ -48,7 +46,7 @@ public class Principal {
 		JMenuItem mntmRegistrarJugador = new JMenuItem("Registrar Jugador");
 		mntmRegistrarJugador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegJugador nuevo = new RegJugador(LNB);
+				RegJugador nuevo = new RegJugador();
 				nuevo.setModal(true);
 				nuevo.setVisible(true);
 			}
@@ -61,7 +59,7 @@ public class Principal {
 		JMenuItem mntmRegistrarEquipo = new JMenuItem("Registrar Equipo");
 		mntmRegistrarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegEquipo nuevo = new RegEquipo(LNB, null);
+				RegEquipo nuevo = new RegEquipo(null);
 				nuevo.setModal(true);
 				nuevo.setVisible(true);
 			}

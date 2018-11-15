@@ -27,12 +27,10 @@ public class RegJugador extends JDialog {
 	private JTextField txtNombre;
 	private JTextField txtApellido;
 	private JSpinner spnAltura;
-	private Liga miLiga;
 
 	
-	public RegJugador(Liga liga) {
+	public RegJugador() {
 		setLocationRelativeTo(null);
-		miLiga = liga;
 		setTitle("Registrar Jugador");
 		setBounds(100, 100, 367, 401);
 		getContentPane().setLayout(new BorderLayout());
@@ -129,7 +127,7 @@ public class RegJugador extends JDialog {
 				JButton btnRegistrar = new JButton("Registrar");
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Equipo equipo = liga.buscarEquipo(cmbxEquipo.getSelectedItem().toString());
+						Equipo equipo = Liga.getInstance().buscarEquipo(cmbxEquipo.getSelectedItem().toString());
 						//Jugador jugador = new Jugador(txtCedula.getText(),txtNombre.getText(),txtApellido.getText(),cmbxNacionalidad.getSelectedItem().toString(),cmbxPosicion.getSelectedItem().toString(),spnEdad.getValue(),spnNumero.getValue(),equipo,()spnAltura.getValue());
 						//miLiga.addJugador(jugador);
 					}
