@@ -6,6 +6,21 @@ public class Liga {
 	private ArrayList <Equipo> equipos;
 	private ArrayList <Jugador> jugadores;
 	private ArrayList <Partido> partidos;
+	private static Liga liga;
+	
+	private Liga() {
+		super();
+		equipos = new ArrayList<>();
+		jugadores = new ArrayList<>();
+		partidos = new ArrayList<>();
+	}
+	
+	public static Liga getInstance() {
+		if(liga == null) {
+			liga = new Liga();
+		}
+		return liga;
+	}
 	
 	public ArrayList<Equipo> getEquipos() {
 		return equipos;
