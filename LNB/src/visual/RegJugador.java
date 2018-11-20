@@ -54,7 +54,7 @@ public class RegJugador extends JDialog {
 		lblNacionalidad.setBounds(6, 120, 91, 16);
 		contentPanel.add(lblNacionalidad);
 		
-		JLabel lblPosicion = new JLabel("Posición:");
+		JLabel lblPosicion = new JLabel("Posici\u00F3n:");
 		lblPosicion.setBounds(6, 250, 61, 16);
 		contentPanel.add(lblPosicion);
 		
@@ -108,7 +108,7 @@ public class RegJugador extends JDialog {
 		spnAltura.setBounds(100, 148, 56, 26);
 		contentPanel.add(spnAltura);
 		
-		JLabel lblNmero = new JLabel("Número:");
+		JLabel lblNmero = new JLabel("N\u00FAmero:");
 		lblNmero.setBounds(6, 286, 61, 16);
 		contentPanel.add(lblNmero);
 		
