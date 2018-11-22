@@ -37,32 +37,32 @@ public class RegLesion extends JDialog {
 		panel.setLayout(null);
 		
 		JLabel lblJugador = new JLabel("Jugador:");
-		lblJugador.setBounds(12, 30, 56, 16);
+		lblJugador.setBounds(6, 64, 56, 16);
 		panel.add(lblJugador);
 		
 		JLabel lblEquipo = new JLabel("Equipo:");
-		lblEquipo.setBounds(12, 59, 56, 16);
+		lblEquipo.setBounds(6, 34, 56, 16);
 		panel.add(lblEquipo);
 		
 		JLabel lblTipoDeLesin = new JLabel("Tipo de lesi\u00F3n:");
-		lblTipoDeLesin.setBounds(12, 88, 125, 16);
+		lblTipoDeLesin.setBounds(6, 99, 101, 16);
 		panel.add(lblTipoDeLesin);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(125, 30, 138, 22);
+		comboBox.setBounds(119, 62, 180, 22);
 		panel.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(125, 59, 138, 22);
+		comboBox_1.setBounds(119, 30, 180, 22);
 		panel.add(comboBox_1);
 		
 		textField = new JTextField();
-		textField.setBounds(125, 88, 138, 22);
+		textField.setBounds(119, 96, 180, 22);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio:");
-		lblFechaDeInicio.setBounds(12, 117, 109, 16);
+		lblFechaDeInicio.setBounds(6, 135, 109, 16);
 		panel.add(lblFechaDeInicio);
 		{
 			JPanel buttonPane = new JPanel();
