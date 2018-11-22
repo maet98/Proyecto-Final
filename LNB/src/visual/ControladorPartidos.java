@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class ControladorPartidos extends JDialog {
 
@@ -75,6 +76,13 @@ public class ControladorPartidos extends JDialog {
 			panel.add(scrollPaneLocal);
 			
 			tablaLocal = new JTable();
+			tablaLocal.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Jugadores", "Tiros Libres", "Tiros de Dos", "Tiros de Tres"
+				}
+			));
 			scrollPaneLocal.setViewportView(tablaLocal);
 			
 			JScrollPane scrollPaneVisitante = new JScrollPane();
@@ -82,6 +90,13 @@ public class ControladorPartidos extends JDialog {
 			panel.add(scrollPaneVisitante);
 			
 			Tablavisitante = new JTable();
+			Tablavisitante.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Jugadores", "Tiros Libres", "Tiros de Dos", "Tiros de Tres"
+				}
+			));
 			scrollPaneVisitante.setViewportView(Tablavisitante);
 		}
 		{
