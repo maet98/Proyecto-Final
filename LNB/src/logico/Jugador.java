@@ -1,5 +1,6 @@
 package logico;
 
+import java.awt.Image;
 import java.io.Serializable;
 
 public class Jugador implements Serializable{
@@ -13,11 +14,12 @@ public class Jugador implements Serializable{
 	private int edad;
 	private int numero;
 	private float altura;
+	private Image fotoJugador;
 	
 	private Equipo equipo;
 	private Desempenno Desempenno;
 	public Jugador(String cedula, String nombre, String apellido, String nacionalidad, String posicion, int edad,
-			int numero, Equipo equipo, Desempenno desempenno,float altura) {
+			int numero, Equipo equipo,float altura, Image fotoJugador) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -28,7 +30,8 @@ public class Jugador implements Serializable{
 		this.numero = numero;
 		this.equipo = equipo;
 		this.altura = altura;
-		Desempenno = desempenno;
+		this.fotoJugador = fotoJugador;
+		Desempenno = new Desempenno(this);
 	}
 	public float getAltura() {
 		return altura;
@@ -86,6 +89,12 @@ public class Jugador implements Serializable{
 	}
 	public Desempenno getDesempenno() {
 		return Desempenno;
+	}
+	public Image getFotoJugador() {
+		return fotoJugador;
+	}
+	public void setFotoJugador(Image fotoJugador) {
+		this.fotoJugador = fotoJugador;
 	}
 	
 }
