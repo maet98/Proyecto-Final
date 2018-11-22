@@ -24,7 +24,7 @@ public class RegLesion extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegLesion() {
-		setTitle("Registrar Lesión");
+		setTitle("Registrar Lesiï¿½n");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -45,24 +45,24 @@ public class RegLesion extends JDialog {
 		panel.add(lblEquipo);
 		
 		JLabel lblTipoDeLesin = new JLabel("Tipo de lesi\u00F3n:");
-		lblTipoDeLesin.setBounds(12, 88, 85, 16);
+		lblTipoDeLesin.setBounds(12, 88, 125, 16);
 		panel.add(lblTipoDeLesin);
 		
 		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(109, 27, 138, 22);
+		comboBox.setBounds(125, 30, 138, 22);
 		panel.add(comboBox);
 		
 		JComboBox comboBox_1 = new JComboBox();
-		comboBox_1.setBounds(109, 56, 138, 22);
+		comboBox_1.setBounds(125, 59, 138, 22);
 		panel.add(comboBox_1);
 		
 		textField = new JTextField();
-		textField.setBounds(109, 85, 138, 22);
+		textField.setBounds(125, 88, 138, 22);
 		panel.add(textField);
 		textField.setColumns(10);
 		
 		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio:");
-		lblFechaDeInicio.setBounds(12, 117, 90, 16);
+		lblFechaDeInicio.setBounds(12, 117, 109, 16);
 		panel.add(lblFechaDeInicio);
 		{
 			JPanel buttonPane = new JPanel();
