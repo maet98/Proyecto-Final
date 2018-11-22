@@ -12,11 +12,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.JTable;
 
 public class ControladorPartidos extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtMarcador;
+	private JTable tablaLocal;
+	private JTable Tablavisitante;
 
 	/**
 	 * Launch the application.
@@ -36,7 +39,7 @@ public class ControladorPartidos extends JDialog {
 	 */
 	public ControladorPartidos() {
 		setTitle("Controlador Partido");
-		setBounds(100, 100, 956, 511);
+		setBounds(100, 100, 805, 580);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -47,37 +50,39 @@ public class ControladorPartidos extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setBounds(58, 124, 2, 2);
-			panel.add(scrollPane);
-			
-			JPanel panelLocal = new JPanel();
-			panelLocal.setBounds(12, 31, 368, 375);
-			panel.add(panelLocal);
-			
 			JLabel lblMarcador = new JLabel("Marcador");
-			lblMarcador.setBounds(422, 13, 56, 16);
+			lblMarcador.setBounds(368, 432, 58, 16);
 			panel.add(lblMarcador);
 			
 			txtMarcador = new JTextField();
 			txtMarcador.setHorizontalAlignment(SwingConstants.CENTER);
 			txtMarcador.setEnabled(false);
 			txtMarcador.setEditable(false);
-			txtMarcador.setBounds(391, 41, 131, 22);
+			txtMarcador.setBounds(332, 457, 131, 22);
 			panel.add(txtMarcador);
 			txtMarcador.setColumns(10);
-			
-			JPanel PanelVisitante = new JPanel();
-			PanelVisitante.setBounds(548, 31, 368, 375);
-			panel.add(PanelVisitante);
 			
 			JLabel lblEquipoLocal = new JLabel("Equipo Local");
 			lblEquipoLocal.setBounds(120, 13, 84, 16);
 			panel.add(lblEquipoLocal);
 			
 			JLabel lblEquipoVisitante = new JLabel("Equipo Visitante");
-			lblEquipoVisitante.setBounds(678, 13, 91, 16);
+			lblEquipoVisitante.setBounds(544, 13, 120, 16);
 			panel.add(lblEquipoVisitante);
+			
+			JScrollPane scrollPaneLocal = new JScrollPane();
+			scrollPaneLocal.setBounds(6, 41, 368, 355);
+			panel.add(scrollPaneLocal);
+			
+			tablaLocal = new JTable();
+			scrollPaneLocal.setViewportView(tablaLocal);
+			
+			JScrollPane scrollPaneVisitante = new JScrollPane();
+			scrollPaneVisitante.setBounds(415, 41, 368, 355);
+			panel.add(scrollPaneVisitante);
+			
+			Tablavisitante = new JTable();
+			scrollPaneVisitante.setViewportView(Tablavisitante);
 		}
 		{
 			JPanel buttonPane = new JPanel();
