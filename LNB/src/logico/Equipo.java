@@ -1,21 +1,22 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Equipo {
+public class Equipo implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Jugador> jugadores;
 	private String Entrenador;
 	private String nombre;
-	private String circuito;
 	private String estadio;
 	private String ciudad;
-	public Equipo( String entrenador, String nombre, String circuito, String estadio,
+	public Equipo( String entrenador, String nombre, String estadio,
 			String ciudad) {
 		super();
 		this.jugadores = new ArrayList<>();
 		Entrenador = entrenador;
 		this.nombre = nombre;
-		this.circuito = circuito;
 		this.estadio = estadio;
 		this.ciudad = ciudad;
 	}
@@ -33,12 +34,6 @@ public class Equipo {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
-	}
-	public String getCircuito() {
-		return circuito;
-	}
-	public void setCircuito(String circuito) {
-		this.circuito = circuito;
 	}
 	public String getEstadio() {
 		return estadio;

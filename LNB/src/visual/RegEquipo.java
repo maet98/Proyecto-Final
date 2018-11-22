@@ -15,12 +15,16 @@ import logico.Equipo;
 import logico.Liga;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import java.awt.Toolkit;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 
 public class RegEquipo extends JDialog {
@@ -31,16 +35,16 @@ public class RegEquipo extends JDialog {
 	private JTextField txtCiudad;
 	private JTextField txtEntrenador;
 	private JTextField txtEstadio;
-	private JComboBox cbxCircuito;
 
 
 	/**
 	 * Create the dialog.
 	 */
 	public RegEquipo(Equipo equipo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\malet\\Downloads\\iconfinder_Basketball_2138358.png"));
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
-		setBounds(100, 100, 444, 298);
+		setBounds(100, 100, 469, 354);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -52,7 +56,7 @@ public class RegEquipo extends JDialog {
 			
 			JPanel pnlEquipo = new JPanel();
 			pnlEquipo.setBorder(new TitledBorder(null, "Informaci\u00F3n del Equipo:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlEquipo.setBounds(12, 13, 389, 180);
+			pnlEquipo.setBounds(12, 13, 389, 236);
 			panel.add(pnlEquipo);
 			pnlEquipo.setLayout(null);
 			
@@ -60,18 +64,13 @@ public class RegEquipo extends JDialog {
 			lblNombre.setBounds(12, 34, 56, 16);
 			pnlEquipo.add(lblNombre);
 			{
-				JLabel lblCircuito = new JLabel("Circuito:");
-				lblCircuito.setBounds(12, 92, 56, 16);
-				pnlEquipo.add(lblCircuito);
-			}
-			{
 				JLabel lblEntrenador = new JLabel("Entrenador:");
-				lblEntrenador.setBounds(12, 150, 68, 16);
+				lblEntrenador.setBounds(12, 133, 68, 16);
 				pnlEquipo.add(lblEntrenador);
 			}
 			{
 				JLabel lblEstadio = new JLabel("Estadio:");
-				lblEstadio.setBounds(12, 121, 56, 16);
+				lblEstadio.setBounds(12, 100, 56, 16);
 				pnlEquipo.add(lblEstadio);
 			}
 			{
@@ -81,27 +80,40 @@ public class RegEquipo extends JDialog {
 			}
 			
 			txtNombre = new JTextField();
+			txtNombre.addKeyListener(new KeyAdapter() {
+				public void keyTyped(KeyEvent e) {
+					char validar = e.getKeyChar();
+					if(!Character.isLetterOrDigit(validar)&& validar!=8) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			txtNombre.setBounds(92, 31, 167, 22);
 			pnlEquipo.add(txtNombre);
 			txtNombre.setColumns(10);
 			
 			txtCiudad = new JTextField();
+			txtCiudad.addKeyListener(new KeyAdapter() {
+				public void keyTyped(KeyEvent e) {
+					char validar = e.getKeyChar();
+					if(!Character.isWhitespace(validar) && !Character.isLetter(validar) && validar!=8) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			txtCiudad.setBounds(92, 60, 167, 22);
 			pnlEquipo.add(txtCiudad);
 			txtCiudad.setColumns(10);
 			
-			cbxCircuito = new JComboBox();
-			cbxCircuito.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Norte", "Sureste"}));
-			cbxCircuito.setBounds(92, 89, 167, 22);
-			pnlEquipo.add(cbxCircuito);
-			
 			txtEntrenador = new JTextField();
-			txtEntrenador.setBounds(92, 147, 167, 22);
+			txtEntrenador.setBounds(92, 130, 167, 22);
 			pnlEquipo.add(txtEntrenador);
 			txtEntrenador.setColumns(10);
 			
 			txtEstadio = new JTextField();
-			txtEstadio.setBounds(92, 118, 167, 22);
+			txtEstadio.setBounds(92, 97, 167, 22);
 			pnlEquipo.add(txtEstadio);
 			txtEstadio.setColumns(10);
 			
@@ -114,7 +126,13 @@ public class RegEquipo extends JDialog {
 				JButton btnRegistrar = new JButton("Registrar");
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						
+						String entrenador = txtEntrenador.getText();
+						String nombre = txtNombre.getText();
+						String estadio = txtEstadio.getText();
+						String ciudad = txtCiudad.getText();
+						Equipo nuevo = new Equipo(entrenador, nombre, estadio, ciudad);
+						Liga.getInstance().addEquipo(nuevo);
+						JOptionPane.showMessageDialog(null, "El equipo "+nombre+" ha sido ingresado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 					}
 				});
 				btnRegistrar.setActionCommand("OK");

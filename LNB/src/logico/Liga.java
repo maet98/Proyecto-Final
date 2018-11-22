@@ -1,8 +1,12 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Liga {
+public class Liga implements Serializable{
+	
+	
+	private static final long serialVersionUID = 1L;
 	private ArrayList <Equipo> equipos;
 	private ArrayList <Jugador> jugadores;
 	private ArrayList <Partido> partidos;
@@ -20,6 +24,11 @@ public class Liga {
 			liga = new Liga();
 		}
 		return liga;
+	}
+	public static void setInstance(Liga nueva) {
+		if(liga == null) {
+			liga = nueva;
+		}
 	}
 	
 	public ArrayList<Equipo> getEquipos() {

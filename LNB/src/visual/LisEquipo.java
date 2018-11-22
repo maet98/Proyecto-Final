@@ -13,21 +13,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
 
+import logico.Equipo;
+import logico.Liga;
+
 public class LisEquipo extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
+	private JComboBox cbxEquipos;
 
-
-	public static void main(String[] args) {
-		try {
-			LisEquipo dialog = new LisEquipo();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 
 	public LisEquipo() {
@@ -38,7 +32,7 @@ public class LisEquipo extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JComboBox cbxEquipos = new JComboBox();
+		cbxEquipos = new JComboBox();
 		cbxEquipos.setBounds(12, 26, 163, 22);
 		contentPanel.add(cbxEquipos);
 		
@@ -68,6 +62,15 @@ public class LisEquipo extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+	}
+	
+	void loadEquipos() {
+		int i = 0;
+		for (Equipo actual: Liga.getInstance().getEquipos()) {
+			cbxEquipos.insertItemAt(actual.getNombre(), i);
+			i++;
+		}
+		
 	}
 	void loadJugadores() {
 		

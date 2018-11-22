@@ -60,6 +60,10 @@ public class CrearPartido extends JDialog {
 			ListVisitante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			ListVisitante.setBounds(245, 51, 153, 131);
 			panel.add(ListVisitante);
+			
+			JLabel lblFechaDelPartido = new JLabel("Fecha del Partido");
+			lblFechaDelPartido.setBounds(12, 213, 114, 16);
+			panel.add(lblFechaDelPartido);
 		}
 		{
 			JPanel buttonPane = new JPanel();
