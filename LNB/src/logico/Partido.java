@@ -1,8 +1,18 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Partido {
+public class Partido implements Serializable{
+	private static final long serialVersionUID = 1L;
+
+	private boolean jugado;
+	private String id;
+	private Date fecha;
+	private Equipo local;
+	private Equipo visitante;
+	private Marcador marcador;
+	
 	public Partido(String id, Date fecha, Equipo local, Equipo visitante, Marcador marcador) {
 		super();
 		this.jugado = false;
@@ -12,13 +22,6 @@ public class Partido {
 		this.visitante = visitante;
 		this.marcador = marcador;
 	}
-	private boolean jugado;
-	private String id;
-	private Date fecha;
-	private Equipo local;
-	private Equipo visitante;
-	private Marcador marcador;
-	
 	
 	
 	public boolean isJugado() {

@@ -1,6 +1,16 @@
 package logico;
 
-public class Desempenno {
+import java.io.Serializable;
+
+public class Desempenno implements Serializable{
+	private static final long serialVersionUID = 1L;
+	
+	private Jugador jugador;
+	private int tirosDeTres;
+	private int tirosLibres;
+	private int asistencias;
+	private int rebotes;
+
 	public Desempenno(Jugador jugador, int tirosDeTres, int tirosLibres, int asistencias, int rebotes) {
 		super();
 		this.jugador = jugador;
@@ -9,14 +19,6 @@ public class Desempenno {
 		this.asistencias = asistencias;
 		this.rebotes = rebotes;
 	}
-	
-	private Jugador jugador;
-	private int tirosDeTres;
-	private int tirosLibres;
-	private int asistencias;
-	private int rebotes;
-	
-	
 	
 	public Jugador getJugador() {
 		return jugador;

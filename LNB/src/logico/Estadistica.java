@@ -1,9 +1,11 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Estadistica {
+public class Estadistica implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private Partido partido;
 	private ArrayList<Desempenno> desempeno;
 
