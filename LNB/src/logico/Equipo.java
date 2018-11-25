@@ -47,5 +47,16 @@ public class Equipo implements Serializable{
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
+	public boolean estaOcupado(int actual) {
+		boolean ocupado = false;
+		int i = 0;
+		while(!ocupado && i < jugadores.size()) {
+			if(actual == jugadores.get(i).getNumero()) {
+				ocupado = true;
+			}
+			i++;
+		}
+		return ocupado; 
+	}
 	
 }

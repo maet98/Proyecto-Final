@@ -3,6 +3,8 @@ package logico;
 import java.awt.Image;
 import java.io.Serializable;
 
+import javax.swing.ImageIcon;
+
 public class Jugador implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -14,12 +16,12 @@ public class Jugador implements Serializable{
 	private int edad;
 	private int numero;
 	private float altura;
-	private Image fotoJugador;
+	private ImageIcon fotoJugador;
 	
 	private Equipo equipo;
 	private Desempenno Desempenno;
 	public Jugador(String cedula, String nombre, String apellido, String nacionalidad, String posicion, int edad,
-			int numero, Equipo equipo,float altura, Image fotoJugador) {
+			int numero, Equipo equipo,float altura, ImageIcon fotoJugador) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -90,10 +92,10 @@ public class Jugador implements Serializable{
 	public Desempenno getDesempenno() {
 		return Desempenno;
 	}
-	public Image getFotoJugador() {
+	public ImageIcon getFotoJugador() {
 		return fotoJugador;
 	}
-	public void setFotoJugador(Image fotoJugador) {
+	public void setFotoJugador(ImageIcon fotoJugador) {
 		this.fotoJugador = fotoJugador;
 	}
 	

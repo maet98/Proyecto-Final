@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.text.ParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -104,9 +105,19 @@ public class Principal {
 				if(Liga.getInstance().getEquipos().isEmpty()) {
 					JOptionPane.showMessageDialog(frmLigaDeBaloncesto, "No existe ningun equipo, registre un equipo.","Error", JOptionPane.INFORMATION_MESSAGE);
 				}else {
-					RegJugador nuevo = new RegJugador();
-					nuevo.setModal(true);
-					nuevo.setVisible(true);
+					RegJugador nuevo;
+					try {
+						nuevo = new RegJugador();
+						nuevo.setModal(true);
+						nuevo.setVisible(true);
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 				}
 			}
 		});
@@ -169,4 +180,6 @@ public class Principal {
 		lblProximosPartidos.setBounds(22, 13, 114, 16);
 		panel.add(lblProximosPartidos);
 	}
+	
+	
 }
