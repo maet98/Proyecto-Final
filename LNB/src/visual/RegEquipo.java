@@ -36,10 +36,6 @@ public class RegEquipo extends JDialog {
 	private JTextField txtEntrenador;
 	private JTextField txtEstadio;
 
-
-	/**
-	 * Create the dialog.
-	 */
 	public RegEquipo(Equipo equipo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\malet\\Downloads\\iconfinder_Basketball_2138358.png"));
 		setTitle("Registrar Equipo");
@@ -80,15 +76,6 @@ public class RegEquipo extends JDialog {
 			}
 			
 			txtNombre = new JTextField();
-			txtNombre.addKeyListener(new KeyAdapter() {
-				public void keyTyped(KeyEvent e) {
-					char validar = e.getKeyChar();
-					if(!Character.isLetterOrDigit(validar)&& validar!=8) {
-						getToolkit().beep();
-						e.consume();
-					}
-				}
-			});
 			txtNombre.setBounds(92, 31, 167, 22);
 			pnlEquipo.add(txtNombre);
 			txtNombre.setColumns(10);
@@ -108,11 +95,29 @@ public class RegEquipo extends JDialog {
 			txtCiudad.setColumns(10);
 			
 			txtEntrenador = new JTextField();
+			txtEntrenador.addKeyListener(new KeyAdapter() {
+				public void keyTyped(KeyEvent e) {
+					char validar = e.getKeyChar();
+					if(!Character.isWhitespace(validar) && !Character.isLetter(validar) && validar!=8) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			txtEntrenador.setBounds(92, 130, 167, 22);
 			pnlEquipo.add(txtEntrenador);
 			txtEntrenador.setColumns(10);
 			
 			txtEstadio = new JTextField();
+			txtEstadio.addKeyListener(new KeyAdapter() {
+				public void keyTyped(KeyEvent e) {
+					char validar = e.getKeyChar();
+					if(!Character.isWhitespace(validar) && !Character.isLetter(validar) && validar!=8) {
+						getToolkit().beep();
+						e.consume();
+					}
+				}
+			});
 			txtEstadio.setBounds(92, 97, 167, 22);
 			pnlEquipo.add(txtEstadio);
 			txtEstadio.setColumns(10);
@@ -126,13 +131,32 @@ public class RegEquipo extends JDialog {
 				JButton btnRegistrar = new JButton("Registrar");
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String entrenador = txtEntrenador.getText();
-						String nombre = txtNombre.getText();
-						String estadio = txtEstadio.getText();
-						String ciudad = txtCiudad.getText();
-						Equipo nuevo = new Equipo(entrenador, nombre, estadio, ciudad);
-						Liga.getInstance().addEquipo(nuevo);
-						JOptionPane.showMessageDialog(null, "El equipo "+nombre+" ha sido ingresado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+						if(equipo== null) {
+							String entrenador = txtEntrenador.getText();
+							String nombre = txtNombre.getText();
+							String estadio = txtEstadio.getText();
+							String ciudad = txtCiudad.getText();
+							if(!nombre.equalsIgnoreCase("")&&!entrenador.equalsIgnoreCase("")&&!estadio.equalsIgnoreCase("") && !ciudad.equalsIgnoreCase("")) {
+								Equipo nuevo = new Equipo(entrenador, nombre, estadio, ciudad);
+								Liga.getInstance().addEquipo(nuevo);
+								Limpiar();
+								JOptionPane.showMessageDialog(null, "El equipo "+nombre+" ha sido ingresado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "Aviso", JOptionPane.WARNING_MESSAGE);
+							}
+						}else {
+							if(!txtEntrenador.getText().equalsIgnoreCase("")&&!txtCiudad.getText().equalsIgnoreCase("")&& !txtEstadio.getText().equalsIgnoreCase("")) {
+								equipo.setEntrenador(txtEntrenador.getText());
+								equipo.setCiudad(txtCiudad.getText());
+								equipo.setEstadio(txtEstadio.getText());
+								JOptionPane.showMessageDialog(null, "El equipo "+txtNombre.getText()+" ha sido modificado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								dispose();
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Debe llenar todos los campos", "Aviso", JOptionPane.WARNING_MESSAGE);
+							}
+						}
 					}
 				});
 				btnRegistrar.setActionCommand("OK");
@@ -150,6 +174,22 @@ public class RegEquipo extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		if(miEquipo!= null) {
+			loadEquipo();
+		}
+	}
+	void loadEquipo() {
+		txtCiudad.setText(miEquipo.getCiudad());
+		txtEntrenador.setText(miEquipo.getEntrenador());
+		txtNombre.setEnabled(false);
+		txtNombre.setText(miEquipo.getNombre());
+		txtEstadio.setText(miEquipo.getEstadio());
+	}
+	void Limpiar() {
+		txtCiudad.setText("");
+		txtEntrenador.setText("");
+		txtNombre.setText("");
+		txtEstadio.setText("");
 	}
 	
 }

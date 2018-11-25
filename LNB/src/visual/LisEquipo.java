@@ -12,67 +12,96 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import logico.Equipo;
 import logico.Liga;
+import javax.swing.border.BevelBorder;
+import javax.swing.ListSelectionModel;
+import java.awt.Toolkit;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LisEquipo extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
 	private JTable table;
-	private JComboBox cbxEquipos;
-
+	private DefaultTableModel model;
+	private String selected = "";
+	private JButton btnModificar;
 
 
 	public LisEquipo() {
+		setLocationRelativeTo(null);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LisEquipo.class.getResource("/imagenes/basketball.png")));
 		setTitle("Listar Equipos");
 		setBounds(100, 100, 580, 377);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBorder(new TitledBorder(null, "Equipos", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(null);
-		
-		cbxEquipos = new JComboBox();
-		cbxEquipos.setBounds(12, 26, 163, 22);
-		contentPanel.add(cbxEquipos);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 58, 562, 237);
-		contentPanel.add(scrollPane);
-		
-		table = new JTable();
-		scrollPane.setViewportView(table);
-		
-		JLabel lblJugadores = new JLabel("Jugadores");
-		lblJugadores.setBounds(224, 29, 73, 16);
-		contentPanel.add(lblJugadores);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnModificar = new JButton("Modificar");
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Equipo cambiar = Liga.getInstance().buscarEquipo(selected);
+						RegEquipo modificar = new RegEquipo(cambiar);
+						modificar.setModal(true);
+						modificar.setVisible(true);
+					}
+				});
+				btnModificar.setActionCommand("OK");
+				buttonPane.add(btnModificar);
+				btnModificar.setEnabled(false);
+				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				JButton btnSalir = new JButton("Salir");
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
+				btnSalir.setActionCommand("Cancel");
+				buttonPane.add(btnSalir);
 			}
 		}
+		
+		JScrollPane scrollPane = new JScrollPane();
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				int selectedRow = table.getSelectedRow();
+				if(selectedRow>=0) {
+					selected = table.getValueAt(selectedRow, 0).toString();
+					btnModificar.setEnabled(true);
+				}
+			}
+		});
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		scrollPane.setViewportView(table);
+		String[] columnNames = {"Nombre","Entrenador","Estadio","Cant. Jugadores"};
+		model = new DefaultTableModel();
+		model.setColumnIdentifiers(columnNames);
+		table.setModel(model);
+		loadEquipos();
 	}
 	
+	
 	void loadEquipos() {
-		int i = 0;
-		for (Equipo actual: Liga.getInstance().getEquipos()) {
-			cbxEquipos.insertItemAt(actual.getNombre(), i);
-			i++;
+		Object[] fila = new Object[model.getColumnCount()];
+		model.setRowCount(0);
+		for (Equipo actual : Liga.getInstance().getEquipos()) {
+			fila[0] = actual.getNombre();
+			fila[1] = actual.getEntrenador();
+			fila[2] = actual.getEstadio();
+			fila[3] = actual.getJugadores().size();
+			System.out.println(actual.getJugadores().size());
+			model.addRow(fila);
 		}
-		
-	}
-	void loadJugadores() {
-		
 	}
 }

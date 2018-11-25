@@ -145,6 +145,13 @@ public class Principal {
 		mnEquipos.add(mntmRegistrarEquipo);
 		
 		JMenuItem mntmListarEquipos = new JMenuItem("Listar Equipos");
+		mntmListarEquipos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				LisEquipo nueva = new LisEquipo();
+				nueva.setModal(true);
+				nueva.setVisible(true);
+			}
+		});
 		mnEquipos.add(mntmListarEquipos);
 		
 		JMenu mnCalendario = new JMenu("Calendario");

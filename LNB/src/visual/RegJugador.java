@@ -214,6 +214,11 @@ public class RegJugador extends JDialog {
 		txtNacionalidad = new JTextField();
 		txtNacionalidad.addKeyListener(new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {
+				char letra = e.getKeyChar();
+				if(!Character.isAlphabetic(letra) && !Character.isWhitespace(letra) && letra != 8) {
+					e.consume();
+					getToolkit().beep();
+				}
 			}
 		});
 		txtNacionalidad.setBounds(125, 118, 129, 20);
@@ -231,7 +236,7 @@ public class RegJugador extends JDialog {
 								!txtNacionalidad.getText().equalsIgnoreCase("")&& ftxtCedula.getText().length() ==13  && !txtNumero.getText().equalsIgnoreCase("")) {
 							Equipo equipo = Liga.getInstance().buscarEquipo(cmbxEquipo.getSelectedItem().toString());
 							int actual = Integer.parseInt(txtNumero.getText());
-							if(!equipo.estaOcupado(actual)) {
+							if(dorsal != 0 && !equipo.estaOcupado(actual)) {
 								dorsal = actual;
 								String cedula = ftxtCedula.getText();
 								String nombre = txtNombre.getText();
@@ -242,6 +247,7 @@ public class RegJugador extends JDialog {
 								float altura = Float.parseFloat(spnAltura.getValue().toString());
 								Jugador nuevo = new Jugador(cedula, nombre, apellido, nacionalidad, posicion, edad, dorsal, equipo, altura, fotoJugador);
 								Liga.getInstance().addJugador(nuevo);
+								equipo.getJugadores().add(nuevo);
 								JOptionPane.showMessageDialog(null, "El jugador "+nombre+" "+apellido+" ha sido ingresado", "Información", JOptionPane.INFORMATION_MESSAGE);
 								limpiar();
 							}
@@ -277,8 +283,10 @@ public class RegJugador extends JDialog {
 		int i = 1;
 		cmbxEquipo.insertItemAt("<Seleccione>", 0);
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			cmbxEquipo.insertItemAt(actual.getNombre(), i);
-			i++;
+			if(actual.getJugadores().size()<15) {
+				cmbxEquipo.insertItemAt(actual.getNombre(), i);
+				i++;
+			}
 		}
 		cmbxEquipo.setSelectedIndex(0);
 	}
