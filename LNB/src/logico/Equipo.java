@@ -3,6 +3,8 @@ package logico;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
+
 public class Equipo implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -11,14 +13,16 @@ public class Equipo implements Serializable{
 	private String nombre;
 	private String estadio;
 	private String ciudad;
+	private ImageIcon logo;
 	public Equipo( String entrenador, String nombre, String estadio,
-			String ciudad) {
+			String ciudad,ImageIcon logo) {
 		super();
 		this.jugadores = new ArrayList<>();
 		Entrenador = entrenador;
 		this.nombre = nombre;
 		this.estadio = estadio;
 		this.ciudad = ciudad;
+		this.logo = logo;
 	}
 	public ArrayList<Jugador> getJugadores() {
 		return jugadores;
@@ -47,6 +51,12 @@ public class Equipo implements Serializable{
 	public void setCiudad(String ciudad) {
 		this.ciudad = ciudad;
 	}
+	public ImageIcon getLogo() {
+		return logo;
+	}
+	public void setLogo(ImageIcon logo) {
+		this.logo = logo;
+	}
 	public boolean estaOcupado(int actual) {
 		boolean ocupado = false;
 		int i = 0;
@@ -58,5 +68,6 @@ public class Equipo implements Serializable{
 		}
 		return ocupado; 
 	}
+	
 	
 }

@@ -73,7 +73,6 @@ public class Principal {
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
@@ -114,7 +113,6 @@ public class Principal {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (ParseException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
@@ -126,7 +124,9 @@ public class Principal {
 		JMenuItem mntmListarJugadores = new JMenuItem("Listar Jugadores");
 		mntmListarJugadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				LisJugador nueva = new LisJugador();
+				nueva.setModal(true);
+				nueva.setVisible(true);
 			}
 		});
 		mnJugadores.add(mntmListarJugadores);

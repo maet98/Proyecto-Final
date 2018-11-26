@@ -100,7 +100,6 @@ public class LisEquipo extends JDialog {
 			fila[1] = actual.getEntrenador();
 			fila[2] = actual.getEstadio();
 			fila[3] = actual.getJugadores().size();
-			System.out.println(actual.getJugadores().size());
 			model.addRow(fila);
 		}
 	}

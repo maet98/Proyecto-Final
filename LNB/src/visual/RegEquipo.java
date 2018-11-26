@@ -2,13 +2,16 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Image;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Equipo;
@@ -21,10 +24,13 @@ import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.net.URL;
 import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.ImageIcon;
 
 
 public class RegEquipo extends JDialog {
@@ -35,12 +41,14 @@ public class RegEquipo extends JDialog {
 	private JTextField txtCiudad;
 	private JTextField txtEntrenador;
 	private JTextField txtEstadio;
+	private JLabel lblLogo;
+	private ImageIcon logoEquipo;
 
 	public RegEquipo(Equipo equipo) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\malet\\Downloads\\iconfinder_Basketball_2138358.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegEquipo.class.getResource("/imagenes/basketball.png")));
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
-		setBounds(100, 100, 469, 354);
+		setBounds(100, 100, 562, 350);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -52,7 +60,7 @@ public class RegEquipo extends JDialog {
 			
 			JPanel pnlEquipo = new JPanel();
 			pnlEquipo.setBorder(new TitledBorder(null, "Informaci\u00F3n del Equipo:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlEquipo.setBounds(12, 13, 389, 236);
+			pnlEquipo.setBounds(0, 0, 536, 268);
 			panel.add(pnlEquipo);
 			pnlEquipo.setLayout(null);
 			
@@ -71,7 +79,7 @@ public class RegEquipo extends JDialog {
 			}
 			{
 				JLabel lblCiudad = new JLabel("Ciudad:");
-				lblCiudad.setBounds(12, 63, 56, 16);
+				lblCiudad.setBounds(12, 67, 56, 16);
 				pnlEquipo.add(lblCiudad);
 			}
 			
@@ -90,7 +98,7 @@ public class RegEquipo extends JDialog {
 					}
 				}
 			});
-			txtCiudad.setBounds(92, 60, 167, 22);
+			txtCiudad.setBounds(92, 64, 167, 22);
 			pnlEquipo.add(txtCiudad);
 			txtCiudad.setColumns(10);
 			
@@ -121,6 +129,29 @@ public class RegEquipo extends JDialog {
 			txtEstadio.setBounds(92, 97, 167, 22);
 			pnlEquipo.add(txtEstadio);
 			txtEstadio.setColumns(10);
+			{
+				lblLogo = new JLabel("");
+				lblLogo.setIcon(new ImageIcon(RegEquipo.class.getResource("/imagenes/equipo1.png")));
+				lblLogo.setBounds(306, 11, 220, 167);
+				pnlEquipo.add(lblLogo);
+			}
+			
+			JButton btnIngresarLogo = new JButton("Ingresar Logo");
+			btnIngresarLogo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					JFileChooser nuevo = new JFileChooser();
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg","gif","png");
+					nuevo.addChoosableFileFilter(filter);
+					int selectedFile = nuevo.showOpenDialog(null);
+					if(selectedFile == JFileChooser.APPROVE_OPTION) {
+						File file = nuevo.getSelectedFile();
+						logoEquipo = new ImageIcon(file.getPath());
+						lblLogo.setIcon(logoEquipo);
+					}
+				}
+			});
+			btnIngresarLogo.setBounds(334, 192, 132, 23);
+			pnlEquipo.add(btnIngresarLogo);
 			
 		}
 		{
@@ -137,7 +168,7 @@ public class RegEquipo extends JDialog {
 							String estadio = txtEstadio.getText();
 							String ciudad = txtCiudad.getText();
 							if(!nombre.equalsIgnoreCase("")&&!entrenador.equalsIgnoreCase("")&&!estadio.equalsIgnoreCase("") && !ciudad.equalsIgnoreCase("")) {
-								Equipo nuevo = new Equipo(entrenador, nombre, estadio, ciudad);
+								Equipo nuevo = new Equipo(entrenador, nombre, estadio, ciudad,logoEquipo);
 								Liga.getInstance().addEquipo(nuevo);
 								Limpiar();
 								JOptionPane.showMessageDialog(null, "El equipo "+nombre+" ha sido ingresado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
@@ -178,12 +209,22 @@ public class RegEquipo extends JDialog {
 			loadEquipo();
 		}
 	}
+	
+	public ImageIcon ResizeImage(String path)
+    {
+        ImageIcon MyImage = new ImageIcon(path);
+        Image img = MyImage.getImage();
+        Image newImg = img.getScaledInstance(lblLogo.getWidth(), lblLogo.getHeight(), Image.SCALE_SMOOTH);
+        ImageIcon image = new ImageIcon(newImg);
+        return image;
+    }
 	void loadEquipo() {
 		txtCiudad.setText(miEquipo.getCiudad());
 		txtEntrenador.setText(miEquipo.getEntrenador());
 		txtNombre.setEnabled(false);
 		txtNombre.setText(miEquipo.getNombre());
 		txtEstadio.setText(miEquipo.getEstadio());
+		lblLogo.setIcon(miEquipo.getLogo());
 	}
 	void Limpiar() {
 		txtCiudad.setText("");
@@ -191,5 +232,4 @@ public class RegEquipo extends JDialog {
 		txtNombre.setText("");
 		txtEstadio.setText("");
 	}
-	
 }

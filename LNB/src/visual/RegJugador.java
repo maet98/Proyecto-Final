@@ -56,9 +56,11 @@ public class RegJugador extends JDialog {
 	private JComboBox<String> cmbxPosicion;
 	private JTextField txtNumero;
 	private JTextField txtNacionalidad;
+	private ImageIcon defaultFoto = new ImageIcon(RegJugador.class.getResource("/imagenes/persona.png"));
 	private int dorsal = 0;
 	
 	public RegJugador() throws FileNotFoundException, ParseException {
+		fotoJugador = defaultFoto;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegJugador.class.getResource("/imagenes/basketball.png")));
 		setLocationRelativeTo(null);
 		setTitle("Registrar Jugador");
@@ -163,17 +165,16 @@ public class RegJugador extends JDialog {
 		
 		lblFoto = new JLabel("");
 		lblFoto.setBounds(313, 26, 203, 200);
-		ImageIcon defaultfoto = new ImageIcon("ICONS/persona.png");
-		lblFoto.setIcon(new ImageIcon(RegJugador.class.getResource("/imagenes/persona.png")));
+		lblFoto.setIcon(defaultFoto);
 		contentPanel.add(lblFoto);
 		
 		JButton btnInsertarFoto = new JButton("Insertar Foto");
 		btnInsertarFoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				JFileChooser nuevo = new JFileChooser();
-				int selectedFile = nuevo.showOpenDialog(null);
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("*.Images", "jpg","gif","png");
 				nuevo.addChoosableFileFilter(filter);
+				int selectedFile = nuevo.showOpenDialog(null);
 				if(selectedFile == JFileChooser.APPROVE_OPTION) {
 					File file = nuevo.getSelectedFile();
 					fotoJugador = new ImageIcon(file.getPath());
@@ -304,10 +305,11 @@ public class RegJugador extends JDialog {
 		txtNombre.setText("");
 		ftxtCedula.setText("");
 		spnEdad.setValue((int)(16));
-		lblFoto.setIcon(new ImageIcon("ICONS/persona.png"));
+		lblFoto.setIcon(defaultFoto);
 		cmbxEquipo.setSelectedIndex(0);
 		txtNacionalidad.setText("");
 		txtNumero.setText("");
 		cmbxPosicion.setSelectedIndex(0);
+		fotoJugador = defaultFoto;
 	}
 }
