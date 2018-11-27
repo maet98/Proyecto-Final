@@ -45,6 +45,7 @@ public class LisJugador extends JDialog {
 	private JRadioButton rdbtnNacionalidad;
 	private Equipo Seleccionado;
 	private JRadioButton rdbtnNombre;
+	private JButton btnDesempeo;
 
 	public LisJugador() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/basketball.png")));
@@ -76,7 +77,7 @@ public class LisJugador extends JDialog {
 		contentPanel.add(lblEquipo);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 121, 778, 290);
+		scrollPane.setBounds(10, 121, 778, 286);
 		contentPanel.add(scrollPane);
 		
 		model = new DefaultTableModel();
@@ -177,6 +178,9 @@ public class LisJugador extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			
+			btnDesempeo = new JButton("Desempe\u00F1o");
+			buttonPane.add(btnDesempeo);
 			{
 				JButton btnModificar = new JButton("Modificar");
 				btnModificar.setActionCommand("OK");

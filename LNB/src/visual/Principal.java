@@ -154,11 +154,24 @@ public class Principal {
 		});
 		mnEquipos.add(mntmListarEquipos);
 		
-		JMenu mnCalendario = new JMenu("Calendario");
-		menuBar.add(mnCalendario);
+		JMenu mnPartidos = new JMenu("Partidos");
+		menuBar.add(mnPartidos);
+		
+		JMenuItem mntmCrearPartido = new JMenuItem("Crear Partido");
+		mntmCrearPartido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				CrearPartido nuevo = new CrearPartido();
+				nuevo.setModal(true);
+				nuevo.setVisible(true);
+			}
+		});
+		mnPartidos.add(mntmCrearPartido);
 		
 		JMenuItem mntmVerCalendario = new JMenuItem("Ver Calendario");
-		mnCalendario.add(mntmVerCalendario);
+		mnPartidos.add(mntmVerCalendario);
+		
+		JMenuItem mntmJugarPartido = new JMenuItem("Jugar Partido");
+		mnPartidos.add(mntmJugarPartido);
 		
 		JPanel panel = new JPanel();
 		frmLigaDeBaloncesto.getContentPane().add(panel, BorderLayout.CENTER);
@@ -176,7 +189,7 @@ public class Principal {
 		
 		TableTiros1 = new JTable();
 		Tiros1.setViewportView(TableTiros1);
-		tabbedPane.setBounds(589, 30, 396, 420);
+		tabbedPane.setBounds(506, 30, 479, 420);
 		panel.add(tabbedPane);
 		
 		JLabel lblEstadisticas = new JLabel("Estadisticas");
@@ -187,6 +200,4 @@ public class Principal {
 		lblProximosPartidos.setBounds(22, 13, 114, 16);
 		panel.add(lblProximosPartidos);
 	}
-	
-	
 }
