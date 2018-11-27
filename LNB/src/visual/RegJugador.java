@@ -202,7 +202,10 @@ public class RegJugador extends JDialog {
 				if(equipo!=null) {
 					if(!equipo.estaOcupado(actual)) {
 						dorsal = actual;
-						System.out.println(dorsal);
+					}
+					else {
+						JOptionPane.showMessageDialog(null, "El numero "+actual+" esta tomado por otro jugador", "Informacion", JOptionPane.WARNING_MESSAGE);
+						txtNumero.setText("");
 					}
 				}
 				

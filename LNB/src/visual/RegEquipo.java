@@ -46,6 +46,7 @@ public class RegEquipo extends JDialog {
 
 	public RegEquipo(Equipo equipo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegEquipo.class.getResource("/imagenes/basketball.png")));
+		logoEquipo = new ImageIcon(RegEquipo.class.getResource("/imagenes/equipo1.png"));
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
 		setBounds(100, 100, 562, 350);
@@ -224,6 +225,7 @@ public class RegEquipo extends JDialog {
 		txtNombre.setEnabled(false);
 		txtNombre.setText(miEquipo.getNombre());
 		txtEstadio.setText(miEquipo.getEstadio());
+		System.out.println(miEquipo.getLogo());
 		lblLogo.setIcon(miEquipo.getLogo());
 	}
 	void Limpiar() {

@@ -26,6 +26,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class LisJugador extends JDialog {
 
@@ -47,7 +49,7 @@ public class LisJugador extends JDialog {
 	public LisJugador() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/basketball.png")));
 		setTitle("Listar Jugadores");
-		setBounds(100, 100, 752, 491);
+		setBounds(100, 100, 808, 490);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "Jugadores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -74,7 +76,7 @@ public class LisJugador extends JDialog {
 		contentPanel.add(lblEquipo);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 119, 726, 300);
+		scrollPane.setBounds(10, 121, 778, 290);
 		contentPanel.add(scrollPane);
 		
 		model = new DefaultTableModel();
@@ -113,7 +115,7 @@ public class LisJugador extends JDialog {
 				txtBuscador.setVisible(true);
 				cbxPosicion.setVisible(false);
 				lblPosicion.setVisible(false);
-				
+				loadJugador();
 			}
 		});
 		rdbtnNombre.setBounds(6, 58, 80, 23);
@@ -129,6 +131,7 @@ public class LisJugador extends JDialog {
 				txtBuscador.setVisible(false);
 				cbxPosicion.setVisible(true);
 				lblPosicion.setVisible(true);
+				loadJugador();
 			}
 		});
 		rdbtnPosicion.setBounds(88, 58, 88, 23);
@@ -148,6 +151,7 @@ public class LisJugador extends JDialog {
 				txtBuscador.setVisible(true);
 				cbxPosicion.setVisible(false);
 				lblPosicion.setVisible(false);
+				loadJugador();
 				
 			}
 		});
@@ -208,14 +212,26 @@ public class LisJugador extends JDialog {
 			fila[5] = actual.getNumero();
 			fila[6] = actual.getEquipo().getNombre();
 			fila[7] = actual.getAltura();
-			if(rdbtnNombre.isSelected() && txtBuscador.getText().equalsIgnoreCase("") && cbxEquipo.getSelectedIndex()==0) {
+			if((rdbtnNombre.isSelected() && txtBuscador.getText().equalsIgnoreCase("") && cbxEquipo.getSelectedIndex()==0)||(rdbtnNacionalidad.isSelected() && txtBuscador.getText().equalsIgnoreCase("") && cbxEquipo.getSelectedIndex() == 0)||(rdbtnPosicion.isSelected() && cbxPosicion.getSelectedIndex()==0 && cbxEquipo.getSelectedIndex() == 0)) {
 				model.addRow(fila);
-			}else if(cbxEquipo.getSelectedIndex()==0 && rdbtnNombre.isSelected() && txtBuscador.getText().length()>0) {
-				if(fila[1].toString().toLowerCase().contains(txtBuscador.getText().toLowerCase())) {
+			}else if(rdbtnNombre.isSelected() && txtBuscador.getText().length()>0) {
+				if(cbxEquipo.getSelectedIndex() == 0 && fila[1].toString().toLowerCase().contains(txtBuscador.getText().toLowerCase())) {
 					model.addRow(fila);
 				}
-			}else if(cbxEquipo.getSelectedIndex()== 0 && rdbtnPosicion.isSelected()) {
-				if(fila[3].toString().equalsIgnoreCase(cbxPosicion.getSelectedItem().toString())) {
+				else if(cbxEquipo.getSelectedIndex()>0 && fila[1].toString().toLowerCase().contains(txtBuscador.getText().toLowerCase()) && cbxEquipo.getSelectedItem().toString().equalsIgnoreCase(actual.getEquipo().getNombre())) {
+					model.addRow(fila);
+				}
+			}else if( rdbtnPosicion.isSelected()) {
+				if(cbxEquipo.getSelectedIndex()== 0 && fila[3].toString().equalsIgnoreCase(cbxPosicion.getSelectedItem().toString())) {
+					model.addRow(fila);
+				}
+				else if( cbxEquipo.getSelectedIndex()> 0 && fila[3].toString().equalsIgnoreCase(cbxPosicion.getSelectedItem().toString()) && cbxEquipo.getSelectedItem().toString().equalsIgnoreCase(actual.getEquipo().getNombre())) {
+					model.addRow(fila);
+				}
+			}else if(rdbtnNacionalidad.isSelected()) {
+				if(cbxEquipo.getSelectedIndex() == 0 && fila[2].toString().toLowerCase().contains(txtBuscador.getText().toLowerCase())) {
+					model.addRow(fila);
+				}else if(cbxEquipo.getSelectedIndex()>0 && txtBuscador.getText().toLowerCase().contains(fila[2].toString().toLowerCase())) {
 					model.addRow(fila);
 				}
 			}
