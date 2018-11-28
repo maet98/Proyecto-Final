@@ -59,4 +59,12 @@ public class Liga implements Serializable{
 		return null;
 	}
 	
+	public Jugador buscarJugador(String nombre) {
+		for(Jugador jugador: jugadores) {
+			if(jugador.getNombre().equalsIgnoreCase(nombre)) {
+				return jugador;
+			}
+		}
+		return null;
+	}
 }
