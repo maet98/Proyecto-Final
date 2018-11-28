@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class Partido implements Serializable{
 	private static final long serialVersionUID = 1L;
-
 	private boolean jugado;
 	private String id;
 	private Date fecha;
@@ -13,14 +12,14 @@ public class Partido implements Serializable{
 	private Equipo visitante;
 	private Marcador marcador;
 	
-	public Partido(String id, Date fecha, Equipo local, Equipo visitante, Marcador marcador) {
+	public Partido(String id, Date fecha, Equipo local, Equipo visitante) {
 		super();
 		this.jugado = false;
 		this.id = id;
 		this.fecha = fecha;
 		this.local = local;
 		this.visitante = visitante;
-		this.marcador = marcador;
+		marcador = null;
 	}
 	
 	
@@ -60,6 +59,11 @@ public class Partido implements Serializable{
 	public void setMarcador(Marcador marcador) {
 		this.marcador = marcador;
 	}
-	
+	public void JugarPartido(Marcador marcador ) {
+		if(jugado == false) {
+			jugado = true;
+			this.marcador= marcador;
+		}
+	}
 
 }

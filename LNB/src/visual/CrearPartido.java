@@ -15,8 +15,13 @@ import com.toedter.calendar.JDateChooser;
 
 import logico.Equipo;
 import logico.Liga;
+import logico.Partido;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class CrearPartido extends JDialog {
 
@@ -25,12 +30,14 @@ public class CrearPartido extends JDialog {
 	private String EquipoVisitante = "";
 	private DefaultListModel<String> modelLocal;
 	private DefaultListModel<String> modelVisitante;
-	private JList ListLocal;
-	private JList ListVisitante;
+	private JList<String> ListLocal;
+	private JList<String> ListVisitante;
+	private JDateChooser dateChooser;
+	private JButton btnCrear;
 	
 	public CrearPartido() {
 		setTitle("Crear Partido");
-		setBounds(100, 100, 594, 484);
+		setBounds(100, 100, 594, 346);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -51,10 +58,14 @@ public class CrearPartido extends JDialog {
 			modelLocal = new DefaultListModel<String>();
 			modelVisitante = new DefaultListModel<String>();
 			
-			ListLocal = new JList();
+			ListLocal = new JList<String>();
 			ListLocal.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent arg0) {
 					EquipoLocal = ListLocal.getSelectedValue().toString();
+					EquipoLocal = EquipoLocal.substring(3, EquipoLocal.length());
+					if(ListLocal.getSelectedIndex()>=0 && ListVisitante.getSelectedIndex()>=0) {
+						btnCrear.setEnabled(true);
+					}
 					loadVisitante();
 				}
 			});
@@ -63,10 +74,14 @@ public class CrearPartido extends JDialog {
 			ListLocal.setBounds(12, 51, 195, 151);
 			panel.add(ListLocal);
 			
-			ListVisitante = new JList();
+			ListVisitante = new JList<String>();
 			ListVisitante.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					EquipoVisitante = ListVisitante.getSelectedValue().toString();
+					EquipoVisitante = EquipoVisitante.substring(3, EquipoVisitante.length());
+					if(ListLocal.getSelectedIndex()>=0 && ListVisitante.getSelectedIndex()>=0) {
+						btnCrear.setEnabled(true);
+					}
 					loadLocal();
 				}
 			});
@@ -79,8 +94,9 @@ public class CrearPartido extends JDialog {
 			lblFechaDelPartido.setBounds(12, 213, 114, 16);
 			panel.add(lblFechaDelPartido);
 			
-			JDateChooser dateChooser = new JDateChooser();
-			dateChooser.setBounds(112, 213, 95, 20);
+			dateChooser = new JDateChooser();
+			dateChooser.setDate(new Date());
+			dateChooser.setBounds(125, 215, 114, 20);
 			panel.add(dateChooser);
 		}
 		{
@@ -88,13 +104,28 @@ public class CrearPartido extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnCrear = new JButton("Crear");
+				btnCrear = new JButton("Crear");
+				btnCrear.setEnabled(false);
+				btnCrear.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(), Liga.getInstance().buscarEquipo(EquipoLocal), Liga.getInstance().buscarEquipo(EquipoVisitante));
+						Liga.getInstance().addPartido(nuevo);
+						limpiar();
+					}
+
+					
+				});
 				btnCrear.setActionCommand("OK");
 				buttonPane.add(btnCrear);
 				getRootPane().setDefaultButton(btnCrear);
 			}
 			{
 				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				btnCancelar.setActionCommand("Cancel");
 				buttonPane.add(btnCancelar);
 			}
@@ -102,24 +133,38 @@ public class CrearPartido extends JDialog {
 		loadLocal();
 		loadVisitante();
 	}
-	void loadLocal() {
+	private void loadLocal() {
 		int i = 1;
 		modelLocal.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
 			if(!EquipoVisitante.equalsIgnoreCase(actual.getNombre())) {
 				modelLocal.addElement(i+": "+actual.getNombre());
+				if(EquipoLocal.equalsIgnoreCase(actual.getNombre())) {
+					ListLocal.setSelectedIndex(i-1);
+				}
 				i++;
 			}
 		}
 	}
-	void loadVisitante() {
+	private void loadVisitante() {
 		int i = 1;
 		modelVisitante.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			if(!EquipoVisitante.equalsIgnoreCase(actual.getNombre())) {
+			if(!EquipoLocal.equalsIgnoreCase(actual.getNombre())) {
 				modelVisitante.addElement(i+": "+actual.getNombre());
+				if(EquipoVisitante.equalsIgnoreCase(actual.getNombre())) {
+					ListVisitante.setSelectedIndex(i-1);
+				}
 				i++;
 			}
 		}
+	}
+	private void limpiar() {
+		dateChooser.setDate(new Date());
+		EquipoLocal = "";
+		EquipoVisitante = "";
+		loadLocal();
+		loadVisitante();
+		btnCrear.setEnabled(false);
 	}
 }

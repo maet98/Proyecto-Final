@@ -168,6 +168,13 @@ public class Principal {
 		mnPartidos.add(mntmCrearPartido);
 		
 		JMenuItem mntmVerCalendario = new JMenuItem("Ver Calendario");
+		mntmVerCalendario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Calendario nuevo = new Calendario();
+				nuevo.setModal(true);
+				nuevo.setVisible(true);
+			}
+		});
 		mnPartidos.add(mntmVerCalendario);
 		
 		JMenuItem mntmJugarPartido = new JMenuItem("Jugar Partido");

@@ -10,6 +10,7 @@ public class Liga implements Serializable{
 	private ArrayList <Equipo> equipos;
 	private ArrayList <Jugador> jugadores;
 	private ArrayList <Partido> partidos;
+	private int idsPartidos;
 	private static Liga liga;
 	
 	private Liga() {
@@ -17,6 +18,7 @@ public class Liga implements Serializable{
 		equipos = new ArrayList<>();
 		jugadores = new ArrayList<>();
 		partidos = new ArrayList<>();
+		setIdsPartidos(0);
 	}
 	
 	public static Liga getInstance() {
@@ -48,6 +50,7 @@ public class Liga implements Serializable{
 	}
 	public void addPartido(Partido partido) {
 		this.partidos.add(partido);
+		idsPartidos++;
 	}
 	
 	public Equipo buscarEquipo(String nombre) {
@@ -66,5 +69,13 @@ public class Liga implements Serializable{
 			}
 		}
 		return null;
+	}
+
+	public int getIdsPartidos() {
+		return idsPartidos;
+	}
+
+	public void setIdsPartidos(int idsPartidos) {
+		this.idsPartidos = idsPartidos;
 	}
 }

@@ -2,6 +2,8 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,6 +16,11 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import logico.Desempenno;
+import logico.Equipo;
+import logico.Jugador;
+
 import javax.swing.ListSelectionModel;
 
 public class ControladorPartidos extends JDialog {
@@ -22,11 +29,19 @@ public class ControladorPartidos extends JDialog {
 	private JTextField txtMarcador;
 	private JTable tablaLocal;
 	private JTable Tablavisitante;
-	private String[] columnNames = {"Nombre","Tiros Libres","Tiros de Dos","Tiros de Tres"};
+	private DefaultTableModel modelLocal;
+	private DefaultTableModel modelVisitante;
+	private String[] columnNames = {"Numero","Nombre","Tiros Libres","Tiros de Dos","Tiros de Tres"};
+	private Equipo Local;
+	private Equipo Visitante;
+	private ArrayList<Desempenno> DesLocal;
+	private ArrayList<Desempenno> DesVisitante;
 	
-	public ControladorPartidos() {
+	public ControladorPartidos(Equipo Local, Equipo Visitante) {
 		setTitle("Controlador Partido");
 		setBounds(100, 100, 951, 581);
+		this.Local = Local;
+		this.Visitante = Visitante;
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -49,6 +64,10 @@ public class ControladorPartidos extends JDialog {
 			panel.add(txtMarcador);
 			txtMarcador.setColumns(10);
 			
+			modelLocal = new DefaultTableModel();
+			modelVisitante = new DefaultTableModel();
+			DesLocal = new ArrayList<>();
+			DesVisitante = new ArrayList<>();
 			JLabel lblEquipoLocal = new JLabel("Equipo Local");
 			lblEquipoLocal.setBounds(160, 13, 84, 16);
 			panel.add(lblEquipoLocal);
@@ -63,7 +82,6 @@ public class ControladorPartidos extends JDialog {
 			
 			tablaLocal = new JTable();
 			tablaLocal.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			DefaultTableModel modelLocal = new DefaultTableModel();
 			modelLocal.setColumnIdentifiers(columnNames);
 			tablaLocal.setModel(modelLocal);
 			scrollPaneLocal.setViewportView(tablaLocal);
@@ -74,9 +92,8 @@ public class ControladorPartidos extends JDialog {
 			
 			Tablavisitante = new JTable();
 			Tablavisitante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			DefaultTableModel modelVisitantes = new DefaultTableModel();
-			modelVisitantes.setColumnIdentifiers(columnNames);
-			Tablavisitante.setModel(modelVisitantes);
+			modelVisitante.setColumnIdentifiers(columnNames);
+			Tablavisitante.setModel(modelVisitante);
 			scrollPaneVisitante.setViewportView(Tablavisitante);
 		}
 		{
@@ -89,6 +106,32 @@ public class ControladorPartidos extends JDialog {
 				buttonPane.add(btnTerminar);
 				getRootPane().setDefaultButton(btnTerminar);
 			}
+		}
+		loadLocal();
+		loadVisitante();
+	}
+	private void loadLocal() {
+		Object[] fila = new Object[modelLocal.getColumnCount()];
+		modelLocal.setRowCount(0);
+		for (Jugador actual : Local.getJugadores()) {
+			fila[0] = actual.getNumero();
+			fila[1] = actual.getNombre();
+			fila[2] = 0;
+			fila[3] = 0;
+			fila[4] = 0;
+			modelLocal.addRow(fila);
+		}
+	}
+	private void loadVisitante() {
+		Object[] fila = new Object[modelVisitante.getColumnCount()];
+		modelVisitante.setRowCount(0);
+		for (Jugador actual : Visitante.getJugadores()) {
+			fila[0] = actual.getNumero();
+			fila[1] = actual.getNombre();
+			fila[2] = 0;
+			fila[3] = 0;
+			fila[4] = 0;
+			modelVisitante.addRow(fila);
 		}
 	}
 }
