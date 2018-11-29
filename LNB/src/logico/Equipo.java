@@ -14,6 +14,10 @@ public class Equipo implements Serializable{
 	private String estadio;
 	private String ciudad;
 	private ImageIcon logo;
+	private int partidosJugados;
+	private int partidosGanados;
+	private int partidosPerdidos;
+	
 	public Equipo( String entrenador, String nombre, String estadio,
 			String ciudad,ImageIcon logo) {
 		super();
@@ -23,6 +27,9 @@ public class Equipo implements Serializable{
 		this.estadio = estadio;
 		this.ciudad = ciudad;
 		this.logo = logo;
+		partidosJugados = 0;
+		partidosGanados = 0;
+		partidosPerdidos = 0;
 	}
 	public ArrayList<Jugador> getJugadores() {
 		return jugadores;
@@ -67,6 +74,24 @@ public class Equipo implements Serializable{
 			i++;
 		}
 		return ocupado; 
+	}
+	public int getPartidosJugados() {
+		return partidosJugados;
+	}
+	public void setPartidosJugados(int partidosJugados) {
+		this.partidosJugados = partidosJugados;
+	}
+	public int getPartidosGanados() {
+		return partidosGanados;
+	}
+	public void setPartidosGanados(int partidosGanados) {
+		this.partidosGanados = partidosGanados;
+	}
+	public int getPartidosPerdidos() {
+		return partidosPerdidos;
+	}
+	public void setPartidosPerdidos(int partidosPerdidos) {
+		this.partidosPerdidos = partidosPerdidos;
 	}
 	
 	
