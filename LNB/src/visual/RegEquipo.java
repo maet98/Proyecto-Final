@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
@@ -49,7 +50,7 @@ public class RegEquipo extends JDialog {
 		logoEquipo = new ImageIcon(RegEquipo.class.getResource("/imagenes/equipo1.png"));
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
-		setBounds(100, 100, 562, 350);
+		setBounds(100, 100, 603, 354);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -61,7 +62,7 @@ public class RegEquipo extends JDialog {
 			
 			JPanel pnlEquipo = new JPanel();
 			pnlEquipo.setBorder(new TitledBorder(null, "Informaci\u00F3n del Equipo:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlEquipo.setBounds(0, 0, 536, 268);
+			pnlEquipo.setBounds(0, 0, 637, 268);
 			panel.add(pnlEquipo);
 			pnlEquipo.setLayout(null);
 			
@@ -132,8 +133,8 @@ public class RegEquipo extends JDialog {
 			txtEstadio.setColumns(10);
 			{
 				lblLogo = new JLabel("");
-				lblLogo.setIcon(new ImageIcon(RegEquipo.class.getResource("/imagenes/equipo1.png")));
-				lblLogo.setBounds(306, 11, 220, 167);
+				lblLogo.setIcon(logoEquipo);
+				lblLogo.setBounds(306, 11, 246, 167);
 				pnlEquipo.add(lblLogo);
 			}
 			
@@ -146,12 +147,11 @@ public class RegEquipo extends JDialog {
 					int selectedFile = nuevo.showOpenDialog(null);
 					if(selectedFile == JFileChooser.APPROVE_OPTION) {
 						File file = nuevo.getSelectedFile();
-						logoEquipo = new ImageIcon(file.getPath());
-						lblLogo.setIcon(logoEquipo);
+						lblLogo.setIcon(ResizeImage(file.getPath()));
 					}
 				}
 			});
-			btnIngresarLogo.setBounds(334, 192, 132, 23);
+			btnIngresarLogo.setBounds(380, 191, 132, 23);
 			pnlEquipo.add(btnIngresarLogo);
 			
 		}
@@ -211,6 +211,7 @@ public class RegEquipo extends JDialog {
 		}
 	}
 	
+
 	public ImageIcon ResizeImage(String path)
     {
         ImageIcon MyImage = new ImageIcon(path);
