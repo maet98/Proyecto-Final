@@ -2,6 +2,7 @@ package logico;
 
 import java.awt.Image;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -17,9 +18,11 @@ public class Jugador implements Serializable{
 	private int numero;
 	private float altura;
 	private ImageIcon fotoJugador;
-	
+	private boolean lesionado;
+	private Lesion lesion;
 	private Equipo equipo;
 	private Desempenno Desempenno;
+	
 	public Jugador(String cedula, String nombre, String apellido, String nacionalidad, String posicion, int edad,
 			int numero, Equipo equipo,float altura, ImageIcon fotoJugador) {
 		super();
@@ -33,6 +36,9 @@ public class Jugador implements Serializable{
 		this.equipo = equipo;
 		this.altura = altura;
 		this.fotoJugador = fotoJugador;
+		this.lesion = null;
+		lesionado = false;
+		
 		Desempenno = new Desempenno(this);
 	}
 	public float getAltura() {
@@ -98,5 +104,18 @@ public class Jugador implements Serializable{
 	public void setFotoJugador(ImageIcon fotoJugador) {
 		this.fotoJugador = fotoJugador;
 	}
+	public boolean isLesionado() {
+		return lesionado;
+	}
+	public void setLesionado(boolean lesionado) {
+		this.lesionado = lesionado;
+	}
+	public Lesion getLesion() {
+		return lesion;
+	}
+	public void setLesion(Lesion lesion) {
+		this.lesion = lesion;
+	}
+	
 	
 }

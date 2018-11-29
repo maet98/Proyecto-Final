@@ -103,6 +103,8 @@ public class RegLesion extends JDialog {
 						
 						Jugador jugador = Liga.getInstance().buscarJugador(jug);
 						Lesion lesion = new Lesion(tipo, jugador, inicio, fin);
+						jugador.setLesion(lesion);
+						jugador.setLesionado(true);
 						JOptionPane.showMessageDialog(null,"Operación Satisfactoria","Información",JOptionPane.INFORMATION_MESSAGE);
 						clean();
 						
