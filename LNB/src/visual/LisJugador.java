@@ -195,6 +195,7 @@ public class LisJugador extends JDialog {
 		}
 		loadEquipos();
 		loadJugador();
+		table.getColumnModel().getColumn(0).setCellRenderer(new CellRenderer());
 	}
 	
 	void loadEquipos() {
