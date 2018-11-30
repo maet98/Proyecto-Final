@@ -107,7 +107,6 @@ public class RegLesion extends JDialog {
 						jugador.setLesionado(true);
 						JOptionPane.showMessageDialog(null,"Operación Satisfactoria","Información",JOptionPane.INFORMATION_MESSAGE);
 						clean();
-						
 					}
 				});
 				btnRegistrar.setActionCommand("OK");

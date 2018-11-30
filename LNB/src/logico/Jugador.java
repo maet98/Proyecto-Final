@@ -38,7 +38,6 @@ public class Jugador implements Serializable{
 		this.fotoJugador = fotoJugador;
 		this.lesion = null;
 		lesionado = false;
-		
 		Desempenno = new Desempenno(this);
 	}
 	public float getAltura() {
