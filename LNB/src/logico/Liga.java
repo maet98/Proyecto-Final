@@ -70,6 +70,15 @@ public class Liga implements Serializable{
 		}
 		return null;
 	}
+	
+	public Jugador buscarJugadorId(String cedula) {
+		for(Jugador jugador: jugadores) {
+			if(jugador.getCedula().equalsIgnoreCase(cedula)) {
+				return jugador;
+			}
+		}
+		return null;
+	}
 
 	public int getIdsPartidos() {
 		return idsPartidos;
