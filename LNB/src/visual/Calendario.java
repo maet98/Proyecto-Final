@@ -123,7 +123,8 @@ public class Calendario extends JDialog {
 					public void actionPerformed(ActionEvent e) {
 						Equipo local = Liga.getInstance().buscarEquipo(table.getValueAt(selectedIndex, 0).toString());
 						Equipo visitante = Liga.getInstance().buscarEquipo(table.getValueAt(selectedIndex, 1).toString());
-						ControladorPartidos jugar = new ControladorPartidos(local,visitante);
+						String ac = local.getNombre()+" vs "+visitante.getNombre();
+						ControladorPartidos jugar = new ControladorPartidos(Liga.getInstance().BuscarPartido(ac));
 						jugar.setModal(true);
 						jugar.setVisible(true);
 					}

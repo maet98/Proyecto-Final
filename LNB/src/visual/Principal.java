@@ -24,12 +24,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+
 import javax.swing.JTabbedPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JButton;
 
 public class Principal {
 	private JFrame frmLigaDeBaloncesto;
@@ -43,6 +47,7 @@ public class Principal {
 				try {
 					Principal window = new Principal();
 					window.frmLigaDeBaloncesto.setVisible(true);
+					window.frmLigaDeBaloncesto.setLocationRelativeTo(null);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -78,8 +83,9 @@ public class Principal {
 				
 			}
 		});
+		Dimension dim = frmLigaDeBaloncesto.getToolkit().getScreenSize();
 		frmLigaDeBaloncesto.setTitle("Liga de baloncesto");
-		frmLigaDeBaloncesto.setBounds(100, 100, 1015, 536);
+		frmLigaDeBaloncesto.setBounds(100, 100, (int)dim.getWidth(), (int)dim.getHeight());
 		frmLigaDeBaloncesto.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		File archivoEntrada = new File("liga.dat");
 		if(archivoEntrada.exists()) {
@@ -183,28 +189,105 @@ public class Principal {
 		JPanel panel = new JPanel();
 		frmLigaDeBaloncesto.getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
-		JScrollPane Tiros3 = new JScrollPane();
 		JScrollPane Tiros2 = new JScrollPane();
-		JScrollPane Tiros1 = new JScrollPane();
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("Tiros de 3", Tiros3);
-		tabbedPane.addTab("Tiros de 2", Tiros2);
-		
-		TableTiros2 = new JTable();
-		Tiros2.setViewportView(TableTiros2);
+		JScrollPane Tiros1 = new JScrollPane();
 		tabbedPane.addTab("Tiros de 1", Tiros1);
 		
 		TableTiros1 = new JTable();
+		TableTiros1.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Posicion", "Nombre", "Equipo", "Tiros Anotados"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, String.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		TableTiros1.getColumnModel().getColumn(0).setResizable(false);
+		TableTiros1.getColumnModel().getColumn(0).setPreferredWidth(50);
+		TableTiros1.getColumnModel().getColumn(0).setMinWidth(50);
+		TableTiros1.getColumnModel().getColumn(0).setMaxWidth(50);
+		TableTiros1.getColumnModel().getColumn(1).setResizable(false);
+		TableTiros1.getColumnModel().getColumn(1).setPreferredWidth(90);
+		TableTiros1.getColumnModel().getColumn(2).setResizable(false);
+		TableTiros1.getColumnModel().getColumn(3).setResizable(false);
+		TableTiros1.getColumnModel().getColumn(3).setPreferredWidth(84);
+		TableTiros1.getColumnModel().getColumn(3).setMinWidth(18);
 		Tiros1.setViewportView(TableTiros1);
-		tabbedPane.setBounds(506, 30, 479, 420);
+		tabbedPane.addTab("Tiros de 2", Tiros2);
+		
+		TableTiros2 = new JTable();
+		TableTiros2.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Posicion", "Nombre", "Equipo", "Tiros Anotados"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, String.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		TableTiros2.getColumnModel().getColumn(0).setMaxWidth(48);
+		TableTiros2.getColumnModel().getColumn(3).setPreferredWidth(87);
+		Tiros2.setViewportView(TableTiros2);
+		tabbedPane.setBounds(1360, 49, 517, 594);
 		panel.add(tabbedPane);
+		JScrollPane TiroLibres = new JScrollPane();
+		tabbedPane.addTab("Tiros Libres", null, TiroLibres, null);
+		
+		tableTirosLibres = new JTable();
+		tableTirosLibres.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Posicion", "Nombre", "Equipo", "Tiros Anotados"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				Integer.class, String.class, Integer.class, Integer.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		tableTirosLibres.getColumnModel().getColumn(0).setResizable(false);
+		tableTirosLibres.getColumnModel().getColumn(0).setMaxWidth(48);
+		tableTirosLibres.getColumnModel().getColumn(1).setResizable(false);
+		tableTirosLibres.getColumnModel().getColumn(1).setPreferredWidth(112);
+		tableTirosLibres.getColumnModel().getColumn(2).setResizable(false);
+		tableTirosLibres.getColumnModel().getColumn(3).setResizable(false);
+		tableTirosLibres.getColumnModel().getColumn(3).setPreferredWidth(83);
+		TiroLibres.setViewportView(tableTirosLibres);
 		
 		JLabel lblEstadisticas = new JLabel("Estadisticas");
-		lblEstadisticas.setBounds(740, 13, 82, 16);
+		lblEstadisticas.setBounds(1567, 22, 82, 16);
 		panel.add(lblEstadisticas);
 		
 		JLabel lblProximosPartidos = new JLabel("Proximos Partidos");
-		lblProximosPartidos.setBounds(22, 13, 114, 16);
+		lblProximosPartidos.setBounds(76, 54, 114, 16);
 		panel.add(lblProximosPartidos);
+		
+		JButton btnVerMasEstadisticas = new JButton("Ver mas estadisticas");
+		btnVerMasEstadisticas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		btnVerMasEstadisticas.setBounds(1567, 674, 152, 23);
+		panel.add(btnVerMasEstadisticas);
 	}
+	public void loadEstadisticas() {
+		
+	}
+	private JTable tableTirosLibres;
 }

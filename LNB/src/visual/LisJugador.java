@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.ListSelectionModel;
 
 public class LisJugador extends JDialog {
 
@@ -46,6 +47,7 @@ public class LisJugador extends JDialog {
 	private Equipo Seleccionado;
 	private JRadioButton rdbtnNombre;
 	private JButton btnDesempeo;
+	private JButton btnLesion;
 
 	public LisJugador() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/basketball.png")));
@@ -83,8 +85,10 @@ public class LisJugador extends JDialog {
 		model = new DefaultTableModel();
 		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posición","Edad","Dorsal","Equipo","Altura"};
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		model.setColumnIdentifiers(columnNames);
 		table.setModel(model);
+		table.setDefaultRenderer(Object.class, new CellRenderer());
 		scrollPane.setViewportView(table);
 		
 		lblFotoequipo = new JLabel("");
@@ -178,6 +182,16 @@ public class LisJugador extends JDialog {
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			
+			btnLesion = new JButton("Lesion");
+			btnLesion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					RegLesion nuevo =new RegLesion();
+					nuevo.setModal(true);
+					nuevo.setVisible(true);
+				}
+			});
+			buttonPane.add(btnLesion);
 			
 			btnDesempeo = new JButton("Desempe\u00F1o");
 			buttonPane.add(btnDesempeo);

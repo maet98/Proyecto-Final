@@ -24,6 +24,8 @@ import javax.swing.table.DefaultTableModel;
 import logico.Desempenno;
 import logico.Equipo;
 import logico.Jugador;
+import logico.Marcador;
+import logico.Partido;
 
 import javax.swing.ListSelectionModel;
 import java.awt.event.KeyAdapter;
@@ -32,6 +34,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import java.awt.Font;
 
 public class ControladorPartidos extends JDialog {
 
@@ -41,17 +48,19 @@ public class ControladorPartidos extends JDialog {
 	private JTable Tablavisitante;
 	private DefaultTableModel modelLocal;
 	private DefaultTableModel modelVisitante;
-	private String[] columnNames = {"Numero","Nombre","Tiros Libres","Tiros de Dos","Tiros de Tres"};
 	private Equipo Local;
 	private Equipo Visitante;
 	private int TanteoLocal;
 	private int TanteoVisitante;
+	private Partido partidoActual;
 	
-	public ControladorPartidos(Equipo Local, Equipo Visitante) {
+	public ControladorPartidos(Partido partido) {
+		partidoActual = partido;
+		setLocationRelativeTo(null);
 		setTitle("Controlador Partido");
 		setBounds(100, 100, 951, 581);
-		this.Local = Local;
-		this.Visitante = Visitante;
+		this.Local = partido.getLocal();
+		this.Visitante = partido.getVisitante();
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -73,9 +82,7 @@ public class ControladorPartidos extends JDialog {
 			txtMarcador.setBounds(398, 457, 131, 22);
 			panel.add(txtMarcador);
 			txtMarcador.setColumns(10);
-			
-			modelLocal = new DefaultTableModel();
-			modelVisitante = new DefaultTableModel();
+
 			JLabel lblEquipoLocal = new JLabel("Equipo Local");
 			lblEquipoLocal.setBounds(160, 13, 84, 16);
 			panel.add(lblEquipoLocal);
@@ -89,11 +96,23 @@ public class ControladorPartidos extends JDialog {
 			panel.add(scrollPaneLocal);
 			
 			tablaLocal = new JTable();
+			tablaLocal.addFocusListener(new FocusAdapter() {
+				public void focusGained(FocusEvent e) {
+					if(!e.isTemporary()) {
+						TanteoLocal = calcLocal();
+						cambiarMarcardor();
+					}
+					
+				}
+				public void focusLost(FocusEvent arg0) {
+					TanteoLocal = calcLocal();
+					cambiarMarcardor();
+				}
+			});
 			tablaLocal.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent event) {
 					int selectedIndex = tablaLocal.getSelectedRow();
 					if(selectedIndex>=0) {
-						System.out.println(event.getClickCount());
 						TanteoLocal = calcLocal();
 						cambiarMarcardor();
 					}
@@ -101,19 +120,26 @@ public class ControladorPartidos extends JDialog {
 			});
 			tablaLocal.addKeyListener(new KeyAdapter() {
 				public void keyPressed(KeyEvent event) {
-					if(Character.isDigit(event.getKeyChar())){
-						TanteoLocal = calcLocal();
-						System.out.println(TanteoLocal+" "+TanteoVisitante);
-						cambiarMarcardor();
-					}
-					else {
-						event.consume();
-					}
+					TanteoLocal = calcLocal();
+					cambiarMarcardor();
 				}
 			});
 			tablaLocal.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			modelLocal.setColumnIdentifiers(columnNames);
-			tablaLocal.setModel(modelLocal);
+			tablaLocal.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Numero", "Nombre", "Tiros Libres", "Tiros de 2", "Tiros de 3"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					Integer.class, String.class, Integer.class, Integer.class, Integer.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
+			});
+			modelLocal = (DefaultTableModel) tablaLocal.getModel();
 			scrollPaneLocal.setViewportView(tablaLocal);
 			
 			JScrollPane scrollPaneVisitante = new JScrollPane();
@@ -121,6 +147,27 @@ public class ControladorPartidos extends JDialog {
 			panel.add(scrollPaneVisitante);
 			
 			Tablavisitante = new JTable();
+			Tablavisitante.addFocusListener(new FocusAdapter() {
+				public void focusGained(FocusEvent e) {
+					TanteoVisitante = calcVisitante();
+					cambiarMarcardor();
+				}
+				public void focusLost(FocusEvent e) {
+					TanteoVisitante = calcVisitante();
+					cambiarMarcardor();
+				}
+			});
+			Tablavisitante.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent arg0) {
+					TanteoVisitante = calcVisitante();
+					cambiarMarcardor();
+				}
+			});
+			Tablavisitante.setSurrendersFocusOnKeystroke(true);
+			Tablavisitante.setFont(new Font("Times New Roman", Font.PLAIN, 12));
+			Tablavisitante.setColumnSelectionAllowed(true);
+			Tablavisitante.setCellSelectionEnabled(true);
+			Tablavisitante.setBorder(new SoftBevelBorder(BevelBorder.RAISED, null, null, null, null));
 			Tablavisitante.addKeyListener(new KeyAdapter() {
 				public void keyTyped(KeyEvent e) {
 					if(Character.isDigit(e.getKeyChar())){
@@ -133,28 +180,22 @@ public class ControladorPartidos extends JDialog {
 				}
 			});
 			Tablavisitante.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			modelVisitante.setColumnIdentifiers(columnNames);
-			Tablavisitante.setModel(modelVisitante);
-			scrollPaneVisitante.setViewportView(Tablavisitante);
-			
-			JButton btnInsertarTiros = new JButton("Insertar Tiros");
-			btnInsertarTiros.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					int selectedRow = tablaLocal.getSelectedRow();
-					if(selectedRow>=0) {
-						int tirosLibres = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la cantidad de tiros libres", "Tiros libres", JOptionPane.INFORMATION_MESSAGE));
-						int tiroDe2 = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la cantidad de tiros de 2", "Tiros de 2", JOptionPane.INFORMATION_MESSAGE));
-						int tiroDe3 = Integer.parseInt(JOptionPane.showInputDialog(null, "Ingrese la cantidad de tiros de 3", "Tiros de 3", JOptionPane.INFORMATION_MESSAGE));
-						modelLocal.setValueAt(tirosLibres, selectedRow, 2);
-						modelLocal.setValueAt(tiroDe2, selectedRow, 3);
-						modelLocal.setValueAt(tiroDe3, selectedRow, 4);
-						TanteoLocal = calcLocal();
-						cambiarMarcardor();
-					}
+			Tablavisitante.setModel(new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Numero", "Nombre", "Tiros Libres", "Tiros de 2", "Tiros de 3"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					Integer.class, String.class, Integer.class, Integer.class, Integer.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
 				}
 			});
-			btnInsertarTiros.setBounds(147, 426, 120, 25);
-			panel.add(btnInsertarTiros);
+			modelVisitante = (DefaultTableModel) Tablavisitante.getModel();
+			scrollPaneVisitante.setViewportView(Tablavisitante);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -162,6 +203,18 @@ public class ControladorPartidos extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnTerminar = new JButton("Finalizar Partido");
+				btnTerminar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						if(TanteoLocal!=TanteoVisitante) {
+							ingresarValores();
+							JOptionPane.showMessageDialog(null, "El marcador final ha sido "+txtMarcador.getText()+". El equipo ganador fue "+ganador(), "Partido finalizado", JOptionPane.INFORMATION_MESSAGE);
+							partidoActual.setMarcador(new Marcador(TanteoLocal, TanteoVisitante));
+							partidoActual.setJugado(true);
+						}else {
+							JOptionPane.showMessageDialog(null, "El partido no puede quedar empate", "Informacion", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+				});
 				btnTerminar.setActionCommand("OK");
 				buttonPane.add(btnTerminar);
 				getRootPane().setDefaultButton(btnTerminar);
@@ -172,6 +225,33 @@ public class ControladorPartidos extends JDialog {
 		calcLocal();
 		calcVisitante();
 		cambiarMarcardor();
+	}
+	protected String ganador() {
+		if(TanteoLocal>TanteoVisitante) {
+			return Local.getNombre();
+		}else if(TanteoVisitante > TanteoLocal) {
+			return Visitante.getNombre();
+		}
+		return null;
+	}
+	private void ingresarValores() {
+		int i = 0;
+		for (Jugador jugador : Local.getJugadores()) {
+			if(!jugador.isLesionado()) {
+				int tirosLibres,tiro2,tiro3;
+				tirosLibres = Integer.parseInt(tablaLocal.getValueAt(i, 2).toString());
+				tiro2 = Integer.parseInt(tablaLocal.getValueAt(i, 3).toString());
+				tiro3 = Integer.parseInt(tablaLocal.getValueAt(i, 4).toString());
+				if(tirosLibres>=0 || tiro2 >= 0 || tiro3>=0) {
+					jugador.getDesempenno().setTirosLibres(tirosLibres);
+					jugador.getDesempenno().setTirosDeDos(tiro2);
+					jugador.getDesempenno().setTirosDeTres(tiro3);
+					jugador.getDesempenno().aumentarPartidosJugados();
+				}
+				i++;
+			}			
+		}
+		
 	}
 	private int calcLocal() {
 		int t = 0;
@@ -204,7 +284,9 @@ public class ControladorPartidos extends JDialog {
 			fila[2] = 0;
 			fila[3] = 0;
 			fila[4] = 0;
-			modelLocal.addRow(fila);
+			if(!actual.isLesionado()) {
+				modelLocal.addRow(fila);
+			}
 		}
 	}
 	private void loadVisitante() {
@@ -216,7 +298,9 @@ public class ControladorPartidos extends JDialog {
 			fila[2] = 0;
 			fila[3] = 0;
 			fila[4] = 0;
-			modelVisitante.addRow(fila);
+			if(!actual.isLesionado()) {
+				modelVisitante.addRow(fila);
+			}
 		}
 	}
 }

@@ -36,11 +36,12 @@ public class LisEquipo extends JDialog {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisEquipo.class.getResource("/imagenes/basketball.png")));
 		setTitle("Listar Equipos");
 		setBounds(100, 100, 580, 377);
-		getContentPane().setLayout(new BorderLayout());
+		getContentPane().setLayout(null);
 		{
 			JPanel buttonPane = new JPanel();
+			buttonPane.setBounds(0, 305, 564, 33);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
+			getContentPane().add(buttonPane);
 			{
 				btnModificar = new JButton("Modificar");
 				btnModificar.addActionListener(new ActionListener() {
@@ -69,7 +70,8 @@ public class LisEquipo extends JDialog {
 		}
 		
 		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setBounds(0, 0, 564, 305);
+		getContentPane().add(scrollPane);
 		
 		table = new JTable();
 		table.addMouseListener(new MouseAdapter() {

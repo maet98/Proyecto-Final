@@ -87,4 +87,13 @@ public class Liga implements Serializable{
 	public void setIdsPartidos(int idsPartidos) {
 		this.idsPartidos = idsPartidos;
 	}
+	public Partido BuscarPartido(String partido) {
+		for (Partido partidoA : partidos) {
+			String ac = partidoA.getLocal().getNombre()+" vs "+partidoA.getVisitante().getNombre();
+			if(ac.equalsIgnoreCase(partido)) {
+				return partidoA;
+			}
+		}
+		return null;
+	}
 }
