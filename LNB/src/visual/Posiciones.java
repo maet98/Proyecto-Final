@@ -15,6 +15,7 @@ import logico.Liga;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 public class Posiciones extends JDialog {
 
@@ -45,14 +46,20 @@ public class Posiciones extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
+		{
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setBounds(6, 6, 588, 427);
+			contentPanel.add(scrollPane);
+			{
+				table = new JTable();
+				scrollPane.setViewportView(table);
+				String[] columnNames = {"Posicion","Equipo","Partidos Jugados","Ganados","Perdidos"};
+				model = new DefaultTableModel();
+				model.setColumnIdentifiers(columnNames);
+				table.setModel(model);
+			}
+		}
 		
-		table = new JTable();
-		table.setBounds(17, 434, 577, -404);
-		contentPanel.add(table);
-		String[] columnNames = {"Equipo","Partidos Jugados","Ganados","Perdidos"};
-		model = new DefaultTableModel();
-		model.setColumnIdentifiers(columnNames);
-		table.setModel(model);
 		loadEquipos();
 		{
 			JPanel buttonPane = new JPanel();
@@ -74,12 +81,15 @@ public class Posiciones extends JDialog {
 	public void loadEquipos(){
 		Object[] fila = new Object[model.getColumnCount()];
 		model.setRowCount(0);
+		int i =1;
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			fila[0] = actual.getNombre();
-			fila[1] = actual.getPartidosJugados();
-			fila[2] = actual.getPartidosGanados();
+			fila[0] = i;
+			fila[1] = actual.getNombre();
+			fila[2] = actual.getPartidosJugados();
 			fila[3] = actual.getPartidosGanados();
+			fila[4] = actual.getPartidosGanados();
 			model.addRow(fila);
+			i++;
 		}
 		
 	}
