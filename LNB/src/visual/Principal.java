@@ -160,6 +160,16 @@ public class Principal {
 		});
 		mnEquipos.add(mntmListarEquipos);
 		
+		JMenuItem mntmPosiciones = new JMenuItem("Posiciones");
+		mntmPosiciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Posiciones posiciones = new Posiciones();
+				posiciones.setModal(true);
+				posiciones.setVisible(true);
+			}
+		});
+		mnEquipos.add(mntmPosiciones);
+		
 		JMenu mnPartidos = new JMenu("Partidos");
 		menuBar.add(mnPartidos);
 		
