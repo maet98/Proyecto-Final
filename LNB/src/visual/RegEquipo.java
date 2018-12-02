@@ -50,7 +50,7 @@ public class RegEquipo extends JDialog {
 		logoEquipo = new ImageIcon(RegEquipo.class.getResource("/imagenes/equipo1.png"));
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
-		setBounds(100, 100, 603, 354);
+		setBounds(100, 100, 500, 354);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -62,7 +62,7 @@ public class RegEquipo extends JDialog {
 			
 			JPanel pnlEquipo = new JPanel();
 			pnlEquipo.setBorder(new TitledBorder(null, "Informaci\u00F3n del Equipo:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlEquipo.setBounds(0, 0, 637, 268);
+			pnlEquipo.setBounds(0, 0, 587, 268);
 			panel.add(pnlEquipo);
 			pnlEquipo.setLayout(null);
 			
@@ -133,8 +133,9 @@ public class RegEquipo extends JDialog {
 			txtEstadio.setColumns(10);
 			{
 				lblLogo = new JLabel("");
-				lblLogo.setIcon(logoEquipo);
-				lblLogo.setBounds(306, 11, 246, 167);
+				ImageIcon icono = new ImageIcon(new ImageIcon((RegEquipo.class.getResource("/imagenes/team logo.png"))).getImage().getScaledInstance(150, 150, Image.SCALE_DEFAULT));
+				lblLogo.setIcon(icono);
+				lblLogo.setBounds(304, 11, 167, 167);
 				pnlEquipo.add(lblLogo);
 			}
 			
@@ -151,7 +152,7 @@ public class RegEquipo extends JDialog {
 					}
 				}
 			});
-			btnIngresarLogo.setBounds(380, 191, 132, 23);
+			btnIngresarLogo.setBounds(329, 190, 132, 23);
 			pnlEquipo.add(btnIngresarLogo);
 			
 		}
