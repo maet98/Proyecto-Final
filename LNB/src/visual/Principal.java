@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,6 +37,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class Principal {
 	private JFrame frmLigaDeBaloncesto;
@@ -303,6 +306,7 @@ public class Principal {
 		panel.add(btnVerMasEstadisticas);
 		
 		JPanel panel_1 = new JPanel();
+		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_1.setBounds(29, 88, 600, 460);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
@@ -318,6 +322,7 @@ public class Principal {
 		panel_1.add(lblVisitante);
 		
 		JPanel pnlLocal1 = new JPanel();
+		pnlLocal1.setBorder(new LineBorder(new Color(0, 0, 0)));
 		pnlLocal1.setBounds(6, 70, 588, 85);
 		panel_1.add(pnlLocal1);
 		pnlLocal1.setLayout(null);
@@ -326,19 +331,20 @@ public class Principal {
 		label.setBounds(290, 34, 8, 16);
 		pnlLocal1.add(label);
 		
-		lblLocall1 = new JLabel("New label");
+		lblLocall1 = new JLabel();
 		lblLocall1.setBounds(68, 34, 61, 16);
 		pnlLocal1.add(lblLocall1);
 		
-		lblVisitante1 = new JLabel("New label");
+		lblVisitante1 = new JLabel();
 		lblVisitante1.setBounds(415, 34, 61, 16);
 		pnlLocal1.add(lblVisitante1);
 		
-		lblfecha1 = new JLabel("New label");
-		lblfecha1.setBounds(263, 63, 61, 16);
+		lblfecha1 = new JLabel();
+		lblfecha1.setBounds(253, 63, 82, 16);
 		pnlLocal1.add(lblfecha1);
 		
 		JPanel partido2 = new JPanel();
+		partido2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		partido2.setBounds(6, 167, 588, 85);
 		panel_1.add(partido2);
 		partido2.setLayout(null);
@@ -348,6 +354,7 @@ public class Principal {
 		partido2.add(label_1);
 		
 		JPanel panel_2 = new JPanel();
+		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_2.setBounds(6, 264, 588, 85);
 		panel_1.add(panel_2);
 		panel_2.setLayout(null);
@@ -357,6 +364,7 @@ public class Principal {
 		panel_2.add(label_2);
 		
 		JPanel panel_3 = new JPanel();
+		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panel_3.setBounds(6, 361, 588, 85);
 		panel_1.add(panel_3);
 		panel_3.setLayout(null);
@@ -364,15 +372,18 @@ public class Principal {
 		JLabel label_3 = new JLabel("-");
 		label_3.setBounds(290, 34, 8, 16);
 		panel_3.add(label_3);
+		
+		loadPartidos();
 	}
 	public void loadEstadisticas() {
 		
 	}
 	
 	public void loadPartidos() {
-			lblLocall1.setText(Liga.getInstance().getPartidos().get(0).getLocal().toString());
-			lblVisitante1.setText(Liga.getInstance().getPartidos().get(0).getVisitante().toString());
-			lblfecha1.setText(Liga.getInstance().getPartidos().get(0).getFecha().toString());
+			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+			lblLocall1.setText(Liga.getInstance().getPartidos().get(0).getLocal().getNombre());
+			lblVisitante1.setText(Liga.getInstance().getPartidos().get(0).getVisitante().getNombre());
+			lblfecha1.setText(dateFormat.format(Liga.getInstance().getPartidos().get(0).getFecha()));
 			
 			
 	}
