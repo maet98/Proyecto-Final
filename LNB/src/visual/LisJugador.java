@@ -83,7 +83,7 @@ public class LisJugador extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		model = new DefaultTableModel();
-		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posición","Edad","Dorsal","Equipo","Altura"};
+		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posiciï¿½n","Edad","Dorsal","Equipo","Altura"};
 		table = new JTable();
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		model.setColumnIdentifiers(columnNames);
@@ -203,6 +203,11 @@ public class LisJugador extends JDialog {
 			}
 			{
 				JButton btnSalir = new JButton("Salir");
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
 				btnSalir.setActionCommand("Cancel");
 				buttonPane.add(btnSalir);
 			}
