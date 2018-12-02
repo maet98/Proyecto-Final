@@ -34,12 +34,17 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
+import java.awt.Font;
+import javax.swing.JTextField;
 
 public class Principal {
 	private JFrame frmLigaDeBaloncesto;
 	private JTable TableTiros1;
 	private JTable TableTiros2;
 	private ObjectOutputStream archivoSalida;
+	private JLabel lblLocall1;
+	private JLabel lblVisitante1;
+	private JLabel lblfecha1;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -284,7 +289,8 @@ public class Principal {
 		panel.add(lblEstadisticas);
 		
 		JLabel lblProximosPartidos = new JLabel("Proximos Partidos");
-		lblProximosPartidos.setBounds(76, 54, 114, 16);
+		lblProximosPartidos.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblProximosPartidos.setBounds(237, 53, 180, 16);
 		panel.add(lblProximosPartidos);
 		
 		JButton btnVerMasEstadisticas = new JButton("Ver mas estadisticas");
@@ -295,9 +301,80 @@ public class Principal {
 		});
 		btnVerMasEstadisticas.setBounds(1567, 674, 152, 23);
 		panel.add(btnVerMasEstadisticas);
+		
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(29, 88, 600, 460);
+		panel.add(panel_1);
+		panel_1.setLayout(null);
+		
+		JLabel lblLocal = new JLabel("Local");
+		lblLocal.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblLocal.setBounds(91, 42, 59, 17);
+		panel_1.add(lblLocal);
+		
+		JLabel lblVisitante = new JLabel("Visitante");
+		lblVisitante.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblVisitante.setBounds(382, 38, 116, 25);
+		panel_1.add(lblVisitante);
+		
+		JPanel pnlLocal1 = new JPanel();
+		pnlLocal1.setBounds(6, 70, 588, 85);
+		panel_1.add(pnlLocal1);
+		pnlLocal1.setLayout(null);
+		
+		JLabel label = new JLabel("-");
+		label.setBounds(290, 34, 8, 16);
+		pnlLocal1.add(label);
+		
+		lblLocall1 = new JLabel("New label");
+		lblLocall1.setBounds(68, 34, 61, 16);
+		pnlLocal1.add(lblLocall1);
+		
+		lblVisitante1 = new JLabel("New label");
+		lblVisitante1.setBounds(415, 34, 61, 16);
+		pnlLocal1.add(lblVisitante1);
+		
+		lblfecha1 = new JLabel("New label");
+		lblfecha1.setBounds(263, 63, 61, 16);
+		pnlLocal1.add(lblfecha1);
+		
+		JPanel partido2 = new JPanel();
+		partido2.setBounds(6, 167, 588, 85);
+		panel_1.add(partido2);
+		partido2.setLayout(null);
+		
+		JLabel label_1 = new JLabel("-");
+		label_1.setBounds(290, 34, 8, 16);
+		partido2.add(label_1);
+		
+		JPanel panel_2 = new JPanel();
+		panel_2.setBounds(6, 264, 588, 85);
+		panel_1.add(panel_2);
+		panel_2.setLayout(null);
+		
+		JLabel label_2 = new JLabel("-");
+		label_2.setBounds(290, 34, 8, 16);
+		panel_2.add(label_2);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(6, 361, 588, 85);
+		panel_1.add(panel_3);
+		panel_3.setLayout(null);
+		
+		JLabel label_3 = new JLabel("-");
+		label_3.setBounds(290, 34, 8, 16);
+		panel_3.add(label_3);
 	}
 	public void loadEstadisticas() {
 		
+	}
+	
+	public void loadPartidos() {
+			lblLocall1.setText(Liga.getInstance().getPartidos().get(0).getLocal().toString());
+			lblVisitante1.setText(Liga.getInstance().getPartidos().get(0).getVisitante().toString());
+			lblfecha1.setText(Liga.getInstance().getPartidos().get(0).getFecha().toString());
+			
+			
 	}
 	private JTable tableTirosLibres;
 }
