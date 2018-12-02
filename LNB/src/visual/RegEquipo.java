@@ -44,6 +44,7 @@ public class RegEquipo extends JDialog {
 	private JTextField txtEstadio;
 	private JLabel lblLogo;
 	private ImageIcon logoEquipo;
+	private ImageIcon icono;
 
 	public RegEquipo(Equipo equipo) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegEquipo.class.getResource("/imagenes/basketball.png")));
@@ -183,6 +184,8 @@ public class RegEquipo extends JDialog {
 								equipo.setEntrenador(txtEntrenador.getText());
 								equipo.setCiudad(txtCiudad.getText());
 								equipo.setEstadio(txtEstadio.getText());
+								equipo.setLogo((ImageIcon) lblLogo.getIcon());
+								equipo.setNombre(txtNombre.getText());
 								JOptionPane.showMessageDialog(null, "El equipo "+txtNombre.getText()+" ha sido modificado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 								dispose();
 							}
@@ -224,13 +227,14 @@ public class RegEquipo extends JDialog {
 	void loadEquipo() {
 		txtCiudad.setText(miEquipo.getCiudad());
 		txtEntrenador.setText(miEquipo.getEntrenador());
-		txtNombre.setEnabled(false);
+		//txtNombre.setEnabled(false);
 		txtNombre.setText(miEquipo.getNombre());
 		txtEstadio.setText(miEquipo.getEstadio());
 		System.out.println(miEquipo.getLogo());
 		lblLogo.setIcon(miEquipo.getLogo());
 	}
 	void Limpiar() {
+		lblLogo.setIcon(icono);
 		txtCiudad.setText("");
 		txtEntrenador.setText("");
 		txtNombre.setText("");
