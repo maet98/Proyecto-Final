@@ -9,6 +9,7 @@ public class Equipo implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Jugador> jugadores;
+	private ArrayList<Partido> partidos;
 	private String Entrenador;
 	private String nombre;
 	private String estadio;
@@ -22,6 +23,7 @@ public class Equipo implements Serializable{
 			String ciudad,ImageIcon logo) {
 		super();
 		this.jugadores = new ArrayList<>();
+		this.partidos = new ArrayList<>();
 		Entrenador = entrenador;
 		this.nombre = nombre;
 		this.estadio = estadio;
@@ -92,6 +94,12 @@ public class Equipo implements Serializable{
 	}
 	public void setPartidosPerdidos(int partidosPerdidos) {
 		this.partidosPerdidos = partidosPerdidos;
+	}
+	public ArrayList<Partido> getPartidos() {
+		return partidos;
+	}
+	public void addPartidos(Partido part) {
+		this.partidos.add(part);
 	}
 	
 	

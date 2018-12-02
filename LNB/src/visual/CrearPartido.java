@@ -110,6 +110,8 @@ public class CrearPartido extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(), Liga.getInstance().buscarEquipo(EquipoLocal), Liga.getInstance().buscarEquipo(EquipoVisitante));
 						Liga.getInstance().addPartido(nuevo);
+						Liga.getInstance().buscarEquipo(EquipoLocal).addPartidos(nuevo);
+						Liga.getInstance().buscarEquipo(EquipoVisitante).addPartidos(nuevo);
 						limpiar();
 					}
 
@@ -137,12 +139,14 @@ public class CrearPartido extends JDialog {
 		int i = 1;
 		modelLocal.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			if(!EquipoVisitante.equalsIgnoreCase(actual.getNombre())) {
-				modelLocal.addElement(i+": "+actual.getNombre());
-				if(EquipoLocal.equalsIgnoreCase(actual.getNombre())) {
-					ListLocal.setSelectedIndex(i-1);
+			for(Partido part: actual.getPartidos()) {
+				if(!EquipoVisitante.equalsIgnoreCase(actual.getNombre()) && !part.getVisitante().getNombre().equalsIgnoreCase(EquipoLocal.toString())) {
+					modelLocal.addElement(i+": "+actual.getNombre());
+					if(EquipoLocal.equalsIgnoreCase(actual.getNombre())) {
+						ListLocal.setSelectedIndex(i-1);
+					}
+					i++;
 				}
-				i++;
 			}
 		}
 	}
@@ -150,12 +154,15 @@ public class CrearPartido extends JDialog {
 		int i = 1;
 		modelVisitante.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			if(!EquipoLocal.equalsIgnoreCase(actual.getNombre())) {
-				modelVisitante.addElement(i+": "+actual.getNombre());
-				if(EquipoVisitante.equalsIgnoreCase(actual.getNombre())) {
-					ListVisitante.setSelectedIndex(i-1);
+			for (Partido part: actual.getPartidos()) {
+				if(!EquipoLocal.equalsIgnoreCase(actual.getNombre()) && !part.getLocal().getNombre().equalsIgnoreCase(EquipoVisitante.toString())) {
+					modelVisitante.addElement(i+": "+actual.getNombre());
+					if(EquipoVisitante.equalsIgnoreCase(actual.getNombre())) {
+						ListVisitante.setSelectedIndex(i-1);
+					}
+					i++;
 				}
-				i++;
+				
 			}
 		}
 	}
