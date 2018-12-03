@@ -3,7 +3,7 @@ package logico;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Partido implements Serializable{
+public class Partido implements Serializable, Comparable <Partido>{
 	private static final long serialVersionUID = 1L;
 	private boolean jugado;
 	private String id;
@@ -66,4 +66,14 @@ public class Partido implements Serializable{
 		}
 	}
 
+
+	@Override
+	public int compareTo(Partido o) {
+		//return Integer.compare(this.fecha.getTime(), (Integer) o.fecha.getTime());
+		if (this.fecha.getTime()>o.fecha.getTime()) {
+			return 1;
+		}else {
+			return 0;
+		}
+	}
 }

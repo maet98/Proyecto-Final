@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
-public class Equipo implements Serializable{
+public class Equipo implements Serializable, Comparable<Equipo>{
 	
 	private static final long serialVersionUID = 1L;
 	private ArrayList<Jugador> jugadores;
@@ -100,6 +100,10 @@ public class Equipo implements Serializable{
 	}
 	public void addPartidos(Partido part) {
 		this.partidos.add(part);
+	}
+	@Override
+	public int compareTo(Equipo o) {
+		return Integer.compare(this.partidosGanados, o.partidosGanados);
 	}
 	
 	

@@ -20,6 +20,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -380,6 +381,7 @@ public class Principal {
 	}
 	
 	public void loadPartidos() {
+		Collections.sort(Liga.getInstance().getPartidos());
 			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 			lblLocall1.setText(Liga.getInstance().getPartidos().get(0).getLocal().getNombre());
 			lblVisitante1.setText(Liga.getInstance().getPartidos().get(0).getVisitante().getNombre());

@@ -13,6 +13,7 @@ import logico.Equipo;
 import logico.Liga;
 
 import java.awt.event.ActionListener;
+import java.util.Collections;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -79,6 +80,7 @@ public class Posiciones extends JDialog {
 	}
 	
 	public void loadEquipos(){
+		Collections.sort(Liga.getInstance().getEquipos());
 		Object[] fila = new Object[model.getColumnCount()];
 		model.setRowCount(0);
 		int i =1;
