@@ -210,16 +210,16 @@ public class ControladorPartidos extends JDialog {
 						if(TanteoLocal!=TanteoVisitante) {
 							ingresarValores();
 							if(TanteoLocal>TanteoVisitante) {
-//								Local.aumentarPartidosGanados();
-//								Visitante.aumentarPartidosPerdidos();
-//								Local.aumentarPartidosJugados();
-//								Visitante.aumentarPartidosJugados();
+								Local.aumentarPartidosGanados();
+								Visitante.aumentarPartidosPerdidos();
+								Local.aumentarPartidosJugados();
+								Visitante.aumentarPartidosJugados();
 							}
 							else {
-//								Visitante.aumentarPartidosGanados();
-//								Local.aumentarPartidosPerdidos();
-//								Visitante.aumentarPartidosJugados();
-//								Local.aumentarPartidosJugados();
+								Visitante.aumentarPartidosGanados();
+								Local.aumentarPartidosPerdidos();
+								Visitante.aumentarPartidosJugados();
+								Local.aumentarPartidosJugados();
 							}
 							partidoActual.setMarcador(new Marcador(TanteoLocal, TanteoVisitante));
 							partidoActual.setJugado(true);
