@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import com.toedter.calendar.JDateChooser;
 
@@ -62,7 +63,6 @@ public class CrearPartido extends JDialog {
 			ListLocal.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent arg0) {
 					EquipoLocal = ListLocal.getSelectedValue().toString();
-					EquipoLocal = EquipoLocal.substring(3, EquipoLocal.length());
 					if(ListLocal.getSelectedIndex()>=0 && ListVisitante.getSelectedIndex()>=0) {
 						btnCrear.setEnabled(true);
 					}
@@ -78,7 +78,6 @@ public class CrearPartido extends JDialog {
 			ListVisitante.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					EquipoVisitante = ListVisitante.getSelectedValue().toString();
-					EquipoVisitante = EquipoVisitante.substring(3, EquipoVisitante.length());
 					if(ListLocal.getSelectedIndex()>=0 && ListVisitante.getSelectedIndex()>=0) {
 						btnCrear.setEnabled(true);
 					}
@@ -91,12 +90,12 @@ public class CrearPartido extends JDialog {
 			panel.add(ListVisitante);
 			
 			JLabel lblFechaDelPartido = new JLabel("Fecha del Partido:");
-			lblFechaDelPartido.setBounds(12, 213, 114, 16);
+			lblFechaDelPartido.setBounds(12, 220, 114, 16);
 			panel.add(lblFechaDelPartido);
 			
 			dateChooser = new JDateChooser();
 			dateChooser.setDate(new Date());
-			dateChooser.setBounds(125, 215, 114, 20);
+			dateChooser.setBounds(119, 215, 150, 30);
 			panel.add(dateChooser);
 		}
 		{
@@ -110,12 +109,9 @@ public class CrearPartido extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(), Liga.getInstance().buscarEquipo(EquipoLocal), Liga.getInstance().buscarEquipo(EquipoVisitante));
 						Liga.getInstance().addPartido(nuevo);
-						Liga.getInstance().buscarEquipo(EquipoLocal).addPartidos(nuevo);
-						Liga.getInstance().buscarEquipo(EquipoVisitante).addPartidos(nuevo);
 						limpiar();
+						JOptionPane.showMessageDialog(null, "El partido "+EquipoLocal+" vs "+EquipoVisitante+ "ha sido ingresado" , "Infromacion", JOptionPane.INFORMATION_MESSAGE);
 					}
-
-					
 				});
 				btnCrear.setActionCommand("OK");
 				buttonPane.add(btnCrear);
@@ -136,34 +132,27 @@ public class CrearPartido extends JDialog {
 		loadVisitante();
 	}
 	private void loadLocal() {
-		int i = 1;
+		int i = 0;
 		modelLocal.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			for(Partido part: actual.getPartidos()) {
-				if(!EquipoVisitante.equalsIgnoreCase(actual.getNombre()) && !part.getVisitante().getNombre().equalsIgnoreCase(EquipoLocal.toString())) {
-					modelLocal.addElement(i+": "+actual.getNombre());
-					if(EquipoLocal.equalsIgnoreCase(actual.getNombre())) {
-						ListLocal.setSelectedIndex(i-1);
-					}
-					i++;
-				}
+			if(actual.getNombre().equalsIgnoreCase(EquipoLocal)) {
+				ListLocal.setSelectedIndex(i);
 			}
+			modelLocal.addElement(actual.getNombre());
+			System.out.println(EquipoLocal);
+			i++;
 		}
 	}
 	private void loadVisitante() {
-		int i = 1;
+		int i = 0;
 		modelVisitante.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			for (Partido part: actual.getPartidos()) {
-				if(!EquipoLocal.equalsIgnoreCase(actual.getNombre()) && !part.getLocal().getNombre().equalsIgnoreCase(EquipoVisitante.toString())) {
-					modelVisitante.addElement(i+": "+actual.getNombre());
-					if(EquipoVisitante.equalsIgnoreCase(actual.getNombre())) {
-						ListVisitante.setSelectedIndex(i-1);
-					}
-					i++;
-				}
-				
+			if(actual.getNombre().equalsIgnoreCase(EquipoVisitante)) {
+				ListVisitante.setSelectedIndex(i);
 			}
+			modelVisitante.addElement(actual.getNombre());
+			System.out.println(EquipoVisitante);
+			i++;
 		}
 	}
 	private void limpiar() {

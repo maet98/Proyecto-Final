@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import logico.Liga;
+import logico.Partido;
 
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,6 +21,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.awt.event.ActionEvent;
 import javax.swing.JPanel;
@@ -37,9 +39,15 @@ import java.awt.event.WindowEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JTextField;
+import javax.swing.LookAndFeel;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import javax.swing.ImageIcon;
 
 public class Principal {
 	private JFrame frmLigaDeBaloncesto;
@@ -49,11 +57,18 @@ public class Principal {
 	private JLabel lblLocall1;
 	private JLabel lblVisitante1;
 	private JLabel lblfecha1;
+	private JPanel PnlProximosPartidos;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					for(LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+						if("Nimbus".equals(info.getName())) {
+							UIManager.setLookAndFeel(info.getClassName());
+							break;
+						}
+					}
 					Principal window = new Principal();
 					window.frmLigaDeBaloncesto.setVisible(true);
 					window.frmLigaDeBaloncesto.setLocationRelativeTo(null);
@@ -121,7 +136,7 @@ public class Principal {
 				}else {
 					RegJugador nuevo;
 					try {
-						nuevo = new RegJugador();
+						nuevo = new RegJugador(null);
 						nuevo.setModal(true);
 						nuevo.setVisible(true);
 					} catch (FileNotFoundException e1) {
@@ -229,8 +244,8 @@ public class Principal {
 			}
 		});
 		TableTiros1.getColumnModel().getColumn(0).setResizable(false);
-		TableTiros1.getColumnModel().getColumn(0).setPreferredWidth(50);
-		TableTiros1.getColumnModel().getColumn(0).setMinWidth(50);
+		TableTiros1.getColumnModel().getColumn(0).setPreferredWidth(65);
+		TableTiros1.getColumnModel().getColumn(0).setMinWidth(65);
 		TableTiros1.getColumnModel().getColumn(0).setMaxWidth(50);
 		TableTiros1.getColumnModel().getColumn(1).setResizable(false);
 		TableTiros1.getColumnModel().getColumn(1).setPreferredWidth(90);
@@ -256,7 +271,9 @@ public class Principal {
 				return columnTypes[columnIndex];
 			}
 		});
-		TableTiros2.getColumnModel().getColumn(0).setMaxWidth(48);
+		TableTiros2.getColumnModel().getColumn(0).setPreferredWidth(71);
+		TableTiros2.getColumnModel().getColumn(0).setMinWidth(71);
+		TableTiros2.getColumnModel().getColumn(0).setMaxWidth(71);
 		TableTiros2.getColumnModel().getColumn(3).setPreferredWidth(87);
 		Tiros2.setViewportView(TableTiros2);
 		tabbedPane.setBounds(1360, 49, 517, 594);
@@ -280,7 +297,9 @@ public class Principal {
 			}
 		});
 		tableTirosLibres.getColumnModel().getColumn(0).setResizable(false);
-		tableTirosLibres.getColumnModel().getColumn(0).setMaxWidth(48);
+		tableTirosLibres.getColumnModel().getColumn(0).setPreferredWidth(71);
+		tableTirosLibres.getColumnModel().getColumn(0).setMinWidth(71);
+		tableTirosLibres.getColumnModel().getColumn(0).setMaxWidth(71);
 		tableTirosLibres.getColumnModel().getColumn(1).setResizable(false);
 		tableTirosLibres.getColumnModel().getColumn(1).setPreferredWidth(112);
 		tableTirosLibres.getColumnModel().getColumn(2).setResizable(false);
@@ -293,6 +312,8 @@ public class Principal {
 		panel.add(lblEstadisticas);
 		
 		JLabel lblProximosPartidos = new JLabel("Proximos Partidos");
+		lblProximosPartidos.setBackground(Color.BLACK);
+		lblProximosPartidos.setForeground(Color.WHITE);
 		lblProximosPartidos.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
 		lblProximosPartidos.setBounds(237, 53, 180, 16);
 		panel.add(lblProximosPartidos);
@@ -306,73 +327,31 @@ public class Principal {
 		btnVerMasEstadisticas.setBounds(1567, 674, 152, 23);
 		panel.add(btnVerMasEstadisticas);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_1.setBounds(29, 88, 600, 460);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
+		PnlProximosPartidos = new JPanel();
+		PnlProximosPartidos.setForeground(Color.WHITE);
+		PnlProximosPartidos.setBackground(Color.BLACK);
+		PnlProximosPartidos.setBorder(new LineBorder(new Color(0, 0, 0)));
+		PnlProximosPartidos.setBounds(29, 88, 600, 460);
+		panel.add(PnlProximosPartidos);
+		PnlProximosPartidos.setLayout(null);
 		
 		JLabel lblLocal = new JLabel("Local");
+		lblLocal.setForeground(Color.WHITE);
 		lblLocal.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblLocal.setBounds(91, 42, 59, 17);
-		panel_1.add(lblLocal);
+		lblLocal.setBounds(100, 42, 59, 17);
+		PnlProximosPartidos.add(lblLocal);
 		
 		JLabel lblVisitante = new JLabel("Visitante");
+		lblVisitante.setForeground(Color.WHITE);
 		lblVisitante.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblVisitante.setBounds(382, 38, 116, 25);
-		panel_1.add(lblVisitante);
+		lblVisitante.setBounds(393, 38, 116, 25);
+		PnlProximosPartidos.add(lblVisitante);
 		
-		JPanel pnlLocal1 = new JPanel();
-		pnlLocal1.setBorder(new LineBorder(new Color(0, 0, 0)));
-		pnlLocal1.setBounds(6, 70, 588, 85);
-		panel_1.add(pnlLocal1);
-		pnlLocal1.setLayout(null);
 		
-		JLabel label = new JLabel("-");
-		label.setBounds(290, 34, 8, 16);
-		pnlLocal1.add(label);
-		
-		lblLocall1 = new JLabel();
-		lblLocall1.setBounds(68, 34, 61, 16);
-		pnlLocal1.add(lblLocall1);
-		
-		lblVisitante1 = new JLabel();
-		lblVisitante1.setBounds(415, 34, 61, 16);
-		pnlLocal1.add(lblVisitante1);
-		
-		lblfecha1 = new JLabel();
-		lblfecha1.setBounds(253, 63, 82, 16);
-		pnlLocal1.add(lblfecha1);
-		
-		JPanel partido2 = new JPanel();
-		partido2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		partido2.setBounds(6, 167, 588, 85);
-		panel_1.add(partido2);
-		partido2.setLayout(null);
-		
-		JLabel label_1 = new JLabel("-");
-		label_1.setBounds(290, 34, 8, 16);
-		partido2.add(label_1);
-		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(6, 264, 588, 85);
-		panel_1.add(panel_2);
-		panel_2.setLayout(null);
-		
-		JLabel label_2 = new JLabel("-");
-		label_2.setBounds(290, 34, 8, 16);
-		panel_2.add(label_2);
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_3.setBounds(6, 361, 588, 85);
-		panel_1.add(panel_3);
-		panel_3.setLayout(null);
-		
-		JLabel label_3 = new JLabel("-");
-		label_3.setBounds(290, 34, 8, 16);
-		panel_3.add(label_3);
+		JLabel lblfondo = new JLabel("");
+		lblfondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/principalFondo.jpg")));
+		lblfondo.setBounds(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
+		panel.add(lblfondo);
 		
 		loadPartidos();
 	}
@@ -381,11 +360,61 @@ public class Principal {
 	}
 	
 	public void loadPartidos() {
-		Collections.sort(Liga.getInstance().getPartidos());
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-			lblLocall1.setText(Liga.getInstance().getPartidos().get(0).getLocal().getNombre());
-			lblVisitante1.setText(Liga.getInstance().getPartidos().get(0).getVisitante().getNombre());
-			lblfecha1.setText(dateFormat.format(Liga.getInstance().getPartidos().get(0).getFecha()));
+		ArrayList<Partido>partidosNoJugados = new ArrayList<>();
+		for (Partido partido : Liga.getInstance().getPartidos()) {
+			if(!partido.isJugado()) {
+				partidosNoJugados.add(partido);
+			}
+		}
+		Collections.sort(partidosNoJugados);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		JLabel[] lblLocal = new JLabel[4];
+		JLabel[] lblVisitante = new JLabel[4];
+		JLabel[] lblcosita = new JLabel[4];
+		JLabel[] Visitante = new JLabel[4];
+		JLabel[] Local = new JLabel[4];
+		JLabel[] fecha = new JLabel[4];
+		JPanel[] paneles = new JPanel[4];
+		int x = 6,y = 70;
+		int width = 588,height = 85;
+		for(int i = 0;i <4;i++,y+=97) {
+			if(i==partidosNoJugados.size())
+				break;
+			else {
+				paneles[i] = new JPanel();
+				paneles[i].setBackground(Color.white);
+				paneles[i].setBorder(new LineBorder(new Color(0, 0, 0)));
+				paneles[i].setBounds(6, y, 588, 85);
+				PnlProximosPartidos.add(paneles[i]);
+				paneles[i].setLayout(null);
+				
+				lblcosita[i] = new JLabel();
+				lblcosita[i].setText("vs");
+				lblcosita[i].setFont(new Font("Dialog", Font.BOLD, 40));
+				lblcosita[i].setBounds(290, 20, 50, 50);
+				paneles[i].add(lblcosita[i]);
+				
+				lblLocal[i] = new JLabel();
+				lblLocal[i].setBounds(68, 2, 160, 80);
+				ImageIcon local = new ImageIcon(Liga.getInstance().getPartidos().get(i).getLocal().getLogo().getImage().getScaledInstance(lblLocal[i].getWidth(), lblLocal[i].getHeight(), Image.SCALE_DEFAULT));
+				lblLocal[i].setIcon(local);
+				paneles[i].add(lblLocal[i]);
+				
+				lblVisitante[i] = new JLabel();
+				lblVisitante[i].setBounds(380, 2, 150, 80);
+				ImageIcon visitante = new ImageIcon(Liga.getInstance().getPartidos().get(i).getVisitante().getLogo().getImage().getScaledInstance(lblLocal[i].getWidth(), lblLocal[i].getHeight(), Image.SCALE_DEFAULT));
+				lblVisitante[i].setIcon(visitante);
+				paneles[i].add(lblVisitante[i]);
+				
+				fecha[i] = new JLabel();
+				fecha[i].setBounds(280, 63, 82, 16);
+				fecha[i].setText(dateFormat.format(Liga.getInstance().getPartidos().get(i).getFecha()));
+				paneles[i].add(fecha[i]);
+			
+				
+			}
+			
+		}
 			
 			
 	}

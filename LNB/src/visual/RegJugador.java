@@ -31,6 +31,7 @@ import java.util.Formatter;
 import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.imageio.ImageIO;
+import javax.management.modelmbean.ModelMBean;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 
@@ -58,8 +59,10 @@ public class RegJugador extends JDialog {
 	private JTextField txtNacionalidad;
 	private ImageIcon defaultFoto = new ImageIcon(RegJugador.class.getResource("/imagenes/persona.png"));
 	private int dorsal = 0;
+	private Jugador mijugador;
 	
-	public RegJugador() throws FileNotFoundException, ParseException {
+	public RegJugador(Jugador jugador) throws FileNotFoundException, ParseException {
+		mijugador = jugador;
 		fotoJugador = defaultFoto;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegJugador.class.getResource("/imagenes/basketball.png")));
 		setLocationRelativeTo(null);
@@ -112,7 +115,7 @@ public class RegJugador extends JDialog {
 				}
 			}
 		});
-		txtNombre.setBounds(125, 55, 129, 20);
+		txtNombre.setBounds(125, 55, 129, 24);
 		contentPanel.add(txtNombre);
 		txtNombre.setColumns(10);
 		
@@ -126,28 +129,28 @@ public class RegJugador extends JDialog {
 				}
 			}
 		});
-		txtApellido.setBounds(125, 88, 129, 20);
+		txtApellido.setBounds(125, 88, 129, 24);
 		contentPanel.add(txtApellido);
 		txtApellido.setColumns(10);
 		
 		cmbxPosicion = new JComboBox();
 		cmbxPosicion.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Base", "Escolta Alero", "Ala-p\u00EDvot", "P\u00EDvot"}));
-		cmbxPosicion.setBounds(125, 197, 130, 20);
+		cmbxPosicion.setBounds(125, 197, 130, 24);
 		contentPanel.add(cmbxPosicion);
 		
 		spnEdad = new JSpinner();
 		spnEdad.setModel(new SpinnerNumberModel(new Integer(16), new Integer(16), null, new Integer(1)));
-		spnEdad.setBounds(125, 269, 56, 20);
+		spnEdad.setBounds(125, 269, 56, 24);
 		contentPanel.add(spnEdad);
 		
 		cmbxEquipo = new JComboBox();
-		cmbxEquipo.setBounds(125, 159, 129, 20);
+		cmbxEquipo.setBounds(125, 159, 129, 24);
 		contentPanel.add(cmbxEquipo);
 		
 		spnAltura = new JSpinner();
 		SpinnerNumberModel model = new SpinnerNumberModel((double)(1.75),(double)(1.70),(double)(2.21),(double)(0.01));
 		spnAltura.setModel(model);
-		spnAltura.setBounds(125, 235, 56, 20);
+		spnAltura.setBounds(125, 235, 56, 24);
 		contentPanel.add(spnAltura);
 		
 		JLabel lblNmero = new JLabel("N\u00FAmero:");
@@ -160,12 +163,12 @@ public class RegJugador extends JDialog {
 		
 		MaskFormatter cedula = new MaskFormatter("###-#######-#");
 		ftxtCedula = new JFormattedTextField(cedula);
-		ftxtCedula.setBounds(126, 21, 129, 20);
+		ftxtCedula.setBounds(126, 21, 129, 24);
 		contentPanel.add(ftxtCedula);
 		
 		lblFoto = new JLabel("");
 		lblFoto.setBounds(313, 26, 203, 200);
-		lblFoto.setIcon(defaultFoto);
+		lblFoto.setIcon(new ImageIcon(RegJugador.class.getResource("/imagenes/jugador2.png")));
 		contentPanel.add(lblFoto);
 		
 		JButton btnInsertarFoto = new JButton("Insertar Foto");
@@ -211,7 +214,7 @@ public class RegJugador extends JDialog {
 				
 			}
 		});
-		txtNumero.setBounds(125, 296, 56, 20);
+		txtNumero.setBounds(125, 296, 56, 24);
 		contentPanel.add(txtNumero);
 		txtNumero.setColumns(10);
 		
@@ -225,7 +228,7 @@ public class RegJugador extends JDialog {
 				}
 			}
 		});
-		txtNacionalidad.setBounds(125, 118, 129, 20);
+		txtNacionalidad.setBounds(125, 118, 129, 24);
 		contentPanel.add(txtNacionalidad);
 		txtNacionalidad.setColumns(10);
 		{
@@ -250,10 +253,24 @@ public class RegJugador extends JDialog {
 								int edad = Integer.parseInt(spnEdad.getValue().toString());
 								float altura = Float.parseFloat(spnAltura.getValue().toString());
 								Jugador nuevo = new Jugador(cedula, nombre, apellido, nacionalidad, posicion, edad, dorsal, equipo, altura, fotoJugador);
-								Liga.getInstance().addJugador(nuevo);
-								equipo.getJugadores().add(nuevo);
-								JOptionPane.showMessageDialog(null, "El jugador "+nombre+" "+apellido+" ha sido ingresado", "Información", JOptionPane.INFORMATION_MESSAGE);
-								limpiar();
+								if(mijugador == null) {
+									Liga.getInstance().addJugador(nuevo);
+									equipo.getJugadores().add(nuevo);
+									JOptionPane.showMessageDialog(null, "El jugador "+nombre+" "+apellido+" ha sido ingresado", "Información", JOptionPane.INFORMATION_MESSAGE);
+									limpiar();
+								}else {
+									mijugador.setAltura(altura);
+									mijugador.setApellido(apellido);
+									mijugador.setEdad(edad);
+									mijugador.setFotoJugador(fotoJugador);
+									mijugador.setNacionalidad(nacionalidad);
+									mijugador.setNombre(nombre);
+									mijugador.setPosicion(posicion);
+									mijugador.setNumero(dorsal);
+									JOptionPane.showMessageDialog(null, "El jugador "+mijugador.getNombre()+" "+mijugador.getApellido()+" ha sido modificado", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+									dispose();
+								}
+								
 							}
 							else {
 								JOptionPane.showMessageDialog(null, "El numero "+actual+" esta cogido por otro jugador", "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -282,8 +299,11 @@ public class RegJugador extends JDialog {
 			}
 		}
 		loadEquipos();
+		if(mijugador!=null) {
+			loadJugador();
+		}
 	}
-	public void loadEquipos() {
+	private void loadEquipos() {
 		int i = 1;
 		cmbxEquipo.insertItemAt("<Seleccione>", 0);
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
@@ -294,7 +314,7 @@ public class RegJugador extends JDialog {
 		}
 		cmbxEquipo.setSelectedIndex(0);
 	}
-	public ImageIcon ResizeImage(String ImagePath)
+	private ImageIcon ResizeImage(String ImagePath)
     {
         ImageIcon MyImage = new ImageIcon(ImagePath);
         Image img = MyImage.getImage();
@@ -302,6 +322,20 @@ public class RegJugador extends JDialog {
         ImageIcon image = new ImageIcon(newImg);
         return image;
     }
+	private void loadJugador() {
+		ftxtCedula.setText(mijugador.getCedula());
+		ftxtCedula.setEnabled(false);
+		txtNombre.setText(mijugador.getNombre());
+		txtApellido.setText(mijugador.getApellido());
+		cmbxEquipo.setEnabled(false);
+		cmbxEquipo.setSelectedItem(mijugador.getEquipo().getNombre());
+		cmbxPosicion.setSelectedItem(mijugador.getPosicion());
+		spnAltura.setValue(mijugador.getAltura());
+		spnEdad.setValue(mijugador.getEdad());
+		txtNacionalidad.setText(mijugador.getNacionalidad());
+		txtNumero.setText(String.valueOf(mijugador.getNumero()));
+		lblFoto.setIcon(mijugador.getFotoJugador());
+	}
 	private void limpiar() {
 		spnAltura.setValue((float)(1.75));
 		txtApellido.setText("");

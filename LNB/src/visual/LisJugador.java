@@ -2,6 +2,8 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Image;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -24,13 +26,21 @@ import javax.swing.JRadioButton;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.ListSelectionModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
 
-public class LisJugador extends JDialog {
+public class LisJugador<IconImage> extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private DefaultTableModel model;
@@ -48,6 +58,10 @@ public class LisJugador extends JDialog {
 	private JRadioButton rdbtnNombre;
 	private JButton btnDesempeo;
 	private JButton btnLesion;
+	private int selectedIndexJugador;
+	private String cedulaSelectedJugador = "";
+	private JButton btnModificar;
+	private JLabel lblFotojugador;
 
 	public LisJugador() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/basketball.png")));
@@ -65,6 +79,7 @@ public class LisJugador extends JDialog {
 					String nombre = cbxEquipo.getSelectedItem().toString();
 					Seleccionado = Liga.getInstance().buscarEquipo(nombre);
 					lblFotoequipo.setIcon(Seleccionado.getLogo());
+					loadJugador();
 				}
 			}
 		});
@@ -83,8 +98,22 @@ public class LisJugador extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		model = new DefaultTableModel();
-		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posiciï¿½n","Edad","Dorsal","Equipo","Altura"};
+		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posición","Edad","Dorsal","Equipo","Altura"};
 		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent arg0) {
+				if(table.getSelectedRow()>=0) {
+					selectedIndexJugador = table.getSelectedRow();
+					cedulaSelectedJugador = model.getValueAt(selectedIndexJugador, 0).toString();
+					Jugador nuevo = Liga.getInstance().buscarJugadorId(cedulaSelectedJugador);
+					ImageIcon imageicon = new ImageIcon(nuevo.getFotoJugador().getImage().getScaledInstance(lblFotojugador.getWidth(), lblFotojugador.getHeight(), Image.SCALE_DEFAULT));
+					lblFotojugador.setIcon(imageicon);
+					btnDesempeo.setEnabled(true);
+					btnLesion.setEnabled(true);
+					btnModificar.setEnabled(true);
+				}
+			}
+		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		model.setColumnIdentifiers(columnNames);
 		table.setModel(model);
@@ -142,8 +171,8 @@ public class LisJugador extends JDialog {
 		rdbtnPosicion.setBounds(88, 58, 88, 23);
 		contentPanel.add(rdbtnPosicion);
 		
-		JLabel lblFotojugador = new JLabel("");
-		lblFotojugador.setBounds(562, 11, 116, 97);
+		lblFotojugador = new JLabel("");
+		lblFotojugador.setBounds(583, 11, 116, 97);
 		contentPanel.add(lblFotojugador);
 		
 		rdbtnNacionalidad = new JRadioButton("Nacionalidad");
@@ -184,9 +213,12 @@ public class LisJugador extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			
 			btnLesion = new JButton("Lesion");
+			btnLesion.setEnabled(false);
 			btnLesion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					RegLesion nuevo =new RegLesion();
+					Equipo equipo = Liga.getInstance().buscarEquipo(cbxEquipo.getSelectedItem().toString());
+					Jugador jugador = Liga.getInstance().buscarJugadorId(model.getValueAt(table.getSelectedRow(), 0).toString());
+					RegLesion nuevo = new RegLesion(jugador,equipo);
 					nuevo.setModal(true);
 					nuevo.setVisible(true);
 				}
@@ -194,9 +226,25 @@ public class LisJugador extends JDialog {
 			buttonPane.add(btnLesion);
 			
 			btnDesempeo = new JButton("Desempe\u00F1o");
+			btnDesempeo.setEnabled(false);
 			buttonPane.add(btnDesempeo);
 			{
-				JButton btnModificar = new JButton("Modificar");
+				btnModificar = new JButton("Modificar");
+				btnModificar.setEnabled(false);
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Jugador jugador = Liga.getInstance().buscarJugadorId(cedulaSelectedJugador);
+						RegJugador nuevo;
+						try {
+							nuevo = new RegJugador(jugador);
+							nuevo.setModal(true);
+							nuevo.setVisible(true);
+						} catch (FileNotFoundException | ParseException e1) {
+							e1.printStackTrace();
+						}
+						
+					}
+				});
 				btnModificar.setActionCommand("OK");
 				buttonPane.add(btnModificar);
 				getRootPane().setDefaultButton(btnModificar);
@@ -204,7 +252,7 @@ public class LisJugador extends JDialog {
 			{
 				JButton btnSalir = new JButton("Salir");
 				btnSalir.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+					public void actionPerformed(ActionEvent arg0) {
 						dispose();
 					}
 				});
@@ -236,9 +284,16 @@ public class LisJugador extends JDialog {
 			fila[5] = actual.getNumero();
 			fila[6] = actual.getEquipo().getNombre();
 			fila[7] = actual.getAltura();
-			if((rdbtnNombre.isSelected() && txtBuscador.getText().equalsIgnoreCase("") && cbxEquipo.getSelectedIndex()==0)||(rdbtnNacionalidad.isSelected() && txtBuscador.getText().equalsIgnoreCase("") && cbxEquipo.getSelectedIndex() == 0)||(rdbtnPosicion.isSelected() && cbxPosicion.getSelectedIndex()==0 && cbxEquipo.getSelectedIndex() == 0)) {
-				model.addRow(fila);
-			}else if(rdbtnNombre.isSelected() && txtBuscador.getText().length()>0) {
+			if((rdbtnNombre.isSelected() && txtBuscador.getText().equalsIgnoreCase(""))||(rdbtnNacionalidad.isSelected() && txtBuscador.getText().equalsIgnoreCase("") )||(rdbtnPosicion.isSelected() && cbxPosicion.getSelectedIndex()==0)) {
+				if(cbxEquipo.getSelectedIndex()==0)
+					model.addRow(fila);
+				else {
+					if(fila[6].toString().equalsIgnoreCase(cbxEquipo.getSelectedItem().toString())) {
+						model.addRow(fila);
+					}
+				}
+			}
+			else if(rdbtnNombre.isSelected() && txtBuscador.getText().length()>0) {
 				if(cbxEquipo.getSelectedIndex() == 0 && fila[1].toString().toLowerCase().contains(txtBuscador.getText().toLowerCase())) {
 					model.addRow(fila);
 				}
@@ -262,5 +317,7 @@ public class LisJugador extends JDialog {
 		}
 		
 	}
+	
+
 	
 }

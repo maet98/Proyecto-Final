@@ -3,6 +3,7 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -17,25 +18,30 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 import com.toedter.calendar.JCalendar;
 
+import logico.Equipo;
 import logico.Jugador;
 import logico.Lesion;
 import logico.Liga;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RegLesion extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtTipo;
-	private JComboBox cbxJugador;
-	private JComboBox cbxEquipo;
+	private DefaultComboBoxModel<String> modelEquipos;
+	private DefaultComboBoxModel<String> modelJugador;
 	private JCalendar clndrInicio;
 	private JCalendar clndrFinal;
+	private Equipo equipoSeleccionado;
+	private Jugador mijugador;
+	private Equipo miEquipo;
 
 
-	/**
-	 * Create the dialog.
-	 */
-	public RegLesion() {
-		setTitle("Registrar Lesi�n");
+	public RegLesion(Jugador jugador, Equipo equipo) {
+		mijugador = jugador;
+		miEquipo = equipo;
+		setTitle("Registrar Lesi\u00F3n");
 		setBounds(100, 100, 461, 582);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -47,28 +53,15 @@ public class RegLesion extends JDialog {
 		contentPanel.add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblJugador = new JLabel("Jugador:");
-		lblJugador.setBounds(6, 64, 56, 16);
-		panel.add(lblJugador);
-		
-		JLabel lblEquipo = new JLabel("Equipo:");
-		lblEquipo.setBounds(6, 34, 56, 16);
-		panel.add(lblEquipo);
-		
 		JLabel lblTipoDeLesin = new JLabel("Tipo de lesi\u00F3n:");
-		lblTipoDeLesin.setBounds(6, 99, 101, 16);
+		lblTipoDeLesin.setBounds(6, 37, 101, 16);
 		panel.add(lblTipoDeLesin);
 		
-		cbxJugador = new JComboBox();
-		cbxJugador.setBounds(119, 62, 180, 22);
-		panel.add(cbxJugador);
-		
-		cbxEquipo = new JComboBox();
-		cbxEquipo.setBounds(119, 30, 180, 22);
-		panel.add(cbxEquipo);
+		modelEquipos = new DefaultComboBoxModel<>();
+		modelJugador = new DefaultComboBoxModel<>();
 		
 		txtTipo = new JTextField();
-		txtTipo.setBounds(119, 96, 180, 22);
+		txtTipo.setBounds(119, 34, 180, 22);
 		panel.add(txtTipo);
 		txtTipo.setColumns(10);
 		
@@ -95,13 +88,10 @@ public class RegLesion extends JDialog {
 				JButton btnRegistrar = new JButton("Registrar");
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String equipo = cbxEquipo.getSelectedItem().toString();
-						String jug = cbxJugador.getSelectedItem().toString();
 						String tipo = txtTipo.getText();
 						Date inicio = clndrInicio.getDate();
 						Date fin = clndrFinal.getDate();
 						
-						Jugador jugador = Liga.getInstance().buscarJugador(jug);
 						Lesion lesion = new Lesion(tipo, jugador, inicio, fin);
 						jugador.setLesion(lesion);
 						jugador.setLesionado(true);
@@ -125,10 +115,19 @@ public class RegLesion extends JDialog {
 			}
 		}
 	}
-	
+	private void LoadEquipos() {
+		modelEquipos.addElement("<Seleccione>");
+		for (Equipo equipo : Liga.getInstance().getEquipos()) {
+			modelEquipos.addElement(equipo.getNombre());
+		}
+	}
+	private void LoadJugadores() {
+		modelJugador.addElement("<Seleccione>");
+		for (Jugador jugador : equipoSeleccionado.getJugadores()) {
+			modelJugador.addElement(jugador.getNombre()+" "+jugador.getApellido());
+		}
+	}
 	private void clean() {
-		cbxEquipo.setSelectedIndex(0);
-		cbxJugador.setSelectedIndex(0);
 		txtTipo.setText("");
 	}
 }

@@ -101,7 +101,6 @@ public class Equipo implements Serializable, Comparable<Equipo>{
 	public void addPartidos(Partido part) {
 		this.partidos.add(part);
 	}
-	@Override
 	public int compareTo(Equipo o) {
 		return Integer.compare(this.partidosGanados, o.partidosGanados);
 	}

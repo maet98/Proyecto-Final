@@ -39,6 +39,8 @@ import java.awt.event.FocusEvent;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Font;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class ControladorPartidos extends JDialog {
 
@@ -55,10 +57,11 @@ public class ControladorPartidos extends JDialog {
 	private Partido partidoActual;
 	
 	public ControladorPartidos(Partido partido) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ControladorPartidos.class.getResource("/imagenes/partidoIcon.png")));
 		partidoActual = partido;
 		setLocationRelativeTo(null);
 		setTitle("Controlador Partido");
-		setBounds(100, 100, 951, 581);
+		setBounds(100, 100, 951, 616);
 		this.Local = partido.getLocal();
 		this.Visitante = partido.getVisitante();
 		getContentPane().setLayout(new BorderLayout());
@@ -196,13 +199,12 @@ public class ControladorPartidos extends JDialog {
 			});
 			modelVisitante = (DefaultTableModel) Tablavisitante.getModel();
 			scrollPaneVisitante.setViewportView(Tablavisitante);
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnTerminar = new JButton("Finalizar Partido");
+				JButton btnTerminar = new JButton("");
+				btnTerminar.setSelectedIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/FinPartido.png")));
+				btnTerminar.setBounds(441, 492, 48, 48);
+				panel.add(btnTerminar);
+				btnTerminar.setIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/FinPartido.png")));
 				btnTerminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(TanteoLocal!=TanteoVisitante) {
@@ -216,7 +218,6 @@ public class ControladorPartidos extends JDialog {
 					}
 				});
 				btnTerminar.setActionCommand("OK");
-				buttonPane.add(btnTerminar);
 				getRootPane().setDefaultButton(btnTerminar);
 			}
 		}
