@@ -126,7 +126,7 @@ public class Liga implements Serializable{
 		while(done == true) {
 			done = false;
 		    for (int i = 0; i < 5; i++) {
-		    	if(ordenado.get(i).getDesempenno().getTirosDeTres() < ordenado.get(i+1).getDesempenno().getTirosDeTres()) {
+		    	if(ordenado.get(i).getDesempenno().getTirosDeDos() < ordenado.get(i+1).getDesempenno().getTirosDeDos()) {
 		    		Jugador temp = ordenado.get(i);
 			    	ordenado.set(i, ordenado.get(i+1));
 			    	ordenado.set(i+1, temp);
@@ -146,7 +146,7 @@ public class Liga implements Serializable{
 		while(done == true) {
 			done = false;
 		    for (int i = 0; i < 5; i++) {
-		    	if(ordenado.get(i).getDesempenno().getTirosDeTres() < ordenado.get(i+1).getDesempenno().getTirosDeTres()) {
+		    	if(ordenado.get(i).getDesempenno().getTirosLibres() < ordenado.get(i+1).getDesempenno().getTirosLibres()) {
 		    		Jugador temp = ordenado.get(i);
 			    	ordenado.set(i, ordenado.get(i+1));
 			    	ordenado.set(i+1, temp);
