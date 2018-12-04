@@ -96,4 +96,64 @@ public class Liga implements Serializable{
 		}
 		return null;
 	}
+	
+	public ArrayList<Jugador> ordenarTirosTres(){
+		ArrayList<Jugador> ordenado = new ArrayList<>();
+		boolean done = true;
+		for(Jugador jugador: jugadores) {
+			ordenado.add(jugador);
+		}
+		while(done == true) {
+			done = false;
+		    for (int i = 0; i < 5; i++) {
+		    	if(ordenado.get(i).getDesempenno().getTirosDeTres() < ordenado.get(i+1).getDesempenno().getTirosDeTres()) {
+		    		Jugador temp = ordenado.get(i);
+			    	ordenado.set(i, ordenado.get(i+1));
+			    	ordenado.set(i+1, temp);
+			    	done = true;
+		    	}
+		    }
+		}
+		return ordenado;
+	}
+	
+	public ArrayList<Jugador> ordenarTirosDos(){
+		ArrayList<Jugador> ordenado = new ArrayList<>();
+		boolean done = true;
+		for(Jugador jugador: jugadores) {
+			ordenado.add(jugador);
+		}
+		while(done == true) {
+			done = false;
+		    for (int i = 0; i < 5; i++) {
+		    	if(ordenado.get(i).getDesempenno().getTirosDeTres() < ordenado.get(i+1).getDesempenno().getTirosDeTres()) {
+		    		Jugador temp = ordenado.get(i);
+			    	ordenado.set(i, ordenado.get(i+1));
+			    	ordenado.set(i+1, temp);
+			    	done = true;
+		    	}
+		    }
+		}
+		return ordenado;
+	}
+	
+	public ArrayList<Jugador> ordenarTirosLibres(){
+		ArrayList<Jugador> ordenado = new ArrayList<>();
+		boolean done = true;
+		for(Jugador jugador: jugadores) {
+			ordenado.add(jugador);
+		}
+		while(done == true) {
+			done = false;
+		    for (int i = 0; i < 5; i++) {
+		    	if(ordenado.get(i).getDesempenno().getTirosDeTres() < ordenado.get(i+1).getDesempenno().getTirosDeTres()) {
+		    		Jugador temp = ordenado.get(i);
+			    	ordenado.set(i, ordenado.get(i+1));
+			    	ordenado.set(i+1, temp);
+			    	done = true;
+		    	}
+		    }
+		}
+		return ordenado;
+	}
 }
