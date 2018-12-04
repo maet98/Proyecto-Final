@@ -40,6 +40,10 @@ public class Calendario extends JDialog {
 	public Calendario() {
 		setTitle("Calendario");
 		setBounds(100, 100, 587, 445);
+		setAlwaysOnTop(true);
+		setAutoRequestFocus(false);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
