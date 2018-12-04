@@ -74,6 +74,7 @@ public class LisEquipo extends JDialog {
 		getContentPane().add(scrollPane);
 		
 		table = new JTable();
+		table.setDefaultEditor(Object.class, null);
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				int selectedRow = table.getSelectedRow();
