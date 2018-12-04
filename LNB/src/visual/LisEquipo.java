@@ -32,10 +32,10 @@ public class LisEquipo extends JDialog {
 
 
 	public LisEquipo() {
-		setLocationRelativeTo(null);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisEquipo.class.getResource("/imagenes/basketball.png")));
 		setTitle("Listar Equipos");
 		setBounds(100, 100, 580, 377);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		{
 			JPanel buttonPane = new JPanel();
