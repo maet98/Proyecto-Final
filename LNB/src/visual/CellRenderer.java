@@ -23,10 +23,18 @@ final class CellRenderer extends DefaultTableCellRenderer implements TableCellRe
         
         Jugador jugador = Liga.getInstance().buscarJugadorId(table.getValueAt(row, 0).toString());
         
+        
         if(jugador.isLesionado() == true) {
         	l.setBackground(Color.red);
         }else {
-        	l.setBackground(Color.white);
+        	if(isSelected) {
+            	l.setBackground(Color.BLUE);
+            	l.setForeground(Color.BLACK);
+            }
+        	else {
+        		l.setBackground(Color.WHITE);
+        		l.setForeground(Color.BLACK);
+        	}
         }
         return l;
     }

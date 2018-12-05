@@ -8,8 +8,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
+import logico.Jugador;
 import logico.Liga;
 import logico.Partido;
+import logico.Tiros1Comparator;
 
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -51,13 +53,16 @@ import javax.swing.ImageIcon;
 
 public class Principal {
 	private JFrame frmLigaDeBaloncesto;
-	private JTable TableTiros1;
+	private JTable TableTiros3;
 	private JTable TableTiros2;
 	private ObjectOutputStream archivoSalida;
 	private JLabel lblLocall1;
 	private JLabel lblVisitante1;
 	private JLabel lblfecha1;
 	private JPanel PnlProximosPartidos;
+	private DefaultTableModel modelTirosLibres;
+	private DefaultTableModel modelTirosde2;
+	private DefaultTableModel modelTirosde3;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -225,52 +230,46 @@ public class Principal {
 		panel.setLayout(null);
 		JScrollPane Tiros2 = new JScrollPane();
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		JScrollPane Tiros1 = new JScrollPane();
-		tabbedPane.addTab("Tiros de 1", Tiros1);
+		JScrollPane Tiros3 = new JScrollPane();
+		tabbedPane.addTab("Tiros de 3", Tiros3);
 		
-		TableTiros1 = new JTable();
-		TableTiros1.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Posicion", "Nombre", "Equipo", "Tiros Anotados"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, Integer.class
+		TableTiros3 = new JTable();
+		modelTirosde3 = new DefaultTableModel(new Object[][] {},new String[] {"Posicion", "Nombre", "Equipo", "Tiros Anotados"}) {Class[] columnTypes = new Class[] {Integer.class, String.class, String.class, Integer.class};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
 			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
-		TableTiros1.getColumnModel().getColumn(0).setResizable(false);
-		TableTiros1.getColumnModel().getColumn(0).setPreferredWidth(65);
-		TableTiros1.getColumnModel().getColumn(0).setMinWidth(65);
-		TableTiros1.getColumnModel().getColumn(0).setMaxWidth(50);
-		TableTiros1.getColumnModel().getColumn(1).setResizable(false);
-		TableTiros1.getColumnModel().getColumn(1).setPreferredWidth(90);
-		TableTiros1.getColumnModel().getColumn(2).setResizable(false);
-		TableTiros1.getColumnModel().getColumn(3).setResizable(false);
-		TableTiros1.getColumnModel().getColumn(3).setPreferredWidth(84);
-		TableTiros1.getColumnModel().getColumn(3).setMinWidth(18);
-		Tiros1.setViewportView(TableTiros1);
+		TableTiros3.setModel(modelTirosde3);
+		TableTiros3.getColumnModel().getColumn(0).setResizable(false);
+		TableTiros3.getColumnModel().getColumn(0).setPreferredWidth(65);
+		TableTiros3.getColumnModel().getColumn(0).setMinWidth(65);
+		TableTiros3.getColumnModel().getColumn(0).setMaxWidth(50);
+		TableTiros3.getColumnModel().getColumn(1).setResizable(false);
+		TableTiros3.getColumnModel().getColumn(1).setPreferredWidth(90);
+		TableTiros3.getColumnModel().getColumn(2).setResizable(false);
+		TableTiros3.getColumnModel().getColumn(3).setResizable(false);
+		TableTiros3.getColumnModel().getColumn(3).setPreferredWidth(84);
+		TableTiros3.getColumnModel().getColumn(3).setMinWidth(18);
+		Tiros3.setViewportView(TableTiros3);
+		TableTiros3.setFillsViewportHeight(true);
 		tabbedPane.addTab("Tiros de 2", Tiros2);
 		
 		TableTiros2 = new JTable();
-		TableTiros2.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Posicion", "Nombre", "Equipo", "Tiros Anotados"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, String.class, Integer.class
+		modelTirosde2 = new DefaultTableModel(
+				new Object[][] {
+				},
+				new String[] {
+					"Posicion", "Nombre", "Equipo", "Tiros Anotados"
+				}
+			) {
+				Class[] columnTypes = new Class[] {
+					Integer.class, String.class, String.class, Integer.class
+				};
+				public Class getColumnClass(int columnIndex) {
+					return columnTypes[columnIndex];
+				}
 			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		TableTiros2.setModel(modelTirosde2);
 		TableTiros2.getColumnModel().getColumn(0).setPreferredWidth(71);
 		TableTiros2.getColumnModel().getColumn(0).setMinWidth(71);
 		TableTiros2.getColumnModel().getColumn(0).setMaxWidth(71);
@@ -308,6 +307,7 @@ public class Principal {
 		TiroLibres.setViewportView(tableTirosLibres);
 		
 		JLabel lblEstadisticas = new JLabel("Estadisticas");
+		lblEstadisticas.setFont(new Font("Times New Roman", Font.BOLD, 20));
 		lblEstadisticas.setBounds(1567, 22, 82, 16);
 		panel.add(lblEstadisticas);
 		
@@ -415,8 +415,23 @@ public class Principal {
 			}
 			
 		}
-			
-			
+		
 	}
 	private JTable tableTirosLibres;
+	private void loadTirosLibres() {
+		Collections.sort(Liga.getInstance().getJugadores(), new Tiros1Comparator());
+		for (Jugador jugador : Liga.getInstance().getJugadores()) {
+			System.out.println(jugador.getNombre()+" "+jugador.getDesempenno().getTirosLibres());
+		}
+		modelTirosLibres.setRowCount(0);
+		Object[] fila = new Object[modelTirosLibres.getColumnCount()];
+		int j= 1;
+		for (int i = Liga.getInstance().getJugadores().size(); i>=0; i--,j++) {
+			fila[0] = j;
+			fila[1] = Liga.getInstance().getJugadores().get(i).getNombre()+" "+Liga.getInstance().getJugadores().get(i).getApellido();
+			fila[2] = Liga.getInstance().getJugadores().get(i).getEquipo().getNombre();
+			fila[3] = Liga.getInstance().getJugadores().get(i).getDesempenno().getTirosLibres();
+			modelTirosLibres.addRow(fila);
+		}
+	}
 }

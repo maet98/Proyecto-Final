@@ -10,8 +10,11 @@ import javax.swing.border.EmptyBorder;
 
 import logico.Jugador;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LisEstadisticas extends JDialog {
 
@@ -173,17 +176,35 @@ public class LisEstadisticas extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				JButton btnModificar = new JButton("Modificar");
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						int rebotes = Integer.parseInt(txtRebotes.getText());
+						int faltas = Integer.parseInt(txtFaltas.getText());
+						int asistencias = Integer.parseInt(txtAsistencias.getText());
+						jugador.getDesempenno().setAsistencias(asistencias);
+						jugador.getDesempenno().setFaltas(faltas);
+						jugador.getDesempenno().setRebotes(rebotes);
+						JOptionPane.showMessageDialog(null, "Las estadisticas del jugador "+jugador.getNombre()+" han sido cambiado.", "Ïnformacion", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+					}
+				});
+				btnModificar.setActionCommand("OK");
+				buttonPane.add(btnModificar);
+				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				JButton btnSalir = new JButton("Salir");
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						dispose();
+					}
+				});
+				btnSalir.setActionCommand("Cancel");
+				buttonPane.add(btnSalir);
 			}
 		}
+		loadJugador();
 	}
 	private void loadJugador() {
 		txtAsistencias.setText(String.valueOf(mijugador.getDesempenno().getAsistencias()));

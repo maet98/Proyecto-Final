@@ -226,6 +226,14 @@ public class LisJugador<IconImage> extends JDialog {
 			buttonPane.add(btnLesion);
 			
 			btnDesempeo = new JButton("Desempe\u00F1o");
+			btnDesempeo.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Jugador jugador = Liga.getInstance().buscarJugadorId(cedulaSelectedJugador);
+					LisEstadisticas nuevo = new LisEstadisticas(jugador);
+					nuevo.setModal(true);
+					nuevo.setVisible(true);
+				}
+			});
 			btnDesempeo.setEnabled(false);
 			buttonPane.add(btnDesempeo);
 			{

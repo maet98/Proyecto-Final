@@ -107,10 +107,13 @@ public class CrearPartido extends JDialog {
 				btnCrear.setEnabled(false);
 				btnCrear.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(), Liga.getInstance().buscarEquipo(EquipoLocal), Liga.getInstance().buscarEquipo(EquipoVisitante));
+						Equipo equipoLocal = Liga.getInstance().buscarEquipo(EquipoLocal);
+						Equipo equipoVisitante = Liga.getInstance().buscarEquipo(EquipoVisitante);
+						Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(),equipoLocal, equipoVisitante);
 						Liga.getInstance().addPartido(nuevo);
+						JOptionPane.showMessageDialog(null, "El partido "+EquipoLocal+" vs "+EquipoVisitante+ " ha sido ingresado" , "Infromacion", JOptionPane.INFORMATION_MESSAGE);
 						limpiar();
-						JOptionPane.showMessageDialog(null, "El partido "+EquipoLocal+" vs "+EquipoVisitante+ "ha sido ingresado" , "Infromacion", JOptionPane.INFORMATION_MESSAGE);
+						
 					}
 				});
 				btnCrear.setActionCommand("OK");
@@ -135,24 +138,28 @@ public class CrearPartido extends JDialog {
 		int i = 0;
 		modelLocal.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			if(actual.getNombre().equalsIgnoreCase(EquipoLocal)) {
-				ListLocal.setSelectedIndex(i);
+			if(!actual.getNombre().equalsIgnoreCase(EquipoVisitante)) {
+				modelLocal.addElement(actual.getNombre());
+				if(actual.getNombre().equalsIgnoreCase(EquipoLocal)) {
+					ListLocal.setSelectedIndex(i);
+				}
+				i++;
 			}
-			modelLocal.addElement(actual.getNombre());
-			System.out.println(EquipoLocal);
-			i++;
 		}
 	}
 	private void loadVisitante() {
 		int i = 0;
 		modelVisitante.removeAllElements();
 		for (Equipo actual : Liga.getInstance().getEquipos()) {
-			if(actual.getNombre().equalsIgnoreCase(EquipoVisitante)) {
-				ListVisitante.setSelectedIndex(i);
+			if(!actual.getNombre().equalsIgnoreCase(EquipoLocal)) {
+				modelVisitante.addElement(actual.getNombre());
+				if(actual.getNombre().equalsIgnoreCase(EquipoVisitante)) {
+					ListVisitante.setSelectedIndex(i);
+				}
+				i++;
+				
+				
 			}
-			modelVisitante.addElement(actual.getNombre());
-			System.out.println(EquipoVisitante);
-			i++;
 		}
 	}
 	private void limpiar() {

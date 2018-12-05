@@ -49,7 +49,7 @@ public class Posiciones extends JDialog {
 		contentPanel.setLayout(null);
 		{
 			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setBounds(6, 6, 588, 427);
+			scrollPane.setBounds(6, 6, 570, 409);
 			contentPanel.add(scrollPane);
 			{
 				table = new JTable();
