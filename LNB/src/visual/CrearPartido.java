@@ -39,6 +39,10 @@ public class CrearPartido extends JDialog {
 	public CrearPartido() {
 		setTitle("Crear Partido");
 		setBounds(100, 100, 594, 346);
+		setAlwaysOnTop(true);
+		setAutoRequestFocus(false);
+		setResizable(false);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

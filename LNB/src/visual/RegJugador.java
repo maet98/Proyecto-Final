@@ -62,12 +62,16 @@ public class RegJugador extends JDialog {
 	private Jugador mijugador;
 	
 	public RegJugador(Jugador jugador) throws FileNotFoundException, ParseException {
+		setAlwaysOnTop(true);
+		setAutoRequestFocus(false);
+		setResizable(false);
 		mijugador = jugador;
 		fotoJugador = defaultFoto;
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegJugador.class.getResource("/imagenes/basketball.png")));
 		setLocationRelativeTo(null);
 		setTitle("Registrar Jugador");
 		setBounds(100, 100, 608, 407);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -256,7 +260,7 @@ public class RegJugador extends JDialog {
 								if(mijugador == null) {
 									Liga.getInstance().addJugador(nuevo);
 									equipo.getJugadores().add(nuevo);
-									JOptionPane.showMessageDialog(null, "El jugador "+nombre+" "+apellido+" ha sido ingresado", "Información", JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(null, "El jugador "+nombre+" "+apellido+" ha sido ingresado", "Informaciï¿½n", JOptionPane.INFORMATION_MESSAGE);
 									limpiar();
 								}else {
 									mijugador.setAltura(altura);

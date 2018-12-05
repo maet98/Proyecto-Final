@@ -209,9 +209,21 @@ public class ControladorPartidos extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						if(TanteoLocal!=TanteoVisitante) {
 							ingresarValores();
-							JOptionPane.showMessageDialog(null, "El marcador final ha sido "+txtMarcador.getText()+". El equipo ganador fue "+ganador(), "Partido finalizado", JOptionPane.INFORMATION_MESSAGE);
+							if(TanteoLocal>TanteoVisitante) {
+								Local.aumentarPartidosGanados();
+								Visitante.aumentarPartidosPerdidos();
+								Local.aumentarPartidosJugados();
+								Visitante.aumentarPartidosJugados();
+							}
+							else {
+								Visitante.aumentarPartidosGanados();
+								Local.aumentarPartidosPerdidos();
+								Visitante.aumentarPartidosJugados();
+								Local.aumentarPartidosJugados();
+							}
 							partidoActual.setMarcador(new Marcador(TanteoLocal, TanteoVisitante));
 							partidoActual.setJugado(true);
+							JOptionPane.showMessageDialog(null, "El marcador final ha sido "+txtMarcador.getText()+". El equipo ganador fue "+ganador(), "Partido finalizado", JOptionPane.INFORMATION_MESSAGE);
 						}else {
 							JOptionPane.showMessageDialog(null, "El partido no puede quedar empate", "Informacion", JOptionPane.WARNING_MESSAGE);
 						}

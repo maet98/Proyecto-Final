@@ -39,10 +39,12 @@ public class RegLesion extends JDialog {
 
 
 	public RegLesion(Jugador jugador, Equipo equipo) {
+		setAlwaysOnTop(true);
 		mijugador = jugador;
 		miEquipo = equipo;
 		setTitle("Registrar Lesi\u00F3n");
 		setBounds(100, 100, 461, 582);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -52,7 +54,6 @@ public class RegLesion extends JDialog {
 		panel.setBorder(new TitledBorder(null, "Informaci\u00F3n:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		contentPanel.add(panel);
 		panel.setLayout(null);
-		
 		JLabel lblTipoDeLesin = new JLabel("Tipo de lesi\u00F3n:");
 		lblTipoDeLesin.setBounds(6, 37, 101, 16);
 		panel.add(lblTipoDeLesin);
@@ -95,8 +96,8 @@ public class RegLesion extends JDialog {
 						Lesion lesion = new Lesion(tipo, jugador, inicio, fin);
 						jugador.setLesion(lesion);
 						jugador.setLesionado(true);
-						JOptionPane.showMessageDialog(null,"Operación Satisfactoria","Información",JOptionPane.INFORMATION_MESSAGE);
-						clean();
+						JOptionPane.showMessageDialog(contentPanel,"Operaciï¿½n Satisfactoria","Informaciï¿½n",JOptionPane.INFORMATION_MESSAGE);
+						dispose();
 					}
 				});
 				btnRegistrar.setActionCommand("OK");

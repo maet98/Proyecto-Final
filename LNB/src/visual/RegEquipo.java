@@ -47,11 +47,16 @@ public class RegEquipo extends JDialog {
 	private ImageIcon icono;
 
 	public RegEquipo(Equipo equipo) {
+		setAlwaysOnTop(true);
+		setAutoRequestFocus(false);
+		setResizable(false);
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage(RegEquipo.class.getResource("/imagenes/basketball.png")));
 		logoEquipo = new ImageIcon(RegEquipo.class.getResource("/imagenes/equipo1.png"));
 		setTitle("Registrar Equipo");
 		this.miEquipo = equipo;
 		setBounds(100, 100, 500, 354);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

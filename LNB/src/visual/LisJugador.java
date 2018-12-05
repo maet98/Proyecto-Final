@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -64,9 +65,13 @@ public class LisJugador<IconImage> extends JDialog {
 	private JLabel lblFotojugador;
 
 	public LisJugador() {
+		setResizable(false);
+		setAlwaysOnTop(true);
+		setAutoRequestFocus(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/basketball.png")));
 		setTitle("Listar Jugadores");
 		setBounds(100, 100, 808, 490);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "Jugadores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -78,7 +83,9 @@ public class LisJugador<IconImage> extends JDialog {
 				if(cbxEquipo.getSelectedIndex()>0) {
 					String nombre = cbxEquipo.getSelectedItem().toString();
 					Seleccionado = Liga.getInstance().buscarEquipo(nombre);
-					lblFotoequipo.setIcon(Seleccionado.getLogo());
+					//ImageIcon iconoEquipo = new ImageIcon(nuevo.getFotoJugador().getImage().getScaledInstance(lblFotojugador.getWidth(), lblFotojugador.getHeight(), Image.SCALE_DEFAULT));
+					ImageIcon iconoEquipo = new ImageIcon(Seleccionado.getLogo().getImage().getScaledInstance(lblFotoequipo.getWidth(), lblFotoequipo.getHeight(), Image.SCALE_DEFAULT));
+					lblFotoequipo.setIcon(iconoEquipo);
 					loadJugador();
 				}
 			}
@@ -98,8 +105,10 @@ public class LisJugador<IconImage> extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		model = new DefaultTableModel();
-		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posición","Edad","Dorsal","Equipo","Altura"};
+		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posiciï¿½n","Edad","Dorsal","Equipo","Altura"};
 		table = new JTable();
+		table.setSelectionBackground(Color.BLUE);
+		table.setDefaultEditor(Object.class, null);
 		table.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent arg0) {
 				if(table.getSelectedRow()>=0) {
@@ -132,6 +141,16 @@ public class LisJugador<IconImage> extends JDialog {
 		txtBuscador.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent arg0) {
 				loadJugador();
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				char c = e.getKeyChar();
+				    if(Character.isLetter(c) || Character.isISOControl(c))
+				    {
+				        e = e;			
+				    }	
+				    else
+				        e.consume();
 			}
 		});
 		txtBuscador.setBounds(96, 91, 110, 20);
