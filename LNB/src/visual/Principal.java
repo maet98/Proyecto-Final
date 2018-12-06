@@ -239,7 +239,7 @@ public class Principal {
 		tabbedPane.addTab("Tiros de 3", Tiros3);
 		
 		TableTiros3 = new JTable();
-		TableTiros3.setLocation(0, 50);
+		TableTiros3.setLocation(785, 0);
 		modelTirosde3 = new DefaultTableModel(new Object[][] {},new String[] {"Posicion", "Nombre", "Equipo", "Tiros Anotados"}) {Class[] columnTypes = new Class[] {Integer.class, String.class, String.class, Integer.class};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -281,7 +281,7 @@ public class Principal {
 		TableTiros2.getColumnModel().getColumn(0).setMaxWidth(71);
 		TableTiros2.getColumnModel().getColumn(3).setPreferredWidth(87);
 		Tiros2.setViewportView(TableTiros2);
-		tabbedPane.setBounds(1360, 49, 517, 594);
+		tabbedPane.setBounds(914, 107, 556, 594);
 		panel.add(tabbedPane);
 		JScrollPane TiroLibres = new JScrollPane();
 		tabbedPane.addTab("Tiros Libres", null, TiroLibres, null);
@@ -301,16 +301,10 @@ public class Principal {
 		TiroLibres.setViewportView(tableTirosLibres);
 		
 		JLabel lblEstadisticas = new JLabel("Estadisticas");
-		lblEstadisticas.setFont(new Font("Times New Roman", Font.BOLD, 20));
-		lblEstadisticas.setBounds(1567, 22, 82, 16);
+		lblEstadisticas.setForeground(Color.WHITE);
+		lblEstadisticas.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblEstadisticas.setBounds(1127, 68, 134, 16);
 		panel.add(lblEstadisticas);
-		
-		JLabel lblProximosPartidos = new JLabel("Proximos Partidos");
-		lblProximosPartidos.setBackground(Color.BLACK);
-		lblProximosPartidos.setForeground(Color.WHITE);
-		lblProximosPartidos.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblProximosPartidos.setBounds(237, 53, 180, 16);
-		panel.add(lblProximosPartidos);
 		
 		JButton btnVerMasEstadisticas = new JButton("Ver mas estadisticas");
 		btnVerMasEstadisticas.addActionListener(new ActionListener() {
@@ -321,14 +315,14 @@ public class Principal {
 				
 			}
 		});
-		btnVerMasEstadisticas.setBounds(1567, 674, 152, 23);
+		btnVerMasEstadisticas.setBounds(1139, 713, 152, 23);
 		panel.add(btnVerMasEstadisticas);
 		
 		PnlProximosPartidos = new JPanel();
 		PnlProximosPartidos.setForeground(Color.WHITE);
-		PnlProximosPartidos.setBackground(Color.BLACK);
-		PnlProximosPartidos.setBorder(new LineBorder(new Color(0, 0, 0)));
-		PnlProximosPartidos.setBounds(29, 88, 600, 460);
+		PnlProximosPartidos.setBackground(Color.decode("#d8c1aa"));
+		PnlProximosPartidos.setBorder(null);
+		PnlProximosPartidos.setBounds(173, 300, 600, 460);
 		panel.add(PnlProximosPartidos);
 		PnlProximosPartidos.setLayout(null);
 		
@@ -344,24 +338,39 @@ public class Principal {
 		lblVisitante.setBounds(393, 38, 116, 25);
 		PnlProximosPartidos.add(lblVisitante);
 		
+		JLabel lblProximosPartidos = new JLabel("Proximos Partidos");
+		lblProximosPartidos.setBounds(208, 6, 180, 16);
+		PnlProximosPartidos.add(lblProximosPartidos);
+		lblProximosPartidos.setBackground(Color.BLACK);
+		lblProximosPartidos.setForeground(Color.WHITE);
+		lblProximosPartidos.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.getViewport().setBackground(Color.BLACK);
-		scrollPane.setBounds(29, 559, 600, 314);
+		scrollPane.getViewport().setBackground(Color.decode("#d8c1aa"));
+		scrollPane.setBounds(173, 130, 600, 130);
 		panel.add(scrollPane);
 		
 		
 		tablePosicion = new JTable();
+		tablePosicion.setForeground(new Color(0, 0, 0));
 		scrollPane.setViewportView(tablePosicion);
-		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0)));
+		scrollPane.setBorder(null);
 		modelPosiciones = new DefaultTableModel();
 		String[] columnNames = {"Posicion","Equipo","Jugados","Ganados","Perdidos"};
 		modelPosiciones.setColumnIdentifiers(columnNames);
 		tablePosicion.setModel(modelPosiciones);
 		
+		JLabel lblProximosPartidos_1 = new JLabel("Tabla de Posiciones");
+		lblProximosPartidos_1.setForeground(Color.WHITE);
+		lblProximosPartidos_1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
+		lblProximosPartidos_1.setBounds(374, 92, 199, 26);
+		panel.add(lblProximosPartidos_1);
+		
 		JLabel lblfondo = new JLabel("");
-		lblfondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/principalFondo.jpg")));
+		lblfondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/fondofinal.png")));
 		lblfondo.setBounds(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
 		panel.add(lblfondo);
+		
 		
 		
 		

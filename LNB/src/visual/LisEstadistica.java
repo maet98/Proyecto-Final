@@ -27,6 +27,7 @@ public class LisEstadistica extends JDialog {
 	public LisEstadistica() {
 		setTitle("Listar Estadisticas");
 		setBounds(100, 100, 871, 440);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
