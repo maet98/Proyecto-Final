@@ -24,6 +24,8 @@ import logico.Lesion;
 import logico.Liga;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class RegLesion extends JDialog {
 
@@ -39,11 +41,12 @@ public class RegLesion extends JDialog {
 
 
 	public RegLesion(Jugador jugador, Equipo equipo) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(RegLesion.class.getResource("/imagenes/bone.png")));
 		setAlwaysOnTop(true);
 		mijugador = jugador;
 		miEquipo = equipo;
 		setTitle("Registrar Lesi\u00F3n");
-		setBounds(100, 100, 461, 582);
+		setBounds(100, 100, 548, 640);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,11 +70,11 @@ public class RegLesion extends JDialog {
 		txtTipo.setColumns(10);
 		
 		JLabel lblFechaDeInicio = new JLabel("Fecha de inicio:");
-		lblFechaDeInicio.setBounds(6, 135, 109, 16);
+		lblFechaDeInicio.setBounds(6, 87, 109, 16);
 		panel.add(lblFechaDeInicio);
 		
 		clndrInicio = new JCalendar();
-		clndrInicio.setBounds(119, 134, 198, 155);
+		clndrInicio.setBounds(112, 87, 393, 223);
 		panel.add(clndrInicio);
 		
 		JLabel lblFechaFinal = new JLabel("Fecha final:");
@@ -79,14 +82,15 @@ public class RegLesion extends JDialog {
 		panel.add(lblFechaFinal);
 		
 		clndrFinal = new JCalendar();
-		clndrFinal.setBounds(119, 311, 198, 155);
+		clndrFinal.setBounds(105, 319, 386, 202);
 		panel.add(clndrFinal);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("Registrar");
+				JButton btnRegistrar = new JButton();
+				btnRegistrar.setIcon(new ImageIcon(RegLesion.class.getResource("/imagenes/floppy-disk-interface-symbol-for-save-option-button.png")));
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						String tipo = txtTipo.getText();
@@ -105,7 +109,8 @@ public class RegLesion extends JDialog {
 				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
+				JButton cancelButton = new JButton("");
+				cancelButton.setIcon(new ImageIcon(RegLesion.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

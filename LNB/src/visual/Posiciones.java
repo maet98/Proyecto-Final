@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 
 import javax.swing.JButton;
@@ -25,6 +26,7 @@ public class Posiciones extends JDialog {
 	private JTable table;
 	
 	public Posiciones() {
+		setBackground(Color.decode("#d8c1aa"));
 		setTitle("Posiciones");
 		setBounds(100, 100, 600, 500);
 		getContentPane().setLayout(new BorderLayout());

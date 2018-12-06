@@ -1,6 +1,7 @@
 package visual;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
@@ -62,6 +63,7 @@ public class ControladorPartidos extends JDialog {
 	private JLabel lblLogoVisitante;
 	
 	public ControladorPartidos(Partido partido) {
+		setBackground(Color.decode("#d8c1aa"));
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -78,11 +80,11 @@ public class ControladorPartidos extends JDialog {
 			}
 		});
 		setAlwaysOnTop(true);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(ControladorPartidos.class.getResource("/imagenes/partidoIcon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(ControladorPartidos.class.getResource("/imagenes/cronometro.png")));
 		partidoActual = partido;
 		setLocationRelativeTo(null);
 		setTitle("Controlador Partido");
-		setBounds(100, 100, 951, 616);
+		setBounds(100, 100, 950, 632);
 		this.Local = partido.getLocal();
 		this.Visitante = partido.getVisitante();
 		getContentPane().setLayout(new BorderLayout());
@@ -214,10 +216,10 @@ public class ControladorPartidos extends JDialog {
 			scrollPaneVisitante.setViewportView(Tablavisitante);
 			{
 				JButton btnTerminar = new JButton("");
-				btnTerminar.setSelectedIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/FinPartido.png")));
-				btnTerminar.setBounds(441, 510, 48, 48);
+				btnTerminar.setSelectedIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/pito.png")));
+				btnTerminar.setBounds(441, 521, 48, 42);
 				panel.add(btnTerminar);
-				btnTerminar.setIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/FinPartido.png")));
+				btnTerminar.setIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/pito.png")));
 				btnTerminar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						if(TanteoLocal!=TanteoVisitante) {

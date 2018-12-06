@@ -281,7 +281,7 @@ public class Principal {
 		TableTiros2.getColumnModel().getColumn(0).setMaxWidth(71);
 		TableTiros2.getColumnModel().getColumn(3).setPreferredWidth(87);
 		Tiros2.setViewportView(TableTiros2);
-		tabbedPane.setBounds(914, 107, 556, 594);
+		tabbedPane.setBounds(1326, 109, 556, 594);
 		panel.add(tabbedPane);
 		JScrollPane TiroLibres = new JScrollPane();
 		tabbedPane.addTab("Tiros Libres", null, TiroLibres, null);
@@ -303,7 +303,7 @@ public class Principal {
 		JLabel lblEstadisticas = new JLabel("Estadisticas");
 		lblEstadisticas.setForeground(Color.WHITE);
 		lblEstadisticas.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblEstadisticas.setBounds(1127, 68, 134, 16);
+		lblEstadisticas.setBounds(1571, 58, 134, 16);
 		panel.add(lblEstadisticas);
 		
 		JButton btnVerMasEstadisticas = new JButton("Ver mas estadisticas");
@@ -315,14 +315,14 @@ public class Principal {
 				
 			}
 		});
-		btnVerMasEstadisticas.setBounds(1139, 713, 152, 23);
+		btnVerMasEstadisticas.setBounds(1571, 724, 152, 23);
 		panel.add(btnVerMasEstadisticas);
 		
 		PnlProximosPartidos = new JPanel();
 		PnlProximosPartidos.setForeground(Color.WHITE);
 		PnlProximosPartidos.setBackground(Color.decode("#d8c1aa"));
 		PnlProximosPartidos.setBorder(null);
-		PnlProximosPartidos.setBounds(173, 300, 600, 460);
+		PnlProximosPartidos.setBounds(51, 300, 600, 460);
 		panel.add(PnlProximosPartidos);
 		PnlProximosPartidos.setLayout(null);
 		
@@ -347,7 +347,7 @@ public class Principal {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.getViewport().setBackground(Color.decode("#d8c1aa"));
-		scrollPane.setBounds(173, 130, 600, 130);
+		scrollPane.setBounds(51, 130, 600, 130);
 		panel.add(scrollPane);
 		
 		
@@ -363,7 +363,7 @@ public class Principal {
 		JLabel lblProximosPartidos_1 = new JLabel("Tabla de Posiciones");
 		lblProximosPartidos_1.setForeground(Color.WHITE);
 		lblProximosPartidos_1.setFont(new Font("Lucida Grande", Font.PLAIN, 20));
-		lblProximosPartidos_1.setBounds(374, 92, 199, 26);
+		lblProximosPartidos_1.setBounds(252, 92, 199, 26);
 		panel.add(lblProximosPartidos_1);
 		
 		JLabel lblfondo = new JLabel("");
@@ -489,7 +489,7 @@ public class Principal {
 		modelPosiciones.setRowCount(0);
 		int j = 1;
 		Object[] fila = new Object[modelPosiciones.getColumnCount()];
-		for (int i = Liga.getInstance().getEquipos().size()-1; i >=0; i--,j++) {
+		for (int i = 0; i < Liga.getInstance().getEquipos().size(); i++,j++) {
 			fila[0] = j;
 			fila[1] = Liga.getInstance().getEquipos().get(i).getNombre();
 			fila[2] = Liga.getInstance().getEquipos().get(i).getPartidosJugados();

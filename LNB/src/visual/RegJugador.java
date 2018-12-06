@@ -240,7 +240,8 @@ public class RegJugador extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("Registrar");
+				JButton btnRegistrar = new JButton("");
+				btnRegistrar.setIcon(new ImageIcon(RegJugador.class.getResource("/imagenes/floppy-disk-interface-symbol-for-save-option-button.png")));
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(cmbxEquipo.getSelectedIndex()!=0 && cmbxPosicion.getSelectedIndex()!=0 && !txtApellido.getText().equalsIgnoreCase("") && !txtNombre.getText().equalsIgnoreCase("")&&
@@ -292,7 +293,8 @@ public class RegJugador extends JDialog {
 				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
-				JButton btnCancelar = new JButton("Cancelar");
+				JButton btnCancelar = new JButton("");
+				btnCancelar.setIcon(new ImageIcon(RegJugador.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

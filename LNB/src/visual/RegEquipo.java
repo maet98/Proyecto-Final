@@ -47,7 +47,6 @@ public class RegEquipo extends JDialog {
 	private ImageIcon icono;
 
 	public RegEquipo(Equipo equipo) {
-		setAlwaysOnTop(true);
 		setAutoRequestFocus(false);
 		setResizable(false);
 		
@@ -68,7 +67,7 @@ public class RegEquipo extends JDialog {
 			
 			JPanel pnlEquipo = new JPanel();
 			pnlEquipo.setBorder(new TitledBorder(null, "Informaci\u00F3n del Equipo:", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			pnlEquipo.setBounds(0, 0, 587, 268);
+			pnlEquipo.setBounds(0, 6, 478, 243);
 			panel.add(pnlEquipo);
 			pnlEquipo.setLayout(null);
 			
@@ -158,7 +157,7 @@ public class RegEquipo extends JDialog {
 					}
 				}
 			});
-			btnIngresarLogo.setBounds(329, 190, 132, 23);
+			btnIngresarLogo.setBounds(314, 192, 132, 23);
 			pnlEquipo.add(btnIngresarLogo);
 			
 		}
@@ -167,7 +166,8 @@ public class RegEquipo extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("Registrar");
+				JButton btnRegistrar = new JButton("");
+				btnRegistrar.setIcon(new ImageIcon(RegEquipo.class.getResource("/imagenes/floppy-disk-interface-symbol-for-save-option-button.png")));
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						if(equipo== null) {
@@ -205,7 +205,8 @@ public class RegEquipo extends JDialog {
 				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancelar");
+				JButton cancelButton = new JButton("");
+				cancelButton.setIcon(new ImageIcon(RegEquipo.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

@@ -235,7 +235,8 @@ public class LisJugador<IconImage> extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			
-			btnLesion = new JButton("Lesion");
+			btnLesion = new JButton("");
+			btnLesion.setIcon(new ImageIcon(LisJugador.class.getResource("/imagenes/bone.png")));
 			btnLesion.setEnabled(false);
 			btnLesion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
@@ -248,7 +249,8 @@ public class LisJugador<IconImage> extends JDialog {
 			});
 			buttonPane.add(btnLesion);
 			
-			btnDesempeo = new JButton("Desempe\u00F1o");
+			btnDesempeo = new JButton("");
+			btnDesempeo.setIcon(new ImageIcon(LisJugador.class.getResource("/imagenes/estadistica.png")));
 			btnDesempeo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Jugador jugador = Liga.getInstance().buscarJugadorId(cedulaSelectedJugador);
@@ -260,7 +262,8 @@ public class LisJugador<IconImage> extends JDialog {
 			btnDesempeo.setEnabled(false);
 			buttonPane.add(btnDesempeo);
 			{
-				btnModificar = new JButton("Modificar");
+				btnModificar = new JButton("");
+				btnModificar.setIcon(new ImageIcon(LisJugador.class.getResource("/imagenes/floppy-disk-interface-symbol-for-save-option-button.png")));
 				btnModificar.setEnabled(false);
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -281,7 +284,8 @@ public class LisJugador<IconImage> extends JDialog {
 				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton btnSalir = new JButton("Salir");
+				JButton btnSalir = new JButton("");
+				btnSalir.setIcon(new ImageIcon(LisJugador.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				btnSalir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();

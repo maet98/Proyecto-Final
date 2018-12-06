@@ -15,6 +15,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 public class modificarEstadistica extends JDialog {
 	private final JPanel contentPanel = new JPanel();
@@ -34,7 +35,7 @@ public class modificarEstadistica extends JDialog {
 	public modificarEstadistica(Jugador jugador) {
 		mijugador = jugador;
 		setTitle("Estadistica de "+jugador.getNombre()+" "+jugador.getApellido());
-		setBounds(100, 100, 654, 395);
+		setBounds(100, 100, 654, 415);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -107,7 +108,7 @@ public class modificarEstadistica extends JDialog {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new TitledBorder(null, "Estadisticas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		panel_1.setBounds(10, 138, 615, 175);
+		panel_1.setBounds(0, 138, 637, 175);
 		contentPanel.add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -175,7 +176,8 @@ public class modificarEstadistica extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnModificar = new JButton("Modificar");
+				JButton btnModificar = new JButton("");
+				btnModificar.setIcon(new ImageIcon(modificarEstadistica.class.getResource("/imagenes/floppy-disk-interface-symbol-for-save-option-button.png")));
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						int rebotes = Integer.parseInt(txtRebotes.getText());
@@ -193,7 +195,8 @@ public class modificarEstadistica extends JDialog {
 				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton btnSalir = new JButton("Salir");
+				JButton btnSalir = new JButton("");
+				btnSalir.setIcon(new ImageIcon(modificarEstadistica.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				btnSalir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

@@ -115,7 +115,7 @@ public class CrearPartido extends JDialog {
 						Equipo equipoVisitante = Liga.getInstance().buscarEquipo(EquipoVisitante);
 						Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(),equipoLocal, equipoVisitante);
 						Liga.getInstance().addPartido(nuevo);
-						JOptionPane.showMessageDialog(null, "El partido "+EquipoLocal+" vs "+EquipoVisitante+ " ha sido ingresado" , "Infromacion", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(contentPanel, "El partido "+EquipoLocal+" vs "+EquipoVisitante+ " ha sido ingresado" , "Infromacion", JOptionPane.INFORMATION_MESSAGE);
 						limpiar();
 						
 					}

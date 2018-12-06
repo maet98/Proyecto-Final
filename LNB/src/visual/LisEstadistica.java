@@ -16,6 +16,8 @@ import logico.Liga;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class LisEstadistica extends JDialog {
 
@@ -25,6 +27,8 @@ public class LisEstadistica extends JDialog {
 	private DefaultTableModel model;
 
 	public LisEstadistica() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LisEstadistica.class.getResource("/imagenes/estadistica.png")));
+		setResizable(false);
 		setTitle("Listar Estadisticas");
 		setBounds(100, 100, 871, 440);
 		setLocationRelativeTo(null);
@@ -72,11 +76,13 @@ public class LisEstadistica extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnModificar = new JButton("modificar");
+				JButton btnModificar = new JButton("");
+				btnModificar.setIcon(new ImageIcon(LisEstadistica.class.getResource("/imagenes/floppy-disk-interface-symbol-for-save-option-button.png")));
 				buttonPane.add(btnModificar);
 			}
 			{
-				JButton btnSalir = new JButton("Salir");
+				JButton btnSalir = new JButton("");
+				btnSalir.setIcon(new ImageIcon(LisEstadistica.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				btnSalir.setActionCommand("Cancel");
 				buttonPane.add(btnSalir);
 			}
