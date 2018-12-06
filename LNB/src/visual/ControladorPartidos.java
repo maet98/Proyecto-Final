@@ -68,7 +68,7 @@ public class ControladorPartidos extends JDialog {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				if (enJuego()) {
-					int resp = JOptionPane.showConfirmDialog(contentPanel, "Su Partido no se ha guardado Â¿Esta seguro que desea salir?", "Alerta!", JOptionPane.YES_NO_OPTION);
+					int resp = JOptionPane.showConfirmDialog(contentPanel, "Su Partido no se ha guardado ¿Esta seguro que desea salir?", "Alerta!", JOptionPane.YES_NO_OPTION);
 					if (resp == JOptionPane.YES_OPTION) {
 						setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 					} else if (resp == JOptionPane.NO_OPTION){

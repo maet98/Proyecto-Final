@@ -23,6 +23,8 @@ import java.awt.event.MouseEvent;
 import java.util.Date;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class CrearPartido extends JDialog {
 
@@ -37,6 +39,7 @@ public class CrearPartido extends JDialog {
 	private JButton btnCrear;
 	
 	public CrearPartido() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(CrearPartido.class.getResource("/imagenes/tablero.png")));
 		setTitle("Crear Partido");
 		setBounds(100, 100, 594, 346);
 		setAlwaysOnTop(true);
@@ -107,7 +110,8 @@ public class CrearPartido extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnCrear = new JButton("Crear");
+				btnCrear = new JButton("\r\n");
+				btnCrear.setIcon(new ImageIcon(CrearPartido.class.getResource("/imagenes/planing.png")));
 				btnCrear.setEnabled(false);
 				btnCrear.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
@@ -125,7 +129,8 @@ public class CrearPartido extends JDialog {
 				getRootPane().setDefaultButton(btnCrear);
 			}
 			{
-				JButton btnCancelar = new JButton("Cancelar");
+				JButton btnCancelar = new JButton("");
+				btnCancelar.setIcon(new ImageIcon(CrearPartido.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

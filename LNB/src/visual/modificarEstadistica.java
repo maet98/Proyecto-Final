@@ -2,6 +2,7 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Image;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -31,8 +32,10 @@ public class modificarEstadistica extends JDialog {
 	private JTextField txtRebotes;
 	private JTextField txtAsistencias;
 	private JTextField txtFaltas;
+	private JLabel lblFotoJugador;
 
 	public modificarEstadistica(Jugador jugador) {
+		setAlwaysOnTop(true);
 		mijugador = jugador;
 		setTitle("Estadistica de "+jugador.getNombre()+" "+jugador.getApellido());
 		setBounds(100, 100, 654, 415);
@@ -67,7 +70,7 @@ public class modificarEstadistica extends JDialog {
 		lblNacionalidad.setBounds(228, 52, 77, 16);
 		panel.add(lblNacionalidad);
 		
-		JLabel lblFotoJugador = new JLabel("Foto Jugador");
+		lblFotoJugador = new JLabel("");
 		lblFotoJugador.setBounds(444, 23, 105, 105);
 		panel.add(lblFotoJugador);
 		
@@ -186,7 +189,7 @@ public class modificarEstadistica extends JDialog {
 						jugador.getDesempenno().setAsistencias(asistencias);
 						jugador.getDesempenno().setFaltas(faltas);
 						jugador.getDesempenno().setRebotes(rebotes);
-						JOptionPane.showMessageDialog(null, "Las estadisticas del jugador "+jugador.getNombre()+" han sido cambiado.", "Ïnformacion", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(contentPanel, "Las estadisticas del jugador "+jugador.getNombre()+" han sido cambiado.", "Ïnformacion", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 					}
 				});
@@ -220,5 +223,7 @@ public class modificarEstadistica extends JDialog {
 		txtTirosDe2.setText(String.valueOf(mijugador.getDesempenno().getTirosDeDos()));
 		txtTirosDe3.setText(String.valueOf(mijugador.getDesempenno().getTirosDeTres()));
 		txtTirosLibre.setText(String.valueOf(mijugador.getDesempenno().getTirosLibres()));
+		ImageIcon iconoEquipo = new ImageIcon(mijugador.getFotoJugador().getImage().getScaledInstance(lblFotoJugador.getWidth(), lblFotoJugador.getHeight(), Image.SCALE_DEFAULT));
+		lblFotoJugador.setIcon(iconoEquipo);
 	}
 }

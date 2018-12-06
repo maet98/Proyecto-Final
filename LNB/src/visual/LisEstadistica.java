@@ -18,6 +18,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
+import java.text.ParseException;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class LisEstadistica extends JDialog {
 
@@ -25,7 +31,9 @@ public class LisEstadistica extends JDialog {
 	private JTable table;
 	private TableRowSorter<TableModel>modeloOrdenado;
 	private DefaultTableModel model;
-
+	private String nombreSeleccionado;
+	private JButton btnModificar;
+	
 	public LisEstadistica() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisEstadistica.class.getResource("/imagenes/estadistica.png")));
 		setResizable(false);
@@ -41,6 +49,15 @@ public class LisEstadistica extends JDialog {
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 			{
 				table = new JTable();
+				table.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent arg0) {
+						int index = table.getSelectedRow();
+						if(index >-1) {
+							nombreSeleccionado = model.getValueAt(index, 0).toString();
+							btnModificar.setEnabled(true);
+						}
+					}
+				});
 				model = new DefaultTableModel(
 						new Object[][] {
 						},
@@ -76,12 +93,30 @@ public class LisEstadistica extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnModificar = new JButton("");
-				btnModificar.setIcon(new ImageIcon(LisEstadistica.class.getResource("/imagenes/floppy-disk-interface-symbol-for-save-option-button.png")));
+				btnModificar = new JButton("");
+				btnModificar.setEnabled(false);
+				btnModificar.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Jugador jugador = Liga.getInstance().buscarJugadorNombreCompleto(nombreSeleccionado);
+						modificarEstadistica nuevo = new modificarEstadistica(jugador);
+						nuevo.setModal(true);
+						nuevo.setVisible(true);
+						nuevo.setLocationRelativeTo(null);
+						btnModificar.setEnabled(false);
+						loadEstadisticas();
+						
+					}
+				});
+				btnModificar.setIcon(new ImageIcon(LisEstadistica.class.getResource("/imagenes/edit-file.png")));
 				buttonPane.add(btnModificar);
 			}
 			{
 				JButton btnSalir = new JButton("");
+				btnSalir.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				btnSalir.setIcon(new ImageIcon(LisEstadistica.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				btnSalir.setActionCommand("Cancel");
 				buttonPane.add(btnSalir);

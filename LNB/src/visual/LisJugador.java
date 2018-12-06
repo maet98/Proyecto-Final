@@ -69,7 +69,6 @@ public class LisJugador<IconImage> extends JDialog {
 
 	public LisJugador() {
 		setResizable(false);
-		setAlwaysOnTop(true);
 		setAutoRequestFocus(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/camiseta.png")));
 		setTitle("Listar Jugadores");
@@ -132,6 +131,8 @@ public class LisJugador<IconImage> extends JDialog {
 		model.setColumnIdentifiers(columnNames);
 		table.setModel(model);
 		table.setDefaultRenderer(Object.class, new CellRenderer());
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);
 		scrollPane.setViewportView(table);
 		
 		lblFotoequipo = new JLabel("");
@@ -157,7 +158,7 @@ public class LisJugador<IconImage> extends JDialog {
 				        e.consume();
 			}
 		});
-		txtBuscador.setBounds(96, 91, 110, 20);
+		txtBuscador.setBounds(96, 91, 110, 28);
 		contentPanel.add(txtBuscador);
 		txtBuscador.setColumns(10);
 		
@@ -257,6 +258,7 @@ public class LisJugador<IconImage> extends JDialog {
 					modificarEstadistica nuevo = new modificarEstadistica(jugador);
 					nuevo.setModal(true);
 					nuevo.setVisible(true);
+					nuevo.setLocationRelativeTo(contentPanel);
 				}
 			});
 			btnDesempeo.setEnabled(false);

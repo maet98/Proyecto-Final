@@ -41,18 +41,19 @@ public class LisEquipo extends JDialog {
 
 
 	public LisEquipo() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(LisEquipo.class.getResource("/imagenes/basketball.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LisEquipo.class.getResource("/imagenes/default-team-logo-500.png")));
 		setTitle("Listar Equipos");
-		setBounds(100, 100, 680, 377);
+		setBounds(100, 100, 692, 431);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
 		{
 			JPanel buttonPane = new JPanel();
-			buttonPane.setBounds(6, 311, 668, 33);
+			buttonPane.setBounds(6, 331, 668, 47);
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane);
 			{
-				btnModificar = new JButton("Modificar");
+				btnModificar = new JButton("");
+				btnModificar.setIcon(new ImageIcon(LisEquipo.class.getResource("/imagenes/edit-file.png")));
 				btnModificar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						
@@ -75,7 +76,8 @@ public class LisEquipo extends JDialog {
 				getRootPane().setDefaultButton(btnModificar);
 			}
 			{
-				JButton btnSalir = new JButton("Salir");
+				JButton btnSalir = new JButton("");
+				btnSalir.setIcon(new ImageIcon(LisEquipo.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				btnSalir.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();

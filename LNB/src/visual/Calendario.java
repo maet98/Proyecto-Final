@@ -25,6 +25,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.JRadioButton;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 public class Calendario extends JDialog {
 
@@ -38,6 +40,7 @@ public class Calendario extends JDialog {
 	JRadioButton rdbtnNoJugados;
 
 	public Calendario() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Calendario.class.getResource("/imagenes/pito.png")));
 		setTitle("Calendario");
 		setBounds(100, 100, 587, 445);
 		setAlwaysOnTop(true);
@@ -129,7 +132,8 @@ public class Calendario extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				btnJugar = new JButton("Jugar Partido");
+				btnJugar = new JButton("");
+				btnJugar.setIcon(new ImageIcon(Calendario.class.getResource("/imagenes/pito.png")));
 				btnJugar.setEnabled(false);
 				btnJugar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -146,7 +150,8 @@ public class Calendario extends JDialog {
 				getRootPane().setDefaultButton(btnJugar);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("");
+				cancelButton.setIcon(new ImageIcon(Calendario.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}

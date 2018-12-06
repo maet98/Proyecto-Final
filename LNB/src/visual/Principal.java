@@ -137,9 +137,11 @@ public class Principal {
 		frmLigaDeBaloncesto.setJMenuBar(menuBar);
 		
 		JMenu mnJugadores = new JMenu("Jugadores");
+		mnJugadores.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/camiseta.png")));
 		menuBar.add(mnJugadores);
 		
 		JMenuItem mntmRegistrarJugador = new JMenuItem("Registrar Jugador");
+		mntmRegistrarJugador.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/planing.png")));
 		mntmRegistrarJugador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(Liga.getInstance().getEquipos().isEmpty()) {
@@ -150,6 +152,7 @@ public class Principal {
 						nuevo = new RegJugador(null);
 						nuevo.setModal(true);
 						nuevo.setVisible(true);
+						loadTodo();
 					} catch (FileNotFoundException e1) {
 						e1.printStackTrace();
 					} catch (ParseException e1) {
@@ -162,73 +165,84 @@ public class Principal {
 		mnJugadores.add(mntmRegistrarJugador);
 		
 		JMenuItem mntmListarJugadores = new JMenuItem("Listar Jugadores");
+		mntmListarJugadores.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/table-grid.png")));
 		mntmListarJugadores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				LisJugador nueva = new LisJugador();
 				nueva.setModal(true);
 				nueva.setVisible(true);
+				loadTodo();
 			}
 		});
 		mnJugadores.add(mntmListarJugadores);
 		
 		JMenu mnEquipos = new JMenu("Equipos");
+		mnEquipos.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/uniforms.png")));
 		menuBar.add(mnEquipos);
 		
 		JMenuItem mntmRegistrarEquipo = new JMenuItem("Registrar Equipo");
+		mntmRegistrarEquipo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/planing.png")));
 		mntmRegistrarEquipo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegEquipo nuevo = new RegEquipo(null);
 				nuevo.setModal(true);
 				nuevo.setVisible(true);
+				loadTodo();
 			}
 		});
 		mnEquipos.add(mntmRegistrarEquipo);
 		
 		JMenuItem mntmListarEquipos = new JMenuItem("Listar Equipos");
+		mntmListarEquipos.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/table-grid.png")));
 		mntmListarEquipos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				LisEquipo nueva = new LisEquipo();
 				nueva.setModal(true);
 				nueva.setVisible(true);
+				loadTodo();
 			}
 		});
 		mnEquipos.add(mntmListarEquipos);
 		
 		JMenuItem mntmPosiciones = new JMenuItem("Posiciones");
+		mntmPosiciones.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/podium.png")));
 		mntmPosiciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Posiciones posiciones = new Posiciones();
 				posiciones.setModal(true);
 				posiciones.setVisible(true);
+				loadTodo();
 			}
 		});
 		mnEquipos.add(mntmPosiciones);
 		
 		JMenu mnPartidos = new JMenu("Partidos");
+		mnPartidos.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/cro.png")));
 		menuBar.add(mnPartidos);
 		
 		JMenuItem mntmCrearPartido = new JMenuItem("Crear Partido");
+		mntmCrearPartido.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/planing.png")));
 		mntmCrearPartido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				CrearPartido nuevo = new CrearPartido();
 				nuevo.setModal(true);
 				nuevo.setVisible(true);
+				loadTodo();
 			}
 		});
 		mnPartidos.add(mntmCrearPartido);
 		
 		JMenuItem mntmVerCalendario = new JMenuItem("Ver Calendario");
+		mntmVerCalendario.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/table-grid.png")));
 		mntmVerCalendario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Calendario nuevo = new Calendario();
 				nuevo.setModal(true);
 				nuevo.setVisible(true);
+				loadTodo();
 			}
 		});
 		mnPartidos.add(mntmVerCalendario);
-		
-		JMenuItem mntmJugarPartido = new JMenuItem("Jugar Partido");
-		mnPartidos.add(mntmJugarPartido);
 		
 		JPanel panel = new JPanel();
 		frmLigaDeBaloncesto.getContentPane().add(panel, BorderLayout.CENTER);
@@ -312,7 +326,7 @@ public class Principal {
 				LisEstadistica nueva = new LisEstadistica();
 				nueva.setModal(true);
 				nueva.setVisible(true);
-				
+				loadTodo();
 			}
 		});
 		btnVerMasEstadisticas.setBounds(1571, 724, 152, 23);
@@ -368,20 +382,16 @@ public class Principal {
 		
 		JLabel lblfondo = new JLabel("");
 		lblfondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/fondofinal.png")));
-		lblfondo.setBounds(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
+		lblfondo.setBounds(-18, 6, (int)dim.getWidth(), (int)dim.getHeight());
 		panel.add(lblfondo);
-		
-		
-		
-		
+		loadTodo();
+	}
+	public void loadTodo() {
 		loadPartidos();
 		loadTirosLibres();
 		loadTirosdeDos();
 		loadTirosdeTres();
 		loadPosiciones();
-	}
-	public void loadEstadisticas() {
-		
 	}
 	
 	public void loadPartidos() {

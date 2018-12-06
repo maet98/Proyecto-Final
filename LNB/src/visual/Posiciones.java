@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class Posiciones extends JDialog {
 
@@ -26,16 +28,17 @@ public class Posiciones extends JDialog {
 	private JTable table;
 	
 	public Posiciones() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Posiciones.class.getResource("/imagenes/podium.png")));
 		setBackground(Color.decode("#d8c1aa"));
 		setTitle("Posiciones");
-		setBounds(100, 100, 600, 500);
+		setBounds(100, 100, 597, 447);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
 			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setBounds(6, 6, 570, 409);
+			scrollPane.setBounds(6, 6, 570, 340);
 			contentPanel.add(scrollPane);
 			{
 				table = new JTable();
@@ -53,7 +56,8 @@ public class Posiciones extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton cancelButton = new JButton("Cerrar");
+				JButton cancelButton = new JButton("");
+				cancelButton.setIcon(new ImageIcon(Posiciones.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();

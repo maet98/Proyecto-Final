@@ -156,4 +156,19 @@ public class Liga implements Serializable{
 		}
 		return ordenado;
 	}
+
+	public Jugador buscarJugadorNombreCompleto(String nombre) {
+		Jugador jugador = null;
+		int i = 0;
+		boolean encontrado = false;
+		while(!encontrado && i < jugadores.size()) {
+			String nom = jugadores.get(i).getNombre()+" "+jugadores.get(i).getApellido();
+			if(nom.equalsIgnoreCase(nombre)) {
+				encontrado = true;
+				jugador = jugadores.get(i);
+			}
+			i++;
+		}
+		return jugador;
+	}
 }
