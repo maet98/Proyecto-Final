@@ -39,14 +39,17 @@ import java.awt.event.FocusEvent;
 import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.BevelBorder;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class ControladorPartidos extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtMarcador;
-	private JTable tablaLocal;
+	private final JTable tablaLocal;
 	private JTable Tablavisitante;
 	private DefaultTableModel modelLocal;
 	private DefaultTableModel modelVisitante;
@@ -55,8 +58,26 @@ public class ControladorPartidos extends JDialog {
 	private int TanteoLocal;
 	private int TanteoVisitante;
 	private Partido partidoActual;
+	private JLabel lblLogoLocal;
+	private JLabel lblLogoVisitante;
 	
 	public ControladorPartidos(Partido partido) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				if (enJuego()) {
+					int resp = JOptionPane.showConfirmDialog(contentPanel, "Su Partido no se ha guardado ¿Esta seguro que desea salir?", "Alerta!", JOptionPane.YES_NO_OPTION);
+					if (resp == JOptionPane.YES_OPTION) {
+						setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+					} else if (resp == JOptionPane.NO_OPTION){
+						setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+					}
+				}else {
+					setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				}
+			}
+		});
+		setAlwaysOnTop(true);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ControladorPartidos.class.getResource("/imagenes/partidoIcon.png")));
 		partidoActual = partido;
 		setLocationRelativeTo(null);
@@ -75,27 +96,19 @@ public class ControladorPartidos extends JDialog {
 			panel.setLayout(null);
 			
 			JLabel lblMarcador = new JLabel("Marcador");
-			lblMarcador.setBounds(441, 430, 58, 16);
+			lblMarcador.setBounds(441, 448, 58, 16);
 			panel.add(lblMarcador);
 			
 			txtMarcador = new JTextField();
 			txtMarcador.setHorizontalAlignment(SwingConstants.CENTER);
 			txtMarcador.setEnabled(false);
 			txtMarcador.setEditable(false);
-			txtMarcador.setBounds(398, 457, 131, 22);
+			txtMarcador.setBounds(398, 476, 131, 22);
 			panel.add(txtMarcador);
 			txtMarcador.setColumns(10);
-
-			JLabel lblEquipoLocal = new JLabel("Equipo Local");
-			lblEquipoLocal.setBounds(160, 13, 84, 16);
-			panel.add(lblEquipoLocal);
-			
-			JLabel lblEquipoVisitante = new JLabel("Equipo Visitante");
-			lblEquipoVisitante.setBounds(646, 13, 120, 16);
-			panel.add(lblEquipoVisitante);
 			
 			JScrollPane scrollPaneLocal = new JScrollPane();
-			scrollPaneLocal.setBounds(6, 41, 425, 355);
+			scrollPaneLocal.setBounds(20, 93, 425, 343);
 			panel.add(scrollPaneLocal);
 			
 			tablaLocal = new JTable();
@@ -146,7 +159,7 @@ public class ControladorPartidos extends JDialog {
 			scrollPaneLocal.setViewportView(tablaLocal);
 			
 			JScrollPane scrollPaneVisitante = new JScrollPane();
-			scrollPaneVisitante.setBounds(497, 41, 425, 355);
+			scrollPaneVisitante.setBounds(497, 93, 425, 343);
 			panel.add(scrollPaneVisitante);
 			
 			Tablavisitante = new JTable();
@@ -202,7 +215,7 @@ public class ControladorPartidos extends JDialog {
 			{
 				JButton btnTerminar = new JButton("");
 				btnTerminar.setSelectedIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/FinPartido.png")));
-				btnTerminar.setBounds(441, 492, 48, 48);
+				btnTerminar.setBounds(441, 510, 48, 48);
 				panel.add(btnTerminar);
 				btnTerminar.setIcon(new ImageIcon(ControladorPartidos.class.getResource("/imagenes/FinPartido.png")));
 				btnTerminar.addActionListener(new ActionListener() {
@@ -232,6 +245,14 @@ public class ControladorPartidos extends JDialog {
 				btnTerminar.setActionCommand("OK");
 				getRootPane().setDefaultButton(btnTerminar);
 			}
+			
+			lblLogoLocal = new JLabel("");
+			lblLogoLocal.setBounds(199, 16, 65, 65);
+			panel.add(lblLogoLocal);
+			
+			lblLogoVisitante = new JLabel("");
+			lblLogoVisitante.setBounds(677, 16, 65, 65);
+			panel.add(lblLogoVisitante);
 		}
 		loadLocal();
 		loadVisitante();
@@ -290,6 +311,8 @@ public class ControladorPartidos extends JDialog {
 	}
 	private void loadLocal() {
 		Object[] fila = new Object[modelLocal.getColumnCount()];
+		ImageIcon imageicon = new ImageIcon(Local.getLogo().getImage().getScaledInstance(lblLogoLocal.getWidth(), lblLogoLocal.getHeight(), Image.SCALE_DEFAULT));
+		lblLogoLocal.setIcon(imageicon);
 		modelLocal.setRowCount(0);
 		for (Jugador actual : Local.getJugadores()) {
 			fila[0] = actual.getNumero();
@@ -304,6 +327,8 @@ public class ControladorPartidos extends JDialog {
 	}
 	private void loadVisitante() {
 		Object[] fila = new Object[modelVisitante.getColumnCount()];
+		ImageIcon imageicon = new ImageIcon(Visitante.getLogo().getImage().getScaledInstance(lblLogoVisitante.getWidth(), lblLogoVisitante.getHeight(), Image.SCALE_DEFAULT));
+		lblLogoVisitante.setIcon(imageicon);
 		modelVisitante.setRowCount(0);
 		for (Jugador actual : Visitante.getJugadores()) {
 			fila[0] = actual.getNumero();
@@ -315,6 +340,28 @@ public class ControladorPartidos extends JDialog {
 				modelVisitante.addRow(fila);
 			}
 		}
+	}
+	
+	private boolean enJuego() {
+		
+		for(int i =0;i< tablaLocal.getRowCount();i++) {
+			for (int j =2; j <tablaLocal.getColumnCount();j++) {
+				if (!(tablaLocal.getValueAt(i, j).toString().equals("0"))) {
+					return true;
+				}
+			}
+			
+		}
+		
+		for(int i =0;i< Tablavisitante.getRowCount();i++) {
+			for (int j =2; j <Tablavisitante.getColumnCount();j++) {
+				if (!Tablavisitante.getValueAt(i, j).toString().equals("0")) {
+					return true;
+				}
+			}
+			
+		}
+		return false;
 	}
 }
 
