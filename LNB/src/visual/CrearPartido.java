@@ -39,7 +39,6 @@ public class CrearPartido extends JDialog {
 	public CrearPartido() {
 		setTitle("Crear Partido");
 		setBounds(100, 100, 594, 346);
-		setAlwaysOnTop(true);
 		setAutoRequestFocus(false);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -113,11 +112,16 @@ public class CrearPartido extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						Equipo equipoLocal = Liga.getInstance().buscarEquipo(EquipoLocal);
 						Equipo equipoVisitante = Liga.getInstance().buscarEquipo(EquipoVisitante);
-						Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(),equipoLocal, equipoVisitante);
-						Liga.getInstance().addPartido(nuevo);
-						JOptionPane.showMessageDialog(null, "El partido "+EquipoLocal+" vs "+EquipoVisitante+ " ha sido ingresado" , "Infromacion", JOptionPane.INFORMATION_MESSAGE);
-						limpiar();
-						
+						Partido p = Liga.getInstance().BuscarPartido(equipoLocal.getNombre()+" vs "+equipoVisitante.getNombre());
+						if(p==null) {
+							Partido nuevo = new Partido(String.valueOf(Liga.getInstance().getIdsPartidos()+1), dateChooser.getDate(),equipoLocal, equipoVisitante);
+							Liga.getInstance().addPartido(nuevo);
+							JOptionPane.showMessageDialog(null, "El partido "+equipoLocal.getNombre()+" vs "+equipoVisitante.getNombre()+ " ha sido ingresado" , "Informacion", JOptionPane.INFORMATION_MESSAGE);
+							limpiar();
+						}
+						else {
+							JOptionPane.showMessageDialog(null,"Este partido ya existe","Informacion",JOptionPane.WARNING_MESSAGE);
+						}
 					}
 				});
 				btnCrear.setActionCommand("OK");
