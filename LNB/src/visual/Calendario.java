@@ -151,6 +151,11 @@ public class Calendario extends JDialog {
 			}
 			{
 				JButton cancelButton = new JButton("");
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						dispose();
+					}
+				});
 				cancelButton.setIcon(new ImageIcon(Calendario.class.getResource("/imagenes/cross-close-or-delete-circular-interface-button-symbol.png")));
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);

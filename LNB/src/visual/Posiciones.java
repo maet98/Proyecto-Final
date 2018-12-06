@@ -74,12 +74,12 @@ public class Posiciones extends JDialog {
 		Object[] fila = new Object[model.getColumnCount()];
 		model.setRowCount(0);
 		int i =1;
-		for (Equipo actual : Liga.getInstance().getEquipos()) {
+		for (int j = Liga.getInstance().getEquipos().size()-1; j >=0; j--) {
 			fila[0] = i;
-			fila[1] = actual.getNombre();
-			fila[2] = actual.getPartidosJugados();
-			fila[3] = actual.getPartidosGanados();
-			fila[4] = actual.getPartidosPerdidos();
+			fila[1] = Liga.getInstance().getEquipos().get(i).getNombre();
+			fila[2] = Liga.getInstance().getEquipos().get(i).getPartidosJugados();
+			fila[3] = Liga.getInstance().getEquipos().get(i).getPartidosGanados();
+			fila[4] = Liga.getInstance().getEquipos().get(i).getPartidosPerdidos();
 			model.addRow(fila);
 			i++;
 		}

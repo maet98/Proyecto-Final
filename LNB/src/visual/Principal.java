@@ -382,7 +382,7 @@ public class Principal {
 		
 		JLabel lblfondo = new JLabel("");
 		lblfondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/fondofinal.png")));
-		lblfondo.setBounds(-18, 6, (int)dim.getWidth(), (int)dim.getHeight());
+		lblfondo.setBounds(6, 6, (int)dim.getWidth(), (int)dim.getHeight());
 		panel.add(lblfondo);
 		loadTodo();
 	}
@@ -499,7 +499,7 @@ public class Principal {
 		modelPosiciones.setRowCount(0);
 		int j = 1;
 		Object[] fila = new Object[modelPosiciones.getColumnCount()];
-		for (int i = 0; i < Liga.getInstance().getEquipos().size(); i++,j++) {
+		for (int i = Liga.getInstance().getEquipos().size()-1; i >=0; i--,j++) {
 			fila[0] = j;
 			fila[1] = Liga.getInstance().getEquipos().get(i).getNombre();
 			fila[2] = Liga.getInstance().getEquipos().get(i).getPartidosJugados();

@@ -61,25 +61,26 @@ public class ControladorPartidos extends JDialog {
 	private Partido partidoActual;
 	private JLabel lblLogoLocal;
 	private JLabel lblLogoVisitante;
+	private ArrayList<Jugador> jugadoresLocal;
+	private ArrayList<Jugador> jugadoresVisitantes;
 	
 	public ControladorPartidos(Partido partido) {
-		setBackground(Color.decode("#d8c1aa"));
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				if (enJuego()) {
-					int resp = JOptionPane.showConfirmDialog(contentPanel, "Su Partido no se ha guardado ¿Esta seguro que desea salir?", "Alerta!", JOptionPane.YES_NO_OPTION);
-					if (resp == JOptionPane.YES_OPTION) {
-						setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-					} else if (resp == JOptionPane.NO_OPTION){
-						setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-					}
-				}else {
-					setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-				}
-			}
-		});
+		jugadoresLocal = new ArrayList<>();
+		jugadoresVisitantes = new ArrayList<>();
 		setAlwaysOnTop(true);
+		int cant = 0;
+		for (Jugador jugador : partido.getLocal().getJugadores()) {
+			if(!jugador.isLesionado()) {
+				jugadoresLocal.add(jugador);
+				cant++;
+			}
+		}
+		for (Jugador jugador : partido.getVisitante().getJugadores()) {
+			if(!jugador.isLesionado()) {
+				jugadoresVisitantes.add(jugador);
+			}
+		}
+		setBackground(Color.decode("#d8c1aa"));
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ControladorPartidos.class.getResource("/imagenes/cronometro.png")));
 		partidoActual = partido;
 		setLocationRelativeTo(null);
@@ -238,9 +239,10 @@ public class ControladorPartidos extends JDialog {
 							}
 							partidoActual.setMarcador(new Marcador(TanteoLocal, TanteoVisitante));
 							partidoActual.setJugado(true);
-							JOptionPane.showMessageDialog(null, "El marcador final ha sido "+txtMarcador.getText()+". El equipo ganador fue "+ganador(), "Partido finalizado", JOptionPane.INFORMATION_MESSAGE);
+							JOptionPane.showMessageDialog(contentPanel, "El marcador final ha sido "+txtMarcador.getText()+". El equipo ganador fue "+ganador(), "Partido finalizado", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
 						}else {
-							JOptionPane.showMessageDialog(null, "El partido no puede quedar empate", "Informacion", JOptionPane.WARNING_MESSAGE);
+							JOptionPane.showMessageDialog(contentPanel, "El partido no puede quedar empate", "Informacion", JOptionPane.WARNING_MESSAGE);
 						}
 					}
 				});
@@ -272,38 +274,82 @@ public class ControladorPartidos extends JDialog {
 	}
 	private void ingresarValores() {
 		int i = 0;
-		for (Jugador jugador : Local.getJugadores()) {
-			if(!jugador.isLesionado()) {
+		for (Jugador jugador : jugadoresLocal) {
+			if(!tablaLocal.getValueAt(i, 2).toString().equalsIgnoreCase("") || !tablaLocal.getValueAt(i, 3).toString().equalsIgnoreCase("") ||!tablaLocal.getValueAt(i, 4).toString().equalsIgnoreCase("") ) {
 				int tirosLibres,tiro2,tiro3;
-				tirosLibres = Integer.parseInt(tablaLocal.getValueAt(i, 2).toString());
-				tiro2 = Integer.parseInt(tablaLocal.getValueAt(i, 3).toString());
-				tiro3 = Integer.parseInt(tablaLocal.getValueAt(i, 4).toString());
-				if(tirosLibres>=0 || tiro2 >= 0 || tiro3>=0) {
-					jugador.getDesempenno().setTirosLibres(tirosLibres);
-					jugador.getDesempenno().setTirosDeDos(tiro2);
-					jugador.getDesempenno().setTirosDeTres(tiro3);
-					jugador.getDesempenno().aumentarPartidosJugados();
+				tirosLibres = tiro2 = tiro3 = 0;
+				if(!tablaLocal.getValueAt(i, 2).toString().equalsIgnoreCase("")) {
+					tirosLibres = Integer.parseInt(tablaLocal.getValueAt(i, 2).toString());
 				}
+				if(!tablaLocal.getValueAt(i, 3).toString().equalsIgnoreCase("")) {
+					tiro2 = Integer.parseInt(tablaLocal.getValueAt(i, 3).toString());
+				}
+				if(!tablaLocal.getValueAt(i, 4).toString().equalsIgnoreCase("")) {
+					tiro3 = Integer.parseInt(tablaLocal.getValueAt(i, 4).toString());
+				}
+				jugador.getDesempenno().setTirosLibres(tirosLibres);
+				jugador.getDesempenno().setTirosDeDos(tiro2);
+				jugador.getDesempenno().setTirosDeTres(tiro3);
+				jugador.getDesempenno().aumentarPartidosJugados();
 				i++;
 			}			
+		}
+		i = 0;
+		for(Jugador jugador : jugadoresVisitantes) {
+			if(!Tablavisitante.getValueAt(i, 2).toString().equalsIgnoreCase("") || !Tablavisitante.getValueAt(i, 3).toString().equalsIgnoreCase("") || !Tablavisitante.getValueAt(i, 4).toString().equalsIgnoreCase("")) {
+				int tirosLibres,tiro2,tiro3;
+				tirosLibres = tiro2 = tiro3 = 0;
+				if(!Tablavisitante.getValueAt(i, 2).toString().equalsIgnoreCase("")) {
+					tirosLibres = Integer.parseInt(Tablavisitante.getValueAt(i, 2).toString());
+				}
+				
+				if(!Tablavisitante.getValueAt(i, 3).toString().equalsIgnoreCase("")) {
+					tiro2 = Integer.parseInt(Tablavisitante.getValueAt(i, 3).toString());
+				}
+				if(!Tablavisitante.getValueAt(i, 4).toString().equalsIgnoreCase("")) {
+					tirosLibres = Integer.parseInt(Tablavisitante.getValueAt(i, 4).toString());
+				}
+				jugador.getDesempenno().setTirosLibres(tirosLibres);
+				jugador.getDesempenno().setTirosDeDos(tiro2);
+				jugador.getDesempenno().setTirosDeTres(tiro3);
+				jugador.getDesempenno().aumentarPartidosJugados();
+				i++;
+			}
 		}
 		
 	}
 	private int calcLocal() {
 		int t = 0;
-		for(int i = 0;i < Local.getJugadores().size();i++) {
-			t += Integer.parseInt(tablaLocal.getValueAt(i, 2).toString());
-			t += Integer.parseInt(tablaLocal.getValueAt(i, 3).toString())*2;
-			t += Integer.parseInt(tablaLocal.getValueAt(i, 4).toString())*3;
+		try {
+			for(int i = 0;i < jugadoresLocal.size();i++) {
+				if(!tablaLocal.getValueAt(i, 2).toString().equalsIgnoreCase("")) {
+					t += Integer.parseInt(tablaLocal.getValueAt(i, 2).toString());
+				}
+				if(!tablaLocal.getValueAt(i, 3).toString().equalsIgnoreCase("")) {
+					t += Integer.parseInt(tablaLocal.getValueAt(i, 3).toString())*2;
+				}
+				if(!tablaLocal.getValueAt(i, 4).toString().equalsIgnoreCase("")) {
+					t += Integer.parseInt(tablaLocal.getValueAt(i, 4).toString())*3;
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 		return t;
 	}
 	private int calcVisitante() {
 		int t = 0;
-		for(int i = 0;i < Visitante.getJugadores().size();i++) {
-			t += Integer.parseInt(Tablavisitante.getValueAt(i, 2).toString());
-			t += Integer.parseInt(Tablavisitante.getValueAt(i, 3).toString())*2;
-			t += Integer.parseInt(Tablavisitante.getValueAt(i, 4).toString())*3;
+		for(int i = 0;i < jugadoresVisitantes.size();i++) {
+			if(!Tablavisitante.getValueAt(i, 2).toString().equalsIgnoreCase("")) {
+				t += Integer.parseInt(Tablavisitante.getValueAt(i, 2).toString());
+			}
+			if(!Tablavisitante.getValueAt(i, 3).toString().equalsIgnoreCase("")) {
+				t += Integer.parseInt(Tablavisitante.getValueAt(i, 3).toString())*2;
+			}
+			if(!Tablavisitante.getValueAt(i, 4).toString().equalsIgnoreCase("")) {
+				t += Integer.parseInt(Tablavisitante.getValueAt(i, 4).toString())*3;
+			}
 		}
 		return t;
 	}
@@ -316,15 +362,13 @@ public class ControladorPartidos extends JDialog {
 		ImageIcon imageicon = new ImageIcon(Local.getLogo().getImage().getScaledInstance(lblLogoLocal.getWidth(), lblLogoLocal.getHeight(), Image.SCALE_DEFAULT));
 		lblLogoLocal.setIcon(imageicon);
 		modelLocal.setRowCount(0);
-		for (Jugador actual : Local.getJugadores()) {
+		for (Jugador actual : jugadoresLocal) {
 			fila[0] = actual.getNumero();
 			fila[1] = actual.getNombre();
-			fila[2] = 0;
-			fila[3] = 0;
-			fila[4] = 0;
-			if(!actual.isLesionado()) {
-				modelLocal.addRow(fila);
-			}
+			fila[2] = "";
+			fila[3] = "";
+			fila[4] = "";
+			modelLocal.addRow(fila);
 		}
 	}
 	private void loadVisitante() {
@@ -332,39 +376,17 @@ public class ControladorPartidos extends JDialog {
 		ImageIcon imageicon = new ImageIcon(Visitante.getLogo().getImage().getScaledInstance(lblLogoVisitante.getWidth(), lblLogoVisitante.getHeight(), Image.SCALE_DEFAULT));
 		lblLogoVisitante.setIcon(imageicon);
 		modelVisitante.setRowCount(0);
-		for (Jugador actual : Visitante.getJugadores()) {
+		for (Jugador actual : jugadoresVisitantes) {
 			fila[0] = actual.getNumero();
 			fila[1] = actual.getNombre();
-			fila[2] = 0;
-			fila[3] = 0;
-			fila[4] = 0;
-			if(!actual.isLesionado()) {
-				modelVisitante.addRow(fila);
-			}
-		}
-	}
-	
-	private boolean enJuego() {
-		
-		for(int i =0;i< tablaLocal.getRowCount();i++) {
-			for (int j =2; j <tablaLocal.getColumnCount();j++) {
-				if (!(tablaLocal.getValueAt(i, j).toString().equals("0"))) {
-					return true;
-				}
-			}
+			fila[2] = "";
+			fila[3] = "";
+			fila[4] = "";
+			modelVisitante.addRow(fila);
 			
 		}
-		
-		for(int i =0;i< Tablavisitante.getRowCount();i++) {
-			for (int j =2; j <Tablavisitante.getColumnCount();j++) {
-				if (!Tablavisitante.getValueAt(i, j).toString().equals("0")) {
-					return true;
-				}
-			}
-			
-		}
-		return false;
 	}
+
 }
 
 
