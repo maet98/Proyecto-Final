@@ -12,6 +12,8 @@ import logico.Jugador;
 import logico.Liga;
 import logico.Partido;
 import logico.Tiros1Comparator;
+import logico.Tiros3Comparator;
+import logico.tiros2Comparator;
 
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -50,11 +52,13 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 import javax.swing.ImageIcon;
+import java.awt.Toolkit;
 
 public class Principal {
 	private JFrame frmLigaDeBaloncesto;
 	private JTable TableTiros3;
 	private JTable TableTiros2;
+	private JTable tablePosicion;
 	private ObjectOutputStream archivoSalida;
 	private JLabel lblLocall1;
 	private JLabel lblVisitante1;
@@ -63,6 +67,7 @@ public class Principal {
 	private DefaultTableModel modelTirosLibres;
 	private DefaultTableModel modelTirosde2;
 	private DefaultTableModel modelTirosde3;
+	private DefaultTableModel modelPosiciones;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -94,6 +99,7 @@ public class Principal {
 
 	private void initialize() throws FileNotFoundException, ClassNotFoundException {
 		frmLigaDeBaloncesto = new JFrame();
+		frmLigaDeBaloncesto.setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/imagenes/basketball.png")));
 		frmLigaDeBaloncesto.addWindowListener(new WindowAdapter() {
 			
 
@@ -145,7 +151,6 @@ public class Principal {
 						nuevo.setModal(true);
 						nuevo.setVisible(true);
 					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (ParseException e1) {
 						e1.printStackTrace();
@@ -234,6 +239,7 @@ public class Principal {
 		tabbedPane.addTab("Tiros de 3", Tiros3);
 		
 		TableTiros3 = new JTable();
+		TableTiros3.setLocation(0, 50);
 		modelTirosde3 = new DefaultTableModel(new Object[][] {},new String[] {"Posicion", "Nombre", "Equipo", "Tiros Anotados"}) {Class[] columnTypes = new Class[] {Integer.class, String.class, String.class, Integer.class};
 				public Class getColumnClass(int columnIndex) {
 					return columnTypes[columnIndex];
@@ -241,11 +247,11 @@ public class Principal {
 			};
 		TableTiros3.setModel(modelTirosde3);
 		TableTiros3.getColumnModel().getColumn(0).setResizable(false);
-		TableTiros3.getColumnModel().getColumn(0).setPreferredWidth(65);
+		TableTiros3.getColumnModel().getColumn(0).setPreferredWidth(50);
 		TableTiros3.getColumnModel().getColumn(0).setMinWidth(65);
 		TableTiros3.getColumnModel().getColumn(0).setMaxWidth(50);
 		TableTiros3.getColumnModel().getColumn(1).setResizable(false);
-		TableTiros3.getColumnModel().getColumn(1).setPreferredWidth(90);
+		TableTiros3.getColumnModel().getColumn(1).setPreferredWidth(150);
 		TableTiros3.getColumnModel().getColumn(2).setResizable(false);
 		TableTiros3.getColumnModel().getColumn(3).setResizable(false);
 		TableTiros3.getColumnModel().getColumn(3).setPreferredWidth(84);
@@ -281,20 +287,8 @@ public class Principal {
 		tabbedPane.addTab("Tiros Libres", null, TiroLibres, null);
 		
 		tableTirosLibres = new JTable();
-		tableTirosLibres.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Posicion", "Nombre", "Equipo", "Tiros Anotados"
-			}
-		) {
-			Class[] columnTypes = new Class[] {
-				Integer.class, String.class, Integer.class, Integer.class
-			};
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
-			}
-		});
+		modelTirosLibres = new DefaultTableModel(new Object[][] {},new String[] {"Posicion", "Nombre", "Equipo", "Tiros Anotados"}) {Class[] columnTypes = new Class[] {Integer.class, String.class, String.class, Integer.class};public Class getColumnClass(int columnIndex) {return columnTypes[columnIndex];}};
+		tableTirosLibres.setModel(modelTirosLibres);
 		tableTirosLibres.getColumnModel().getColumn(0).setResizable(false);
 		tableTirosLibres.getColumnModel().getColumn(0).setPreferredWidth(71);
 		tableTirosLibres.getColumnModel().getColumn(0).setMinWidth(71);
@@ -321,6 +315,9 @@ public class Principal {
 		JButton btnVerMasEstadisticas = new JButton("Ver mas estadisticas");
 		btnVerMasEstadisticas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				LisEstadistica nueva = new LisEstadistica();
+				nueva.setModal(true);
+				nueva.setVisible(true);
 				
 			}
 		});
@@ -347,13 +344,32 @@ public class Principal {
 		lblVisitante.setBounds(393, 38, 116, 25);
 		PnlProximosPartidos.add(lblVisitante);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.getViewport().setBackground(Color.BLACK);
+		scrollPane.setBounds(29, 559, 600, 314);
+		panel.add(scrollPane);
+		
+		
+		tablePosicion = new JTable();
+		scrollPane.setViewportView(tablePosicion);
+		scrollPane.setBorder(new LineBorder(new Color(0, 0, 0)));
+		modelPosiciones = new DefaultTableModel();
+		String[] columnNames = {"Posicion","Equipo","Jugados","Ganados","Perdidos"};
+		modelPosiciones.setColumnIdentifiers(columnNames);
+		tablePosicion.setModel(modelPosiciones);
 		
 		JLabel lblfondo = new JLabel("");
 		lblfondo.setIcon(new ImageIcon(Principal.class.getResource("/imagenes/principalFondo.jpg")));
 		lblfondo.setBounds(0, 0, (int)dim.getWidth(), (int)dim.getHeight());
 		panel.add(lblfondo);
 		
+		
+		
 		loadPartidos();
+		loadTirosLibres();
+		loadTirosdeDos();
+		loadTirosdeTres();
+		loadPosiciones();
 	}
 	public void loadEstadisticas() {
 		
@@ -417,21 +433,60 @@ public class Principal {
 		}
 		
 	}
+	
 	private JTable tableTirosLibres;
+	private JTable tablePosiciones;
 	private void loadTirosLibres() {
 		Collections.sort(Liga.getInstance().getJugadores(), new Tiros1Comparator());
-		for (Jugador jugador : Liga.getInstance().getJugadores()) {
-			System.out.println(jugador.getNombre()+" "+jugador.getDesempenno().getTirosLibres());
-		}
 		modelTirosLibres.setRowCount(0);
 		Object[] fila = new Object[modelTirosLibres.getColumnCount()];
 		int j= 1;
-		for (int i = Liga.getInstance().getJugadores().size(); i>=0; i--,j++) {
+		for (int i = Liga.getInstance().getJugadores().size()-1; i>=0; i--,j++) {
 			fila[0] = j;
 			fila[1] = Liga.getInstance().getJugadores().get(i).getNombre()+" "+Liga.getInstance().getJugadores().get(i).getApellido();
 			fila[2] = Liga.getInstance().getJugadores().get(i).getEquipo().getNombre();
 			fila[3] = Liga.getInstance().getJugadores().get(i).getDesempenno().getTirosLibres();
 			modelTirosLibres.addRow(fila);
 		}
+	}
+	private void loadTirosdeDos() {
+		Collections.sort(Liga.getInstance().getJugadores(), new tiros2Comparator());
+		modelTirosde2.setRowCount(0);
+		Object[] fila = new Object[modelTirosde2.getColumnCount()];
+		int j= 1;
+		for (int i = Liga.getInstance().getJugadores().size()-1; i>=0; i--,j++) {
+			fila[0] = j;
+			fila[1] = Liga.getInstance().getJugadores().get(i).getNombre()+" "+Liga.getInstance().getJugadores().get(i).getApellido();
+			fila[2] = Liga.getInstance().getJugadores().get(i).getEquipo().getNombre();
+			fila[3] = Liga.getInstance().getJugadores().get(i).getDesempenno().getTirosDeDos();
+			modelTirosde2.addRow(fila);
+		}
+	}
+	private void loadTirosdeTres() {
+		Collections.sort(Liga.getInstance().getJugadores(), new Tiros3Comparator());
+		modelTirosde3.setRowCount(0);
+		Object[] fila = new Object[modelTirosde3.getColumnCount()];
+		int j= 1;
+		for (int i = Liga.getInstance().getJugadores().size()-1; i>=0; i--,j++) {
+			fila[0] = j;
+			fila[1] = Liga.getInstance().getJugadores().get(i).getNombre()+" "+Liga.getInstance().getJugadores().get(i).getApellido();
+			fila[2] = Liga.getInstance().getJugadores().get(i).getEquipo().getNombre();
+			fila[3] = Liga.getInstance().getJugadores().get(i).getDesempenno().getTirosDeTres();
+			modelTirosde3.addRow(fila);
+		}
+	}
+	private void loadPosiciones() {
+		Collections.sort(Liga.getInstance().getEquipos());
+		modelPosiciones.setRowCount(0);
+		int j = 1;
+		Object[] fila = new Object[modelPosiciones.getColumnCount()];
+		for (int i = Liga.getInstance().getEquipos().size()-1; i >=0; i--,j++) {
+			fila[0] = j;
+			fila[1] = Liga.getInstance().getEquipos().get(i).getNombre();
+			fila[2] = Liga.getInstance().getEquipos().get(i).getPartidosJugados();
+			fila[3] = Liga.getInstance().getEquipos().get(i).getPartidosGanados();
+			fila[4] = Liga.getInstance().getEquipos().get(i).getPartidosPerdidos();
+			modelPosiciones.addRow(fila);
+ 		}
 	}
 }

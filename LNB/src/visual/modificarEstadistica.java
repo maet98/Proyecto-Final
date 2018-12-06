@@ -16,8 +16,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LisEstadisticas extends JDialog {
-
+public class modificarEstadistica extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private Jugador mijugador;
 	private JTextField txtTirosLibre;
@@ -32,7 +31,7 @@ public class LisEstadisticas extends JDialog {
 	private JTextField txtAsistencias;
 	private JTextField txtFaltas;
 
-	public LisEstadisticas(Jugador jugador) {
+	public modificarEstadistica(Jugador jugador) {
 		mijugador = jugador;
 		setTitle("Estadistica de "+jugador.getNombre()+" "+jugador.getApellido());
 		setBounds(100, 100, 654, 395);

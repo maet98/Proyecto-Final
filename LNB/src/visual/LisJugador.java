@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import logico.Equipo;
 import logico.Jugador;
@@ -63,12 +65,13 @@ public class LisJugador<IconImage> extends JDialog {
 	private String cedulaSelectedJugador = "";
 	private JButton btnModificar;
 	private JLabel lblFotojugador;
+	private TableRowSorter<TableModel>modeloOrdenado;
 
 	public LisJugador() {
 		setResizable(false);
 		setAlwaysOnTop(true);
 		setAutoRequestFocus(false);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/basketball.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(LisJugador.class.getResource("/imagenes/camiseta.png")));
 		setTitle("Listar Jugadores");
 		setBounds(100, 100, 808, 490);
 		setLocationRelativeTo(null);
@@ -105,8 +108,10 @@ public class LisJugador<IconImage> extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		model = new DefaultTableModel();
-		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posiciï¿½n","Edad","Dorsal","Equipo","Altura"};
+		String[] columnNames = {"Cedula","Nombre","Nacionalidad","Posición","Edad","Dorsal","Equipo","Altura"};
 		table = new JTable();
+		modeloOrdenado = new TableRowSorter<TableModel>(model);
+		table.setRowSorter(modeloOrdenado);
 		table.setSelectionBackground(Color.BLUE);
 		table.setDefaultEditor(Object.class, null);
 		table.addMouseListener(new MouseAdapter() {
@@ -142,7 +147,6 @@ public class LisJugador<IconImage> extends JDialog {
 			public void keyReleased(KeyEvent arg0) {
 				loadJugador();
 			}
-			@Override
 			public void keyTyped(KeyEvent e) {
 				char c = e.getKeyChar();
 				    if(Character.isLetter(c) || Character.isISOControl(c))
@@ -248,7 +252,7 @@ public class LisJugador<IconImage> extends JDialog {
 			btnDesempeo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					Jugador jugador = Liga.getInstance().buscarJugadorId(cedulaSelectedJugador);
-					LisEstadisticas nuevo = new LisEstadisticas(jugador);
+					modificarEstadistica nuevo = new modificarEstadistica(jugador);
 					nuevo.setModal(true);
 					nuevo.setVisible(true);
 				}

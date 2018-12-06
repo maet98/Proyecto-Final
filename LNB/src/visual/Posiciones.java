@@ -23,23 +23,7 @@ public class Posiciones extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private DefaultTableModel model;
 	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			Posiciones dialog = new Posiciones();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Create the dialog.
-	 */
+	
 	public Posiciones() {
 		setTitle("Posiciones");
 		setBounds(100, 100, 600, 500);
