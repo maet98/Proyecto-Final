@@ -89,7 +89,7 @@ public class Posiciones extends JDialog {
 			fila[1] = actual.getNombre();
 			fila[2] = actual.getPartidosJugados();
 			fila[3] = actual.getPartidosGanados();
-			fila[4] = actual.getPartidosGanados();
+			fila[4] = actual.getPartidosPerdidos();
 			model.addRow(fila);
 			i++;
 		}
