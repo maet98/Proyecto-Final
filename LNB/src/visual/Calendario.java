@@ -58,7 +58,15 @@ public class Calendario extends JDialog {
 					public void mouseClicked(MouseEvent e) {
 						if(table.getSelectedRow()>=0) {
 							selectedIndex = table.getSelectedRow();
-							btnJugar.setEnabled(true);
+							Equipo local = Liga.getInstance().buscarEquipo(table.getValueAt(selectedIndex, 0).toString());
+							Equipo visitante = Liga.getInstance().buscarEquipo(table.getValueAt(selectedIndex, 1).toString());
+							Partido p = Liga.getInstance().BuscarPartido(local.getNombre()+" vs "+visitante.getNombre());
+							if(p.isJugado()) {
+								btnJugar.setEnabled(false);
+							}
+							else{
+								btnJugar.setEnabled(true);
+							}
 						}
 					}
 				});
